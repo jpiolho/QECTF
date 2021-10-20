@@ -1,4 +1,5 @@
 void() W_SetCurrentAmmo;
+float(entity p) Maps_ShouldRemoveDefaultEntity;
 /* ALL LIGHTS SHOULD BE 0 1 0 IN COLOR ALL OTHER ITEMS SHOULD
 BE .8 .3 .4 IN COLOR */
 
@@ -111,6 +112,9 @@ void() item_megahealth_rot;
 
 void() item_health =
 {	
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = health_touch;
 
 	if (self.spawnflags & H_ROTTEN)
@@ -154,6 +158,11 @@ void() health_touch =
 	
 	if (other.classname != "player")
 		return;
+
+	// Only allow pickups for own team
+	if(self.team != TEAM_ALL && other.team != self.team)
+		return;
+
 	
 	if (self.healtype == 2) // Megahealth?  Ignore max_health...
 	{
@@ -244,6 +253,10 @@ void() armor_touch =
 	if (other.classname != "player")
 		return;
 
+	// Only allow pickups for own team
+	if(self.team != TEAM_ALL && other.team != self.team)
+		return;
+
 	if (self.classname == "item_armor1")
 	{
 		type = 0.3;
@@ -290,6 +303,9 @@ void() armor_touch =
 
 void() item_armor1 =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
 	setmodel (self, "progs/armor.mdl");
@@ -303,6 +319,9 @@ void() item_armor1 =
 
 void() item_armor2 =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
 	setmodel (self, "progs/armor.mdl");
@@ -316,6 +335,10 @@ void() item_armor2 =
 
 void() item_armorInv =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
+	self.classname = "item_armorInv";
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
 	setmodel (self, "progs/armor.mdl");
@@ -398,13 +421,17 @@ void() weapon_touch =
 	if (!(other.flags & FL_CLIENT))
 		return;
 
+	// Only allow pickups for own team
+	if(self.team != TEAM_ALL && other.team != self.team)
+		return;
+
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
 	best = W_BestWeapon();
 	self = stemp;
 
-	if (deathmatch == 2 || coop)
+	if (deathmatch)
 		leave = 1;
 	else
 		leave = 0;
@@ -505,6 +532,9 @@ void() weapon_touch =
 
 void() weapon_supershotgun =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_shot.mdl");
 	setmodel (self, "progs/g_shot.mdl");
 	self.weapon = IT_SUPER_SHOTGUN;
@@ -519,6 +549,9 @@ void() weapon_supershotgun =
 
 void() weapon_nailgun =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_nail.mdl");
 	setmodel (self, "progs/g_nail.mdl");
 	self.weapon = IT_NAILGUN;
@@ -533,6 +566,9 @@ void() weapon_nailgun =
 
 void() weapon_supernailgun =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_nail2.mdl");
 	setmodel (self, "progs/g_nail2.mdl");
 	self.weapon = IT_SUPER_NAILGUN;
@@ -547,6 +583,9 @@ void() weapon_supernailgun =
 
 void() weapon_grenadelauncher =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_rock.mdl");
 	setmodel (self, "progs/g_rock.mdl");
 	self.weapon = 3;
@@ -561,6 +600,9 @@ void() weapon_grenadelauncher =
 
 void() weapon_rocketlauncher =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_rock2.mdl");
 	setmodel (self, "progs/g_rock2.mdl");
 	self.weapon = 3;
@@ -576,6 +618,9 @@ void() weapon_rocketlauncher =
 
 void() weapon_lightning =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	precache_model ("progs/g_light.mdl");
 	setmodel (self, "progs/g_light.mdl");
 	self.weapon = 3;
@@ -602,6 +647,10 @@ local float		best;
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
+		return;
+
+	// Only allow pickups for own team
+	if(self.team != TEAM_ALL && other.team != self.team)
 		return;
 
 // if the player was using his best weapon, change up to the new one if better		
@@ -690,6 +739,9 @@ float WEAPON_BIG2 = 1;
 
 void() item_shells =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = ammo_touch;
 
 	if (self.spawnflags & WEAPON_BIG2)
@@ -715,6 +767,9 @@ void() item_shells =
 
 void() item_spikes =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = ammo_touch;
 
 	if (self.spawnflags & WEAPON_BIG2)
@@ -740,6 +795,9 @@ void() item_spikes =
 
 void() item_rockets =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = ammo_touch;
 
 	if (self.spawnflags & WEAPON_BIG2)
@@ -766,6 +824,9 @@ void() item_rockets =
 
 void() item_cells =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = ammo_touch;
 
 	if (self.spawnflags & WEAPON_BIG2)
@@ -797,6 +858,9 @@ float WEAPON_SPIKES = 4;
 float WEAPON_BIG = 8;
 void() item_weapon =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = ammo_touch;
 
 	if (self.spawnflags & WEAPON_SHOTGUN)
@@ -929,6 +993,9 @@ following:
 
 void() item_key1 =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	if (world.worldtype == 0)
 	{
 		precache_model ("progs/w_s_key.mdl");
@@ -967,6 +1034,9 @@ following:
 
 void() item_key2 =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	if (world.worldtype == 0)
 	{
 		precache_model ("progs/w_g_key.mdl");
@@ -1032,6 +1102,9 @@ End of level sigil, pick up to end episode and return to jrstart.
 
 void() item_sigil =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	if (!self.spawnflags)
 		objerror ("no spawnflags");
 
@@ -1144,6 +1217,9 @@ Player is invulnerable for 30 seconds
 */
 void() item_artifact_invulnerability =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = powerup_touch;
 
 	precache_model ("progs/invulner.mdl");
@@ -1163,6 +1239,9 @@ Player takes no damage from water or slime for 30 seconds
 */
 void() item_artifact_envirosuit =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = powerup_touch;
 
 	precache_model ("progs/suit.mdl");
@@ -1182,6 +1261,9 @@ Player is invisible for 30 seconds
 */
 void() item_artifact_invisibility =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	self.touch = powerup_touch;
 
 	precache_model ("progs/invisibl.mdl");
@@ -1202,6 +1284,9 @@ The next attack from the player will do 4x damage
 */
 void() item_artifact_super_damage =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+		
 	self.touch = powerup_touch;
 
 	precache_model ("progs/quaddama.mdl");

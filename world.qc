@@ -1,6 +1,10 @@
 
 void() InitBodyQue;
+void() FirstFrame;
 
+void() PopulateMap;
+void() PostPopulateMap;
+string(string title) GetMapName;
 
 void() main =
 {
@@ -155,7 +159,8 @@ void() main =
 };
 
 
-entity	lastspawn;
+entity	lastspawn_red;
+entity	lastspawn_blue;
 
 //=======================
 /*QUAKED worldspawn (0 0 0) ?
@@ -171,8 +176,12 @@ World Types:
 //=======================
 void() worldspawn =
 {
-	lastspawn = world;
+	lastspawn_blue = world;
+	lastspawn_red = world;
+
 	InitBodyQue ();
+
+	PopulateMap();
 
 // custom map attributes
 	if (self.model == "maps/e1m8.bsp")
@@ -341,6 +350,9 @@ void() worldspawn =
 
 void() StartFrame =
 {
+	if(framecount == 0)
+		FirstFrame();
+
 	teamplay = cvar("teamplay");
 	skill = cvar("skill");
 	framecount = framecount + 1;
@@ -395,3 +407,9 @@ void(entity ent) CopyToBodyQue =
 };
 
 
+void() FirstFrame =
+{
+	PostPopulateMap();
+	cvar_set("teamplay","1");
+	//PopulateMap();
+};

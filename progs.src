@@ -2,7 +2,14 @@
 
 defs.qc
 subs.qc
-maps.qc
+
+ctf/defs.qc
+ctf/utils.qc
+ctf/flags.qc
+
+
+
+
 fight.qc
 ai.qc
 combat.qc
@@ -17,6 +24,10 @@ buttons.qc
 triggers.qc
 plats.qc
 misc.qc
+
+maputils.qc
+maps/dm6.qc
+maps.qc
 
 ogre.qc
 demon.qc
@@ -34,3 +45,4 @@ fish.qc			// registered
 shalrath.qc		// registered
 enforcer.qc		// registered
 oldone.qc		// registered
+
