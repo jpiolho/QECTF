@@ -200,10 +200,9 @@ void() health_touch =
 	}
 	else
 	{
-		if (deathmatch) {
+		if (deathmatch)
 			self.nextthink = time + 20;
-			self.think = SUB_regen;
-		}
+		self.think = SUB_regen;
 	}
 	
 	activator = other;
@@ -429,7 +428,7 @@ void() weapon_touch =
 	best = W_BestWeapon();
 	self = stemp;
 
-	if (deathmatch)
+	if (deathmatch == 3 || coop)
 		leave = 1;
 	else
 		leave = 0;
