@@ -7,6 +7,7 @@ ctf/defs.qc
 ctf/utils.qc
 ctf/flags.qc
 
+ctf/entmod.qc
 
 
 
@@ -26,6 +27,7 @@ plats.qc
 misc.qc
 
 maputils.qc
+maps/dm3.qc
 maps/dm6.qc
 maps.qc
 

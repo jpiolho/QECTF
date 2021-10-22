@@ -372,6 +372,10 @@ local vector	org;
 		}
 	}
 
+	// Validate team
+	if(self.team != TEAM_ALL && other.team != self.team)
+		return;
+
 	if (self.spawnflags & PLAYER_ONLY)
 	{
 		if (other.classname != "player")

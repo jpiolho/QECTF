@@ -389,6 +389,10 @@ void() ClientKill =
 	set_suicide_frame ();
 	self.modelindex = modelindex_player;
 	self.frags = self.frags - 2;	// extra penalty
+
+	if(self.items & (IT_KEY1 | IT_KEY2))
+		ctf_DropFlag();
+
 	respawn ();
 };
 
@@ -418,35 +422,45 @@ entity() SelectSpawnPoint =
 // choose a info_player_deathmatch point
 	if (coop)
 	{
-		lastspawn = find(lastspawn, classname, "info_player_coop");
-		if (lastspawn == world)
-			lastspawn = find (lastspawn, classname, "info_player_start");
-		if (lastspawn != world)
-			return lastspawn;
+		lastspawn_blue = find(lastspawn_blue, classname, "info_player_coop");
+		if (lastspawn_blue == world)
+		lastspawn_blue = find (lastspawn_blue, classname, "info_player_start");
+		if (lastspawn_blue != world)
+			return lastspawn_blue;
 	}
 	else if (deathmatch)
 	{
+		local entity lastspawn = self.team == TEAM_BLUE ? lastspawn_blue : lastspawn_red;			
+
 		spot = lastspawn;
 		while (1)
 		{
 			spot = find(spot, classname, "info_player_deathmatch");
-			if (spot != world)
+			if (spot == world)
+				continue;
+
+			if(spot.team != TEAM_ALL && spot.team != self.team)
+				continue;
+
+			if (spot == lastspawn)
+				return lastspawn;
+
+			pcount = 0;
+			thing = findradius(spot.origin, 32);
+			while(thing)
 			{
-				if (spot == lastspawn)
-					return lastspawn;
-				pcount = 0;
-				thing = findradius(spot.origin, 32);
-				while(thing)
-				{
-					if (thing.classname == "player")
-						pcount = pcount + 1;
-					thing = thing.chain;
-				}
-				if (pcount == 0)
-				{
-					lastspawn = spot;
-					return spot;
-				}
+				if (thing.classname == "player")
+					pcount = pcount + 1;
+				thing = thing.chain;
+			}
+			if (pcount == 0)
+			{
+				if(self.team == TEAM_BLUE)
+					lastspawn_blue = spot;
+				else if(self.team == TEAM_RED)
+					lastspawn_red = spot;
+				
+				return spot;
 			}
 		}
 	}
@@ -528,6 +542,8 @@ void() PutClientInServer =
 	
 	self.view_ofs = '0 0 22';
 
+	self.state = time;
+
 	player_stand1 ();
 	
 	if (deathmatch || coop)
@@ -577,6 +593,10 @@ potential spawning position for deathmatch games
 */
 void() info_player_deathmatch =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
+	self.classname = "info_player_deathmatch";
 };
 
 /*QUAKED info_player_coop (1 0 1) (-16 -16 -24) (16 16 24)
@@ -901,6 +921,7 @@ void() PlayerPreThink =
 	local	float	mspeed, aspeed;
 	local	float	r;
 
+
 	if (intermission_running)
 	{
 		IntermissionThink ();	// otherwise a button could be missed between
@@ -909,6 +930,25 @@ void() PlayerPreThink =
 
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
+
+	if(self.cnt == 0) 
+	{
+		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+		self.cnt = 1;
+	}
+
+	if(time >= self.state) {
+		self.state = time + 0.25;
+
+		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
+			ctf_player_autoAssignTeam(self);
+		}
+
+		// Enforce team color
+		stuffcmd(self,"color ");
+		stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
+		stuffcmd(self,"\n");
+	}
 
 	makevectors (self.v_angle);		// is this still used
 
@@ -1113,6 +1153,7 @@ void() PlayerPostThink =
 	local	float	mspeed, aspeed;
 	local	float	r;
 
+
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
 	if (self.deadflag)
@@ -1155,8 +1196,17 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
+	ctf_player_autoAssignTeam(self);
+	
 	bprint (self.netname);
-	bprint (" entered the game\n");
+	bprint (" entered the game");
+
+	if(self.team == TEAM_BLUE)
+		bprint(" as team blue");
+	else if(self.team == TEAM_RED)
+		bprint(" as team red");
+	
+	bprint("\n");
 	
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
@@ -1177,6 +1227,10 @@ void() ClientDisconnect =
 		return;
 	// if the level end trigger has been activated, just return
 	// since they aren't *really* leaving
+
+
+	if(self.items & (IT_KEY1 | IT_KEY2))
+		ctf_DropFlag();
 
 	// let everyone else know
 	bprint (self.netname);

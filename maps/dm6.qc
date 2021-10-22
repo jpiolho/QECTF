@@ -3,9 +3,12 @@ void() Maps_CleanEntities;
 
 void() PostPopulate_DM6 =
 {
-    // Remove teleporters
-    Maps_RemoveEntitiesByTarget("t2");
+    // Fix teleporters
+    Maps_RemoveEntitiesByTarget("t2");    
+    Maps_FindEntityByClassnameContainingPoint("trigger_teleport",'1027 -1095 7').target = "t2"; // Teleporter from middle to rocket
     Maps_RemoveEntitiesByTarget("t1");
+
+
 }
 void() Populate_DM6 =
 {
@@ -63,13 +66,14 @@ Maps_SpawnHealth(TEAM_RED,'1848 -264 144');
 Maps_SpawnHealth(TEAM_RED,'1880 -264 144');
 Maps_SpawnHealth(TEAM_RED,'1880 -304 144');
 Maps_SpawnHealth(TEAM_RED,'1848 -304 144');
-Maps_SpawnHealth(TEAM_BLUE,'64 -1512 16');
-Maps_SpawnHealth(TEAM_BLUE,'96 -1512 16');
-Maps_SpawnHealth(TEAM_BLUE,'96 -1544 16');
-Maps_SpawnHealth(TEAM_ALL,'320 -2064 16');
-Maps_SpawnHealth(TEAM_ALL,'280 -2064 16');
-Maps_SpawnHealth(TEAM_ALL,'280 -2024 16');
-Maps_SpawnHealth(TEAM_ALL,'320 -2024 16');
+Maps_SpawnHealth(TEAM_BLUE,'72 -1512 16');
+Maps_SpawnHealth(TEAM_BLUE,'104 -1512 16');
+Maps_SpawnHealth(TEAM_BLUE,'104 -1544 16');
+Maps_SpawnHealth(TEAM_BLUE,'72 -1544 16');
+Maps_SpawnHealth(TEAM_BLUE,'320 -2064 16');
+Maps_SpawnHealth(TEAM_BLUE,'280 -2064 16');
+Maps_SpawnHealth(TEAM_BLUE,'280 -2024 16');
+Maps_SpawnHealth(TEAM_BLUE,'320 -2024 16');
 Maps_TeamSpawn(TEAM_BLUE,'456 -1912 40','0 180 0');
 Maps_TeamSpawn(TEAM_BLUE,'456 -1784 40','0 180 0');
 Maps_TeamSpawn(TEAM_BLUE,'32 -1656 40','0 0 0');
@@ -80,6 +84,8 @@ Maps_SpawnWeaponNailgun(TEAM_RED,'1632 -424 16');
 Maps_SpawnWeaponNailgun(TEAM_BLUE,'64 -1760 16');
 Maps_SpawnArmor2(TEAM_ALL,'528 -1080 -304');
 Maps_SpawnItemRockets(TEAM_ALL,FALSE,'1008 -816 232');
+Maps_TeamSpawn(TEAM_BLUE,'168 -1896 40','0 60 0');
+Maps_TeamSpawn(TEAM_RED,'1888 -416 168','0 180 0');
 
 
     

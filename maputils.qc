@@ -42,12 +42,27 @@ float(entity ent) Maps_ShouldRemoveDefaultEntity =
     return map_removeDefaultEntities && !ent.impulse;
 }
 
+entity(string entityTarget) Maps_FindEntityByTarget =
+{
+	return find(world,target,entityTarget);
+}
+
 void(string entityTarget) Maps_RemoveEntitiesByTarget =
 {
 	local entity p = world;
 	while(p = find(p,target,entityTarget))
 	{
 		remove(p);	
+	}
+}
+
+entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameContainingPoint =
+{
+	local entity p = world;
+	while(p = find(p,classname,entityClassname))
+	{
+		if(searchOrigin >= p.absmin && searchOrigin <= p.absmax)
+			return p;
 	}
 }
 

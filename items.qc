@@ -200,10 +200,8 @@ void() health_touch =
 	}
 	else
 	{
-		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
-		{
-			if (deathmatch)
-				self.nextthink = time + 20;
+		if (deathmatch) {
+			self.nextthink = time + 20;
 			self.think = SUB_regen;
 		}
 	}
@@ -227,7 +225,7 @@ void() item_megahealth_rot =
 // just blindly subtract the flag off
 	other.items = other.items - (other.items & IT_SUPERHEALTH);
 	
-	if (deathmatch == 1)	// deathmatch 2 is silly old rules
+	if (deathmatch)	// deathmatch 2 is silly old rules
 	{
 		self.nextthink = time + 20;
 		self.think = SUB_regen;
@@ -284,7 +282,7 @@ void() armor_touch =
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;
-	if (deathmatch == 1)
+	if (deathmatch)
 		self.nextthink = time + 20;
 	self.think = SUB_regen;
 
@@ -518,7 +516,7 @@ void() weapon_touch =
 // remove it in single player, or setup for respawning in deathmatch
 	self.model = string_null;
 	self.solid = SOLID_NOT;
-	if (deathmatch == 1)
+	if (deathmatch)
 		self.nextthink = time + 30;
 	self.think = SUB_regen;
 	
@@ -721,7 +719,7 @@ local float		best;
 // remove it in single player, or setup for respawning in deathmatch
 	self.model = string_null;
 	self.solid = SOLID_NOT;
-	if (deathmatch == 1)
+	if (deathmatch)
 		self.nextthink = time + 30;
 	self.think = SUB_regen;
 
@@ -1424,6 +1422,7 @@ void() DropBackpack =
 	item = spawn();
 	item.origin = self.origin - '0 0 24';
 	
+	/*
 	item.items = self.weapon;
 	if (item.items == IT_AXE)
 		item.netname = "Axe";
@@ -1443,6 +1442,9 @@ void() DropBackpack =
 		item.netname = "Thunderbolt";
 	else
 		item.netname = "";
+		*/
+			
+	item.netname = "";
 
 	item.ammo_shells = self.ammo_shells;
 	item.ammo_nails = self.ammo_nails;

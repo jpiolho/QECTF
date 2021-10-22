@@ -1241,6 +1241,9 @@ void() ImpulseCommands =
 	if (self.impulse == 12)
 		CycleWeaponReverseCommand ();
 
+	if(self.impulse == 80)
+		Entmod_HandleCommand();
+
 	if (self.impulse == 255)
 		QuadCheat ();
 		
