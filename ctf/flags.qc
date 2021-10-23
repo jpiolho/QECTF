@@ -28,13 +28,14 @@ void(entity player) ctf_player_autoAssignTeam =
 			countRed++;
 	}
 
-	player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
+    
+    player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
+	
 	//player.team = countRed <= countBlue ? TEAM_RED : TEAM_BLUE;
 }
 
 void() ctf_flag_returned =
 {
-    dprint("ctf_flag_returned\n");
     // Move it back
     setorigin(self,self.oldorigin);
 
@@ -82,27 +83,26 @@ void() ctf_flag_pickup =
     local float otherTeam;
     otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
-
-    dprint("Teams: ");
-    dprint(ftos(self.team));
-    dprint(" | ");
-    dprint(ftos(other.team));
-    dprint("\n");
-
     // Broadcast announcements
     local entity p = world;
     while(p = findPlayerInTeam(self.team,p))
     {
+        sprint(p,"Your flag has been taken\n");
         centerprint(p,"Your flag has been taken\n");
         localsound(p,SOUND_PICKUP_ENEMY);
     }
-
+    
     p = world;
-    while(p = findPlayerInTeam(otherTeam,p))
+    while(p = findPlayerInTeam(otherTeam,p) && p != other)
     {
+        sprint(p,"Your team has the flag\n");
         centerprint(p,"Your team has the flag\n");
         localsound(p,SOUND_PICKUP_OWN);
     }
+    
+    sprint(other,"You have the flag!\n");
+    centerprint(other,"You have the flag!\n");
+    localsound(other,SOUND_PICKUP_OWN);
 
     // Add item to the player
     other.items |= self.team == TEAM_BLUE ? IT_KEY1 : IT_KEY2;
@@ -125,17 +125,23 @@ void() ctf_flag_capture() {
 
     // Broadcast announcements
     local entity p = world;
-    while(p = findPlayer(p)) {
+    while(p = findPlayer(p) && p != other) {
         if(p.team == self.team)
         {
+            sprint(p,"Your team captured the flag!\n");
             centerprint(p,"Your team captured the flag!\n");
             localsound(p,SOUND_WIN);
         }
         else {
+            sprint(p,"The enemy team captured the flag\n");
             centerprint(p,"The enemy team captured the flag\n");
             localsound(p,SOUND_LOSE);
         }
     }
+
+    sprint(other,"You captured the flag!\n");
+    centerprint(other,"You captured the flag!\n");
+    localsound(other,SOUND_WIN);
 
     // Find the other flag to return it
     p = world;

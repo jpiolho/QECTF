@@ -160,8 +160,10 @@ void() health_touch =
 		return;
 
 	// Only allow pickups for own team
-	if(self.team != TEAM_ALL && other.team != self.team)
+	if(self.team != TEAM_ALL && other.team != self.team) {
+		centerprint(other,"This item belongs to the other team\n");
 		return;
+	}
 
 	
 	if (self.healtype == 2) // Megahealth?  Ignore max_health...
@@ -251,8 +253,10 @@ void() armor_touch =
 		return;
 
 	// Only allow pickups for own team
-	if(self.team != TEAM_ALL && other.team != self.team)
+	if(self.team != TEAM_ALL && other.team != self.team) {
+		centerprint(other,"This item belongs to the other team\n");
 		return;
+	}
 
 	if (self.classname == "item_armor1")
 	{
@@ -419,8 +423,10 @@ void() weapon_touch =
 		return;
 
 	// Only allow pickups for own team
-	if(self.team != TEAM_ALL && other.team != self.team)
+	if(self.team != TEAM_ALL && other.team != self.team) {
+		centerprint(other,"This item belongs to the other team\n");
 		return;
+	}
 
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
@@ -647,8 +653,10 @@ local float		best;
 		return;
 
 	// Only allow pickups for own team
-	if(self.team != TEAM_ALL && other.team != self.team)
+	if(self.team != TEAM_ALL && other.team != self.team) {
+		centerprint(other,"This item belongs to the other team\n");
 		return;
+	}
 
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;

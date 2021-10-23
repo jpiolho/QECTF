@@ -1229,6 +1229,11 @@ ImpulseCommands
 */
 void() ImpulseCommands =
 {
+	if(!Entmod_HandleImpulse()) {
+		self.impulse = 0;
+		return;
+	}
+
 	if (self.impulse >= 1 && self.impulse <= 8)
 		W_ChangeWeapon ();
 
@@ -1240,9 +1245,6 @@ void() ImpulseCommands =
 		ServerflagsCommand ();
 	if (self.impulse == 12)
 		CycleWeaponReverseCommand ();
-
-	if(self.impulse == 80)
-		Entmod_HandleCommand();
 
 	if (self.impulse == 255)
 		QuadCheat ();
@@ -1267,6 +1269,10 @@ void() W_WeaponFrame =
 // check for attack
 	if (self.button0)
 	{
+		// Hook into entmod
+		if(entmod.active && !Entmod_PlayerAttack())
+			return;
+		
 		SuperDamageSound ();
 		W_Attack ();
 	}

@@ -8,3 +8,5 @@ float COLOR_RED = 4;
 float CTF_TEAM_COUNT_BLUE;
 float CTF_TEAM_COUNT_RED;
 
+float PEF_SEEN_MESSAGE = 1;
+

@@ -2,14 +2,13 @@
 
 defs.qc
 subs.qc
+math.qc
 
 ctf/defs.qc
 ctf/utils.qc
 ctf/flags.qc
 
-ctf/entmod.qc
-
-
+entmod/defs.qc
 
 fight.qc
 ai.qc
@@ -26,9 +25,12 @@ triggers.qc
 plats.qc
 misc.qc
 
+
+
 maputils.qc
 maps/dm3.qc
 maps/dm6.qc
+maps/e3m6.qc
 maps.qc
 
 ogre.qc
@@ -47,4 +49,7 @@ fish.qc			// registered
 shalrath.qc		// registered
 enforcer.qc		// registered
 oldone.qc		// registered
+
+entmod/entmod.qc
+entmod/commands.qc
 

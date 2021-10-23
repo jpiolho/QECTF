@@ -6,6 +6,8 @@ void PopulateMap() =
         Populate_DM6();
     else if(mapname == "dm3")
         Populate_DM3();
+    else if(mapname == "e3m6")
+        Populate_e3m6();
 }
 
 void PostPopulateMap() {
@@ -13,6 +15,8 @@ void PostPopulateMap() {
         PostPopulate_DM6();
     else if(mapname == "dm3")
         PostPopulate_DM3();
+    else if(mapname == "e3m6")
+        PostPopulate_e3m6();
 }
 
 string(string title) GetMapName =

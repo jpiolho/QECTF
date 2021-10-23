@@ -329,6 +329,9 @@ When the player touches this, he gets sent to the map listed in the "map" variab
 */
 void() trigger_changelevel =
 {
+	if(Maps_ShouldRemoveDefaultEntity(self))
+		return remove(self);
+
 	if (!self.map)
 		objerror ("chagnelevel trigger doesn't have map");
 	
@@ -493,6 +496,10 @@ void() PlayerDie;
 void() PutClientInServer =
 {
 	local	entity spot;
+
+	dprint("Player flags: ");
+    dprint(ftos(self.flags));
+    dprint("\n");
 
 	spot = SelectSpawnPoint ();
 
@@ -928,14 +935,16 @@ void() PlayerPreThink =
 		return;					// the think tics
 	}
 
+	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
+	{
+		self.cnt = PEF_SEEN_MESSAGE;
+		
+		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+	}
+
+
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
-
-	if(self.cnt == 0) 
-	{
-		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
-		self.cnt = 1;
-	}
 
 	if(time >= self.state) {
 		self.state = time + 0.25;
@@ -982,6 +991,11 @@ void() PlayerPreThink =
 	{
 		self.weapon = W_BestWeapon ();
 		W_SetCurrentAmmo ();
+	}
+
+
+	if(entmod.active) {
+		Entmod_PlayerPreThink();
 	}
 };
 	
@@ -1153,6 +1167,7 @@ void() PlayerPostThink =
 	local	float	mspeed, aspeed;
 	local	float	r;
 
+	
 
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
@@ -1160,8 +1175,8 @@ void() PlayerPostThink =
 		return;
 		
 // do weapon stuff
-
-	W_WeaponFrame ();
+	if(Entmod_PlayerPostThink)
+		W_WeaponFrame ();
 
 // check to see if player landed and play landing sound	
 	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) && (self.health > 0))
@@ -1197,20 +1212,21 @@ called when a player connects to a server
 void() ClientConnect =
 {
 	ctf_player_autoAssignTeam(self);
-	
+
 	bprint (self.netname);
 	bprint (" entered the game");
-
+	
 	if(self.team == TEAM_BLUE)
-		bprint(" as team blue");
+	bprint(" as team blue");
 	else if(self.team == TEAM_RED)
-		bprint(" as team red");
+	bprint(" as team red");
 	
 	bprint("\n");
 	
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();
+		
 };
 
 

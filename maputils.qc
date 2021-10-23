@@ -37,6 +37,8 @@ void() Maps_CleanEntities =
     */
 }
 
+
+
 float(entity ent) Maps_ShouldRemoveDefaultEntity =
 {
     return map_removeDefaultEntities && !ent.impulse;
@@ -47,10 +49,28 @@ entity(string entityTarget) Maps_FindEntityByTarget =
 	return find(world,target,entityTarget);
 }
 
+void(string entityClassname) Maps_RemoveEntitiesByClassname =
+{
+	local entity p = world;
+	while(p = find(p,classname,entityClassname))
+	{
+		remove(p);	
+	}
+}
+
 void(string entityTarget) Maps_RemoveEntitiesByTarget =
 {
 	local entity p = world;
 	while(p = find(p,target,entityTarget))
+	{
+		remove(p);	
+	}
+}
+
+void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
+{
+	local entity p = world;
+	while(p = find(p,targetname,entityTargetName))
 	{
 		remove(p);	
 	}
@@ -368,4 +388,71 @@ entity(float entityTeam,vector entityOrigin) Maps_SpawnHealthMega =
 	return ent;
 }
 
+entity(string entityModel,vector entityOrigin,vector entityAngles) Maps_CreateWall =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+	ent.model = entityModel;
+	ent.classname = "func_wall";
+	ent.impulse = 1;
 
+	local entity oself = self;
+	self = ent;
+	func_wall();
+	self = oself;
+
+	ent.angles = entityAngles;
+}
+
+entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTeleportDestination =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+	ent.angles = '0 0 0';
+	ent.angles_y = entityAngle;
+	ent.classname = "info_teleport_destination";
+	ent.targetname = entityName;
+	ent.impulse = 1;
+
+	local entity oself = self;
+	self = ent;
+	info_teleport_destination();
+	self = oself;
+}
+
+entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTeam) Maps_CreateTeleport =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+	ent.classname = "trigger_teleport";
+	ent.target = entityTarget;
+	ent.impulse = 1;
+
+	local entity oself = self;
+	self = ent;
+	trigger_teleport();
+	self = oself;
+
+	local vector hullMin = '0 0 0';
+	local vector hullMax = '0 0 0';
+	hullMin -= entitySize / 2;
+	hullMax += entitySize / 2;
+
+	setsize(ent,hullMin,hullMax);
+	ent.team = entityTeam;
+}
+
+void(string nextLevel) Maps_SetNextLevel = 
+{
+	local entity ent = spawn();
+	ent.classname = "trigger_changelevel";
+	ent.map = nextLevel;
+	ent.impulse = 1;
+
+	local entity oself = self;
+	self = ent;
+	trigger_changelevel();
+	self = oself;
+
+	setorigin(ent,'-9999 9999 -9999');
+}

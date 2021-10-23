@@ -183,6 +183,8 @@ void() worldspawn =
 
 	PopulateMap();
 
+	cvar_set("teamplay","1");
+
 // custom map attributes
 	if (self.model == "maps/e1m8.bsp")
 		cvar_set ("sv_gravity", "100");
@@ -410,6 +412,5 @@ void(entity ent) CopyToBodyQue =
 void() FirstFrame =
 {
 	PostPopulateMap();
-	cvar_set("teamplay","1");
 	//PopulateMap();
 };
