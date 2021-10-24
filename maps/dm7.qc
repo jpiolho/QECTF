@@ -1,6 +1,8 @@
 void() PostPopulate_dm7 =
 {
-   
+    // Remove teleport & fix the water teleport
+    Maps_RemoveEntitiesByTarget("t2");
+    Maps_FindEntityByTarget("t1").target = "t2";
 }
 void() Populate_dm7 =
 {
