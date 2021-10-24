@@ -2,8 +2,8 @@
 void() InitBodyQue;
 void() FirstFrame;
 
-void() PopulateMap;
-void() PostPopulateMap;
+//void() PopulateMap;
+//void() PostPopulateMap;
 string(string title) GetMapName;
 
 void() main =
@@ -181,7 +181,7 @@ void() worldspawn =
 
 	InitBodyQue ();
 
-	PopulateMap();
+//	PopulateMap();
 
 	cvar_set("teamplay","1");
 
@@ -411,6 +411,6 @@ void(entity ent) CopyToBodyQue =
 
 void() FirstFrame =
 {
-	PostPopulateMap();
+//	PostPopulateMap();
 	//PopulateMap();
 };

@@ -393,8 +393,8 @@ void() ClientKill =
 	self.modelindex = modelindex_player;
 	self.frags = self.frags - 2;	// extra penalty
 
-	if(self.items & (IT_KEY1 | IT_KEY2))
-		ctf_DropFlag();
+//	if(self.items & (IT_KEY1 | IT_KEY2))
+//		ctf_DropFlag();
 
 	respawn ();
 };
@@ -939,7 +939,7 @@ void() PlayerPreThink =
 	{
 		self.cnt = PEF_SEEN_MESSAGE;
 		
-		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+		centerprint(self,"Welcome to QE-TDM - Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 	}
 
 
@@ -1245,8 +1245,8 @@ void() ClientDisconnect =
 	// since they aren't *really* leaving
 
 
-	if(self.items & (IT_KEY1 | IT_KEY2))
-		ctf_DropFlag();
+//	if(self.items & (IT_KEY1 | IT_KEY2))
+//		ctf_DropFlag();
 
 	// let everyone else know
 	bprint (self.netname);

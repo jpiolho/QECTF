@@ -535,8 +535,8 @@ void() PlayerDie =
 	if (deathmatch || coop)
 		DropBackpack();
 
-	if(self.items & (IT_KEY1 | IT_KEY2))
-		ctf_DropFlag();
+//	if(self.items & (IT_KEY1 | IT_KEY2))
+//		ctf_DropFlag();
 	
 	self.weaponmodel="";
 	self.view_ofs = '0 0 -8';

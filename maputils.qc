@@ -76,28 +76,28 @@ void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 	}
 }
 
-entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameContainingPoint =
-{
-	local entity p = world;
-	while(p = find(p,classname,entityClassname))
-	{
-		if(searchOrigin >= p.absmin && searchOrigin <= p.absmax)
-			return p;
-	}
-}
+//entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameContainingPoint =
+//{
+//	local entity p = world;
+//	while(p = find(p,classname,entityClassname))
+//	{
+//		if(searchOrigin >= p.absmin && searchOrigin <= p.absmax)
+//			return p;
+//	}
+//}
 
-void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
-{
-    local entity key = spawn();
-    key.origin = keyOrigin;    
-    key.team = keyTeam;
-	key.impulse = 1;
-
-    local entity oself = self;
-    self = key;
-    ctf_flag();
-    self = oself;
-}
+//void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
+//{
+//    local entity key = spawn();
+//    key.origin = keyOrigin;    
+//    key.team = keyTeam;
+//	key.impulse = 1;
+//
+//    local entity oself = self;
+//    self = key;
+//    ctf_flag();
+//    self = oself;
+//}
 
 
 
@@ -402,18 +402,6 @@ entity(string entityModel,vector entityOrigin,vector entityAngles) Maps_CreateWa
 	self = oself;
 
 	ent.angles = entityAngles;
-}
-
-entity(string entityModel,vector entityOriginStart,vector entityOriginEnd,vector entityAngles,float numberOfSteps) Maps_CreateStairs =
-{
-	local float i;
-	local vector entityOrigin;
-
-	for(i=0;i<=numberOfSteps;i++) {
-		entityOrigin = entityOriginStart + (entityOriginEnd - entityOriginStart) * (i / numberOfSteps);
-
-		Maps_CreateWall(entityModel,entityOrigin,entityAngles);
-	}
 }
 
 entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTeleportDestination =
