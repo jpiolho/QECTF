@@ -1,22 +1,16 @@
-
-
 void PopulateMap() =
 {
-    if(mapname == "dm6")
-        Populate_DM6();
-    else if(mapname == "dm3")
-        Populate_DM3();
-    else if(mapname == "e3m6")
-        Populate_e3m6();
+    if(mapname == "dm6") Populate_DM6();
+    else if(mapname == "dm7") Populate_dm7();
+    else if(mapname == "dm3") Populate_DM3();
+    else if(mapname == "e3m6") Populate_e3m6();
 }
 
 void PostPopulateMap() {
-    if(mapname == "dm6")
-        PostPopulate_DM6();
-    else if(mapname == "dm3")
-        PostPopulate_DM3();
-    else if(mapname == "e3m6")
-        PostPopulate_e3m6();
+    if(mapname == "dm6") PostPopulate_DM6();
+    else if(mapname == "dm7") PostPopulate_dm7();
+    else if(mapname == "dm3") PostPopulate_DM3();
+    else if(mapname == "e3m6") PostPopulate_e3m6();
 }
 
 string(string title) GetMapName =

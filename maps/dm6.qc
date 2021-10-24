@@ -10,7 +10,7 @@ void() PostPopulate_DM6 =
 void() Populate_DM6 =
 {
     Maps_CleanEntities();
-    Maps_SetNextLevel("e3m6");
+    Maps_SetNextLevel("dm7");
 
     Maps_SpawnWeaponSuperNailgun(TEAM_ALL,'1160 -1088 -64');
 Maps_SpawnWeaponGrenadeLauncher(TEAM_ALL,'1016 -848 232');

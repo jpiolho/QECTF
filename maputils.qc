@@ -404,6 +404,18 @@ entity(string entityModel,vector entityOrigin,vector entityAngles) Maps_CreateWa
 	ent.angles = entityAngles;
 }
 
+entity(string entityModel,vector entityOriginStart,vector entityOriginEnd,vector entityAngles,float numberOfSteps) Maps_CreateStairs =
+{
+	local float i;
+	local vector entityOrigin;
+
+	for(i=0;i<=numberOfSteps;i++) {
+		entityOrigin = entityOriginStart + (entityOriginEnd - entityOriginStart) * (i / numberOfSteps);
+
+		Maps_CreateWall(entityModel,entityOrigin,entityAngles);
+	}
+}
+
 entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTeleportDestination =
 {
 	local entity ent = spawn();
