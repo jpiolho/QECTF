@@ -86,20 +86,6 @@ void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 //	}
 //}
 
-//void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
-//{
-//    local entity key = spawn();
-//    key.origin = keyOrigin;    
-//    key.team = keyTeam;
-//	key.impulse = 1;
-//
-//    local entity oself = self;
-//    self = key;
-//    ctf_flag();
-//    self = oself;
-//}
-
-
 
 void info_player_deathmatch();
 void(float spawnTeam,vector spawnOrigin,vector spawnAngles) Maps_TeamSpawn =

@@ -6,7 +6,7 @@ math.qc
 
 tdm/defs.qc
 tdm/utils.qc
-tdm/flags.qc
+tdm/tdm.qc
 
 entmod/defs.qc
 
@@ -28,9 +28,6 @@ misc.qc
 
 
 maputils.qc
-//maps/dm3.qc
-//maps/dm6.qc
-//maps/e3m6.qc
 maps.qc
 
 ogre.qc
@@ -45,7 +42,7 @@ boss.qc
 
 tarbaby.qc		// registered
 hknight.qc		// registered
-fish.qc			// registered
+fish.qc		// registered
 shalrath.qc		// registered
 enforcer.qc		// registered
 oldone.qc		// registered

@@ -1,11 +1,3 @@
-/*
-alias "entmod" "scratch1 0;impulse 80";
-alias "ent_print" "scratch1 1;impulse 80";
-alias "ent_copy" "scratch1 2;impulse 80";
-alias "ent_move" "scratch1 3;impulse 80";
-alias "ent_rotate" "scratch1 4;impulse 80";
-*/
-
 void() Entmod_Command_Activate =
 {
     entmod.active = TRUE;
@@ -77,18 +69,6 @@ void() Entmod_Command_Copy =
     }
 }
 
-void() Entmod_Command_Rotate = 
-{
-    if(!entmod.selectedEntity)
-        return Entmod_Error_NoEntitySelected();
-
-    sprint(self,"Entity rotated\n");
-
-    entmod.selectedEntity.angles_y += 90;
-    //setsize(entmod.selectedEntity,entmod.selectedEntity.mins,entmod.selectedEntity.maxs);
-    //setmodel (entmod.selectedEntity, entmod.selectedEntity.model);
-}
-
 
 void() Entmod_HandleCommand =
 {
@@ -113,13 +93,27 @@ void() Entmod_HandleCommand =
     else if(cvar("scratch1") == 2)
     {
         Entmod_Command_Copy();
+        /*
+        if(!entmod_selectedEntity) {
+            dprint("No entity selected\n");
+            return;
+        }
+
+        dprint("Copied entity\n");
+
+        local entity ent = spawn();
+        ent.origin = entmod_selectedEntity.origin;
+        ent.model = entmod_selectedEntity.model;
+        ent.classname = "func_wall";
+
+        local entity oself = self;
+        self = ent;
+        func_wall();
+        self = oself;
+        */
     }
     else if(cvar("scratch1") == 3)
     {
         Entmod_Command_GrabEntity();
-    }
-    else if(cvar("scratch1") == 4)
-    {
-        Entmod_Command_Rotate();
     }
 }

@@ -370,6 +370,22 @@ void() respawn =
 		SetNewParms ();
 		// respawn		
 		PutClientInServer ();
+
+      	// display current scores and frags left on respawn
+		local float team_score = tdm_GetTeamScore();
+		local float enemy_score = tdm_GetEnemyTeamScore();
+      	if (team_score > enemy_score)
+		{
+			centerprint3(self,"Your team is in the lead with ",ftos(team_score)," frags");
+		}
+		else if (team_score == enemy_score)
+		{			
+			centerprint3(self,"Your team is tied with ",ftos(team_score)," frags");
+		}
+		else 		{			
+			centerprint3(self,"Your team is behind with ",ftos(team_score)," frags");
+		}
+
 	}
 	else
 	{	// restart the entire server
@@ -392,9 +408,6 @@ void() ClientKill =
 	set_suicide_frame ();
 	self.modelindex = modelindex_player;
 	self.frags = self.frags - 2;	// extra penalty
-
-//	if(self.items & (IT_KEY1 | IT_KEY2))
-//		ctf_DropFlag();
 
 	respawn ();
 };
@@ -692,6 +705,7 @@ Exit deathmatch games upon conditions
 */
 void() CheckRules =
 {
+
 	local	float		timelimit;
 	local	float		fraglimit;
 	
@@ -707,11 +721,31 @@ void() CheckRules =
 		return;
 	}
 	
-	if (fraglimit && self.frags >= fraglimit)
+//	if (fraglimit && self.frags >= fraglimit)
+//	{
+//		NextLevel ();
+//		return;
+//	}
+
+      local entity p = world;
+      local float team_score = 0;
+
+      // get sum of all frags on players current team
+      p = world;
+      while(p = findPlayerInTeam(self.team,p) && p != other) {
+          if (p.frags !=0)
+          {
+              team_score = team_score + p.frags;
+          }
+      }
+
+	if (fraglimit && team_score >= fraglimit)
 	{
 		NextLevel ();
 		return;
-	}	
+	}
+
+      	
 };
 
 //============================================================================
@@ -940,7 +974,7 @@ void() PlayerPreThink =
 		self.cnt = PEF_SEEN_MESSAGE;
 		
 		centerprint(self,"Welcome to QE-TDM - Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
-	}
+      }
 
 
 	if (self.view_ofs == '0 0 0')
@@ -950,7 +984,7 @@ void() PlayerPreThink =
 		self.state = time + 0.25;
 
 		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
-			ctf_player_autoAssignTeam(self);
+			tdm_player_autoAssignTeam(self);
 		}
 
 		// Enforce team color
@@ -1211,7 +1245,7 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
-	ctf_player_autoAssignTeam(self);
+	tdm_player_autoAssignTeam(self);
 
 	bprint (self.netname);
 	bprint (" entered the game");
@@ -1221,6 +1255,20 @@ void() ClientConnect =
 	else if(self.team == TEAM_RED)
 	bprint(" as team red");
 	
+	bprint("\n");
+
+//    display team scores
+      local string team_score;
+	local string enemy_score;
+      team_score = ftos(tdm_GetTeamScore());
+      team_score = ftos(tdm_GetEnemyTeamScore());
+      bprint("Your team has ");
+      bprint(team_score);
+      bprint("  frags");
+	bprint("\n");
+      bprint("The enemy team has ");
+      bprint(team_score);
+      bprint("  frags");
 	bprint("\n");
 	
 // a client connecting during an intermission can cause problems
@@ -1244,9 +1292,6 @@ void() ClientDisconnect =
 	// if the level end trigger has been activated, just return
 	// since they aren't *really* leaving
 
-
-//	if(self.items & (IT_KEY1 | IT_KEY2))
-//		ctf_DropFlag();
 
 	// let everyone else know
 	bprint (self.netname);
@@ -1508,3 +1553,4 @@ void(entity targ, entity attacker) ClientObituary =
 		}
 	}
 };
+
