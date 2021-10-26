@@ -21,38 +21,31 @@ void(entity player) tdm_player_autoAssignTeam =
 		else if(p.team == TEAM_RED)
 			countRed++;
 	}
-
     
     player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
 	
 	//player.team = countRed <= countBlue ? TEAM_RED : TEAM_BLUE;
 }
 
-
-float() tdm_GetTeamScore =
-{   
-    local entity p = world;
-    local float team_score = 0;
-
-    // get sum of all frags on players current team
-    p = world;
-    while(p = findPlayerInTeam(self.team,p) && p != other) {
-       team_score += p.frags;
-    }
-
-    return team_score;
+void(entity player) tdm_player_changeTeam =
+{
+	if (player.team == TEAM_BLUE) { player.team = TEAM_RED; }
+	else if (player.team == TEAM_RED) { player.team = TEAM_BLUE; }
 }
 
-float() tdm_GetEnemyTeamScore =
-{   
-    local entity p = world;
-    local float team_score = 0;
+void(entity player) tdm_player_checkChangeTeam =
+{
+	if (self.impulse == 152) { tdm_player_changeTeam(player); }
+}
 
-    // get sum of all frags on players current team
-    p = world;
-    while(p = findPlayerInTeam(self.team,p) && p = other) {
-       team_score += p.frags;
-    }
-
-    return team_score;
+float(float team) tdm_getTeamScore =
+{
+	local entity p = world;
+	local float team_score = 0;
+	while(p = findPlayerInTeam(team,p)) {
+      	if (p.frags !=0)
+            {
+              	team_score = team_score + p.frags;
+          	}
+      }
 }

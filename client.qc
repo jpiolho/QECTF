@@ -371,21 +371,40 @@ void() respawn =
 		// respawn		
 		PutClientInServer ();
 
-      	// display current scores and frags left on respawn
-		local float team_score = tdm_GetTeamScore();
-		local float enemy_score = tdm_GetEnemyTeamScore();
-      	if (team_score > enemy_score)
-		{
-			centerprint3(self,"Your team is in the lead with ",ftos(team_score)," frags");
-		}
-		else if (team_score == enemy_score)
-		{			
-			centerprint3(self,"Your team is tied with ",ftos(team_score)," frags");
-		}
-		else 		{			
-			centerprint3(self,"Your team is behind with ",ftos(team_score)," frags");
-		}
+      	// display current score and frags left on respawn
 
+      	local entity p = world;
+      	local float team_score = 0;
+		local float enemy_score = 0;
+      	p = world;
+
+      	while(p = findPlayerInTeam(self.team,p)) {
+            	if (p.frags !=0)
+            	{
+              		team_score = team_score + p.frags;
+          		}
+      	}
+
+      	while(p = findPlayerInTeam(self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE,p)) {
+            	if (p.frags !=0)
+            	{
+              		enemy_score = enemy_score + p.frags;
+          		}
+      	}
+		
+		local float is_leading = 0;
+		if (team_score >= enemy_score) { is_leading = 1; }
+		else { is_leading = 0; }
+
+		
+	 	local	float	fraglimit;
+	 	fraglimit = cvar("fraglimit");
+		if (is_leading ==1){
+		centerprint5(self,"Your team is in the lead with ",ftos(team_score)," frags\n", ftos(fraglimit - team_score)," more frags to win");
+		}
+		else {
+		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\n", ftos(fraglimit - team_score)," more frags to win");
+		}
 	}
 	else
 	{	// restart the entire server
@@ -732,7 +751,7 @@ void() CheckRules =
 
       // get sum of all frags on players current team
       p = world;
-      while(p = findPlayerInTeam(self.team,p) && p != other) {
+      while(p = findPlayerInTeam(self.team,p)) {
           if (p.frags !=0)
           {
               team_score = team_score + p.frags;
@@ -996,6 +1015,7 @@ void() PlayerPreThink =
 	makevectors (self.v_angle);		// is this still used
 
 	CheckRules ();
+	tdm_player_checkChangeTeam(self);
 	WaterMove ();
 
 	if (self.waterlevel == 2)
@@ -1256,20 +1276,6 @@ void() ClientConnect =
 	bprint(" as team red");
 	
 	bprint("\n");
-
-//    display team scores
-      local string team_score;
-	local string enemy_score;
-      team_score = ftos(tdm_GetTeamScore());
-      team_score = ftos(tdm_GetEnemyTeamScore());
-      bprint("Your team has ");
-      bprint(team_score);
-      bprint("  frags");
-	bprint("\n");
-      bprint("The enemy team has ");
-      bprint(team_score);
-      bprint("  frags");
-	bprint("\n");
 	
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
@@ -1323,8 +1329,11 @@ void(entity targ, entity attacker) ClientObituary =
 			bprint (" was telefragged by ");
 			bprint (attacker.owner.netname);
 			bprint ("\n");
-
-			attacker.owner.frags = attacker.owner.frags + 1;
+			
+			// check if player is on same team before awarding kill for telefrag
+			if (attacker.owner.team != targ.team){
+				attacker.owner.frags = attacker.owner.frags + 1;
+			}
 			return;
 		}
 
