@@ -7,6 +7,9 @@ void() player_stand1;
 void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
 
+float wait_time=10;
+
+
 float	modelindex_eyes, modelindex_player;
 
 /*
@@ -21,7 +24,7 @@ float	intermission_running;
 float	intermission_exittime;
 
 /*QUAKED info_intermission (1 0.5 0.5) (-16 -16 -16) (16 16 16)
-This is the camera point for the intermission.
+This is the camera point for the intermission
 Use mangle instead of angle, so you can set pitch or roll as well as yaw.  'pitch roll yaw'
 */
 void() info_intermission =
@@ -282,8 +285,11 @@ void() execute_changelevel =
 		setorigin (other, pos.origin);
 		other = find (other, classname, "player");
 	}	
-
-	WriteByte (MSG_ALL, SVC_INTERMISSION);
+	
+	// supress intermission screen, display our game over screen instead
+	// this is kinda kludgy but seems to work
+	tdm_game_displayGameOver();
+	if (time > wait_time + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
@@ -333,7 +339,7 @@ void() trigger_changelevel =
 		return remove(self);
 
 	if (!self.map)
-		objerror ("chagnelevel trigger doesn't have map");
+		objerror ("changelevel trigger doesn't have map");
 	
 	InitTrigger ();
 	self.touch = changelevel_touch;
@@ -371,40 +377,8 @@ void() respawn =
 		// respawn		
 		PutClientInServer ();
 
-      	// display current score and frags left on respawn
-
-      	local entity p = world;
-      	local float team_score = 0;
-		local float enemy_score = 0;
-      	p = world;
-
-      	while(p = findPlayerInTeam(self.team,p)) {
-            	if (p.frags !=0)
-            	{
-              		team_score = team_score + p.frags;
-          		}
-      	}
-
-      	while(p = findPlayerInTeam(self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE,p)) {
-            	if (p.frags !=0)
-            	{
-              		enemy_score = enemy_score + p.frags;
-          		}
-      	}
-		
-		local float is_leading = 0;
-		if (team_score >= enemy_score) { is_leading = 1; }
-		else { is_leading = 0; }
-
-		
-	 	local	float	fraglimit;
-	 	fraglimit = cvar("fraglimit");
-		if (is_leading ==1){
-		centerprint5(self,"Your team is in the lead with ",ftos(team_score)," frags\n", ftos(fraglimit - team_score)," more frags to win");
-		}
-		else {
-		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\n", ftos(fraglimit - team_score)," more frags to win");
-		}
+		// display tdm score
+		tdm_game_displayScore();	
 	}
 	else
 	{	// restart the entire server
@@ -659,6 +633,7 @@ only called if a time or frag limit has expired
 */
 void() NextLevel =
 {
+
 	local entity o;
 
 	if (mapname == "start")
@@ -746,25 +721,24 @@ void() CheckRules =
 //		return;
 //	}
 
-      local entity p = world;
+	// check team scores
       local float team_score = 0;
+	team_score = tdm_game_getTeamScore(self.team);
+	
+	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+	local float enemy_score =  tdm_game_getTeamScore(otherTeam);
+	
+	
+	tmd_game_checkLeaderChange();
 
-      // get sum of all frags on players current team
-      p = world;
-      while(p = findPlayerInTeam(self.team,p)) {
-          if (p.frags !=0)
-          {
-              team_score = team_score + p.frags;
-          }
-      }
-
+	// check if frag limit has been reached
 	if (fraglimit && team_score >= fraglimit)
 	{
+
 		NextLevel ();
 		return;
-	}
 
-      	
+	}
 };
 
 //============================================================================
@@ -992,7 +966,7 @@ void() PlayerPreThink =
 	{
 		self.cnt = PEF_SEEN_MESSAGE;
 		
-		centerprint(self,"Welcome to QE-TDM - Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+		centerprint(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
       }
 
 
