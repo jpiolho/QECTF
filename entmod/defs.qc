@@ -24,3 +24,4 @@ float() Entmod_HandleImpulse;
 float() Entmod_PlayerPreThink;
 float() Entmod_PlayerPostThink;
 float() Entmod_PlayerAttack;
+

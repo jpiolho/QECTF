@@ -8,3 +8,14 @@ float COLOR_RED = 4;
 
 float PEF_SEEN_MESSAGE = 1;
 
+
+.float motdtime;
+.float motdtext;
+
+void(entity self) DisplayMOTD;
+void(entity self) InitMOTD;
+void(entity self) ChangeMOTD;
+
+// for kill sprees
+.float prev_frags;
+string last_spree;

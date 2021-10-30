@@ -49,4 +49,4 @@ oldone.qc		// registered
 
 entmod/entmod.qc
 entmod/commands.qc
-
+motd.qc			// 1997-12-24 Message Of The Day (MOTD) by Maddes

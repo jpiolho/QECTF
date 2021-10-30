@@ -7,8 +7,6 @@ void() player_stand1;
 void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
 
-float wait_time=10;
-
 
 float	modelindex_eyes, modelindex_player;
 
@@ -291,7 +289,7 @@ void() execute_changelevel =
 	// supress intermission screen, display our game over screen instead
 	// this is kinda kludgy but seems to work
 	tdm_game_displayGameOver();
-	if (time > wait_time + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
+	if (time > 5 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
@@ -379,7 +377,8 @@ void() respawn =
 		PutClientInServer ();
 
 		// display tdm score
-		tdm_game_displayScore();	
+		tdm_game_displayScore();
+
 	}
 	else
 	{	// restart the entire server
@@ -730,7 +729,8 @@ void() CheckRules =
 	local float enemy_score =  tdm_game_getTeamScore(otherTeam);
 	
 	
-	tmd_game_checkLeaderChange();
+	tdm_game_checkLeaderChange();
+	tdm_player_checkKillStreak();
 
 	// check if frag limit has been reached
 	if (fraglimit && team_score >= fraglimit)
@@ -746,6 +746,10 @@ void() CheckRules =
 
 void() PlayerDeathThink =
 {
+
+	// reset previous frags and seen message count (for killing sprees)
+	self.prev_frags = self.frags;
+
 	local float		forward;
 
 	if ((self.flags & FL_ONGROUND))
@@ -775,6 +779,7 @@ void() PlayerDeathThink =
 	self.button1 = 0;
 	self.button2 = 0;
 	respawn();
+	
 };
 
 
@@ -957,12 +962,12 @@ void() PlayerPreThink =
 		return;					// the think tics
 	}
 
-	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
-	{
-		self.cnt = PEF_SEEN_MESSAGE;
-		
-		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
-      }
+//	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
+//	{
+//		self.cnt = PEF_SEEN_MESSAGE;
+//		
+//		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+//    }
 
 
 	if (self.view_ofs == '0 0 0')
@@ -1218,6 +1223,18 @@ void() PlayerPostThink =
 		self.jump_flag = self.velocity_z;
 
 	CheckPowerups ();
+
+// MOTD
+
+	if ((self.motdtext) && (self.motdtime < time))
+	{
+		ChangeMOTD(self);
+	}
+
+	if (self.motdtime >= time)
+	{
+		DisplayMOTD(self);
+	}
 };
 
 
@@ -1245,6 +1262,11 @@ void() ClientConnect =
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();
+
+// MOTD
+	InitMOTD(self);				// start with first MOTD
+	self.motdtime = time + 1.5;		// display some seconds so player can read
+
 		
 };
 
@@ -1349,6 +1371,7 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
+				if ((last_spree = self.netname)) { last_spree = "";}
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
