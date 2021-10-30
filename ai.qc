@@ -34,7 +34,6 @@ walkmove(angle, speed) primitive is all or nothing
 //
 // globals
 //
-float	current_yaw;
 
 //
 // when a monster becomes angry at a player, that monster will be used
@@ -280,6 +279,8 @@ void() SightSound =
 {
 local float	rsnd;
 
+      precache_sound ("vomitus/v_sight1.wav");
+
 	if (self.classname == "monster_ogre")	
 		sound (self, CHAN_VOICE, "ogre/ogwake.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_knight")
@@ -364,7 +365,7 @@ float() FindTarget =
 	{
 		client = sight_entity;
 		if (client.enemy == self.enemy)
-			return;
+			return FALSE;
 	}
 	else
 	{
@@ -473,7 +474,6 @@ The monster is walking it's beat
 */
 void(float dist) ai_walk =
 {
-	local vector		mtemp;
 	
 	movedist = dist;
 	
@@ -584,7 +584,7 @@ float()	DogCheckAttack;
 float() CheckAnyAttack =
 {
 	if (!enemy_vis)
-		return;
+		return FALSE;
 	if (self.classname == "monster_army")
 		return SoldierCheckAttack ();
 	if (self.classname == "monster_ogre")
@@ -596,8 +596,9 @@ float() CheckAnyAttack =
 	if (self.classname == "monster_dog")
 		return DogCheckAttack ();
 	if (self.classname == "monster_wizard")
-		return WizardCheckAttack ();
-	return CheckAttack ();
+		return WizardCheckAttack (); 
+	
+	return CheckAttack();
 };
 
 
@@ -675,11 +676,7 @@ The monster has an enemy it is trying to kill
 =============
 */
 void(float dist) ai_run =
-{
-	local	vector	delta;
-	local	float	axis;
-	local	float	direct, ang_rint, ang_floor, ang_ceil;
-	
+{	
 	movedist = dist;
 // see if the enemy is dead
 	if (self.enemy.health <= 0)

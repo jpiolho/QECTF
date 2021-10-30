@@ -3,7 +3,7 @@ Find the next player in a certain team
 */
 entity findPlayerInTeam(float findTeam,entity start) {
     local entity ent = start;
-    while(ent = find(ent,classname,"player")) {
+    while((ent = find(ent,classname,"player"))) {
         if(ent.team == findTeam)
             return ent;
     }

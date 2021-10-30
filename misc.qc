@@ -176,7 +176,7 @@ void() misc_fireball =
 	self.nextthink = time + (random() * 5);
 	self.think = fire_fly;
 	if (!self.speed)
-		self.speed == 1000;
+		self.speed = 350;
 };
 
 void() fire_fly =
@@ -246,7 +246,7 @@ void() misc_explobox =
 
 	self.origin_z = self.origin_z + 2;
 	oldz = self.origin_z;
-	droptofloor();
+	droptofloor(0,0);
 	if (oldz - self.origin_z > 250)
 	{
 		dprint ("item fell out of level at ");
@@ -278,7 +278,7 @@ void() misc_explobox2 =
 
 	self.origin_z = self.origin_z + 2;
 	oldz = self.origin_z;
-	droptofloor();
+	droptofloor(0,0);
 	if (oldz - self.origin_z > 250)
 	{
 		dprint ("item fell out of level at ");
@@ -444,7 +444,6 @@ void() bubble_remove =
 void() bubble_bob =
 {
 local float		rnd1, rnd2, rnd3;
-local vector	vtmp1, modi;
 
 	self.cnt = self.cnt + 1;
 	if (self.cnt == 4)
@@ -534,7 +533,7 @@ void() func_illusionary =
 	self.movetype = MOVETYPE_NONE;
 	self.solid = SOLID_NOT;
 	setmodel (self, self.model);
-	makestatic ();
+	// makestatic ();
 };
 
 /*QUAKED func_episodegate (0 .5 .8) ? E1 E2 E3 E4

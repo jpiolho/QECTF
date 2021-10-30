@@ -165,7 +165,7 @@ float()	WizardCheckAttack =
 WizardAttackFinished
 =================
 */
-float()	WizardAttackFinished =
+void()	WizardAttackFinished = // changed from float to void, doesnt return anything
 {
 	if (enemy_range >= RANGE_MID || !enemy_vis)
 	{

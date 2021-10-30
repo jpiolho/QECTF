@@ -14,7 +14,7 @@ float(float team) tdm_game_getTeamScore =
 {
 	local entity p = world;
 	local float team_score = 0;
-	while(p = findPlayerInTeam(team,p)) {
+	while((p = findPlayerInTeam(team,p))) {
       	if (p.frags !=0)
             {
               	team_score = team_score + p.frags;
@@ -37,12 +37,12 @@ void() tdm_game_displayGameOver =
 
 	if (team_score > enemy_score){
 
-	      while(p = findPlayerInTeam(self.team,p))
+	      while((p = findPlayerInTeam(self.team,p)))
 	      {
 	          centerprint(p,"Your team won the game!\n");
 	      }
 
-	      while(p = findPlayerInTeam(otherTeam,p) && p != other)
+	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
 	      {
 	          centerprint(p,"Your team lost the game.\n");
 	      }
@@ -50,24 +50,24 @@ void() tdm_game_displayGameOver =
 
 	if (team_score < enemy_score){
 
-	      while(p = findPlayerInTeam(self.team,p))
+	      while((p = findPlayerInTeam(self.team,p)))
 	      {
 	          centerprint(p,"Your team lost the game.\n");
 	      }
 
-	      while(p = findPlayerInTeam(otherTeam,p) && p != other)
+	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
 	      {
 	          centerprint(p,"Your team won the game!\n");
 	      }
 	}
 	if (team_score == enemy_score){
 
-	      while(p = findPlayerInTeam(self.team,p))
+	      while((p = findPlayerInTeam(self.team,p)))
 	      {
 	          centerprint(p,"Your team tied the game!\n");
 	      }
 
-	      while(p = findPlayerInTeam(otherTeam,p) && p != other)
+	      while((p = findPlayerInTeam(otherTeam,p) && p != other))
 	      {
 	          centerprint(p,"Your team tied the game!\n");
 	      }
@@ -79,7 +79,7 @@ void(entity player) tdm_player_autoAssignTeam =
       local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
-	while(p = findPlayer(p))
+	while((p = findPlayer(p)))
 	{
 		if(p.team == TEAM_BLUE)
 			countBlue++;
@@ -102,7 +102,7 @@ float() tdm_game_checkTeamBalance =
       local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
-	while(p = findPlayer(p))
+	while((p = findPlayer(p)))
 	{
 		if(p.team == TEAM_BLUE)
 			countBlue++;
@@ -114,7 +114,8 @@ float() tdm_game_checkTeamBalance =
 	if (countBlue < countRed) { return TEAM_BLUE; }
 	if (countBlue > countRed) { return TEAM_RED; }
 	if (countBlue == countRed) { return TEAMS_BALANCED; }
-	
+
+	return FALSE;	
 }
 
 
@@ -132,12 +133,12 @@ void(entity player) tdm_player_checkChangeTeam =
 		{ 
 			tdm_player_changeTeam(player); 
 
-			while(p = findPlayerInTeam(self.team,p))
+			while((p = findPlayerInTeam(self.team,p)))
       		{
           			centerprint4(p,player.netname," has switched to the ",newColor," team\n");
       		}
     
-      		while(p = findPlayerInTeam(otherTeam,p) && p != other)
+      		while((p = findPlayerInTeam(otherTeam,p) && p != other))
       		{
       	  		centerprint4(p,player.netname," has switched to the ",newColor," team\n");
       		}
@@ -152,7 +153,7 @@ void() tdm_game_autoBalanceTeams =
       local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
-	while(p = findPlayer(p))
+	while((p = findPlayer(p)))
 	{
 		if(p.team == TEAM_BLUE)
 			countBlue++;
@@ -178,12 +179,12 @@ void() tdm_game_displayLeaderChange =
       local entity p = world;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
-      while(p = findPlayerInTeam(self.team,p))
+      while((p = findPlayerInTeam(self.team,p)))
       {
           centerprint(p,"Your team has taken the lead\n");
       }
     
-      while(p = findPlayerInTeam(otherTeam,p) && p != other)
+      while((p = findPlayerInTeam(otherTeam,p) && p != other))
       {
         centerprint(p,"Your team has lost the lead\n");
       }
@@ -227,5 +228,6 @@ void() tdm_game_displayScore =
 		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\nYou need ", ftos(fraglimit - team_score)," more frags to win");
 	}
 }
+
 
 

@@ -1,0 +1,16 @@
+	local vector	dir;
+	local entity	old;
+	
+	makevectors (self.v_angle);
+	
+	if (self.ammo_nails <1) {
+		self.weapon=W_BestWeapon();
+		W_SetCurrentAmmo (); return;
+	}
+	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+	self.attack_finished=time + 0.2;
+	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
+	dir=aim(self, 1000);
+	launch_spike (self.origin + '0 0 16' + v_right*ox + v_up*ox2, dir); // sets spike direction
+
+	self.punchangle_x = -2;

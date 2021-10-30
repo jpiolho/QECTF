@@ -83,8 +83,9 @@ float() Entmod_PlayerPreThink =
 
 float() Entmod_PlayerPostThink =
 {
-    if(self.weapon != IT_SHOTGUN)
-        return TRUE;
+	if(self.weapon != IT_SHOTGUN) { return TRUE; }
+
+	return FALSE; // not sure about this but here to fix compiler warning
     
 }
 

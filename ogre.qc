@@ -89,7 +89,7 @@ OgreFireGrenade
 */
 void() OgreFireGrenade =
 {
-	local	entity missile, mpuff;
+	local	entity missile;
 	
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
@@ -246,7 +246,7 @@ void() ogre_smash9	=[	$smash9,		ogre_smash10 ] {ai_charge(13); chainsaw(0);};
 void() ogre_smash10	=[	$smash10,		ogre_smash11 ] {chainsaw(1);};
 void() ogre_smash11	=[	$smash11,		ogre_smash12 ] {ai_charge(2); chainsaw(0);
 self.nextthink = self.nextthink + random()*0.2;};	// slight variation
-void() ogre_smash12	=[	$smash12,		ogre_smash13 ] {ai_charge();};
+void() ogre_smash12	=[	$smash12,		ogre_smash13 ] {ai_charge(0);};
 void() ogre_smash13	=[	$smash13,		ogre_smash14 ] {ai_charge(4);};
 void() ogre_smash14	=[	$smash14,		ogre_run1	] {ai_charge(12);};
 
@@ -455,6 +455,53 @@ void() monster_ogre =
 void() monster_ogre_marksman =
 {
 	monster_ogre ();
+};
+
+// ------------------------------------------------
+void() create_robot =
+// ------------------------------------------------
+{
+
+local entity bot, spawn_spot;
+
+// start entity and place it in world 
+	bot = spawn();
+	spawn_spot = SelectSpawnPoint ();
+	bot.origin = spawn_spot.origin + '0 0 1';
+	bot.angles = spawn_spot.angles;
+	bot.fixangle = TRUE;	
+	spawn_tfog (bot.origin);
+	spawn_tdeath (bot.origin, bot);
+
+// set size and shape
+	setsize (bot, VEC_HULL2_MIN, VEC_HULL2_MAX);
+	bot.solid = SOLID_SLIDEBOX;
+	bot.movetype = MOVETYPE_STEP;
+	setmodel(bot, "progs/ogre.mdl");
+	bot.flags = bot.flags | FL_MONSTER;
+	bot.takedamage = DAMAGE_AIM;
+
+// define his animation
+	bot.th_stand = ogre_stand1;
+	bot.th_walk = ogre_walk1;
+	bot.th_run = ogre_run1;
+	bot.th_die = ogre_die;
+	bot.th_melee = ogre_melee;
+	bot.th_missile = ogre_nail1;
+	bot.th_pain = ogre_pain;
+	bot.health = 200;
+
+// polish him up
+	bot.classname = "monster_ogre";
+	bot.ideal_yaw = bot.angles * '0 1 0';
+	bot.yaw_speed = 120;
+	bot.view_ofs = '0 0 22';
+	bprint("an ogre joins the game\n");
+
+// begin his thinking
+	bot.nextthink = time + 0.1 + random();
+	bot.think = bot.th_walk;
+
 };
 
 
