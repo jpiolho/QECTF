@@ -703,6 +703,7 @@ void(vector destangle, float tspeed, void() func) SUB_CalcAngleMove;
 void()  SUB_CalcMoveDone;
 void() SUB_CalcAngleMoveDone;
 void() SUB_Null;
+void(entity attacker, float damage) SUB_Null2;
 void() SUB_UseTargets;
 void() SUB_Remove;
 

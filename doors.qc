@@ -578,7 +578,58 @@ void () fd_secret_use =
 	
 	if (!(self.spawnflags & SECRET_NO_SHOOT))
 	{
-		self.th_pain = SUB_Null; 
+		self.th_pain = SUB_Null2; 
+
+		self.takedamage = DAMAGE_NO;
+	}
+	self.velocity = '0 0 0';
+
+	// Make a sound, wait a little...
+	
+	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
+	self.nextthink = self.ltime + 0.1;
+
+	temp = 1 - (self.spawnflags & SECRET_1ST_LEFT);	// 1 or -1
+	makevectors(self.mangle);
+	
+	if (!self.t_width)
+	{
+		if (self.spawnflags & SECRET_1ST_DOWN)
+			self. t_width = fabs(v_up * self.size);
+		else
+			self. t_width = fabs(v_right * self.size);
+	}
+		
+	if (!self.t_length)
+		self. t_length = fabs(v_forward * self.size);
+
+	if (self.spawnflags & SECRET_1ST_DOWN)
+		self.dest1 = self.origin - v_up * self.t_width;
+	else
+		self.dest1 = self.origin + v_right * (self.t_width * temp);
+		
+	self.dest2 = self.dest1 + v_forward * self.t_length;
+	SUB_CalcMove(self.dest1, self.speed, fd_secret_move1);
+	sound(self, CHAN_VOICE, self.noise2, 1, ATTN_NORM);
+};
+
+void (entity attacker, float damage) fd_secret_use2 =
+{
+	local float temp;
+	
+	self.health = 10000;
+
+	// exit if still moving around...
+	if (self.origin != self.oldorigin)
+		return;
+	
+	self.message = string_null;		// no more message
+
+	SUB_UseTargets();				// fire all targets / killtargets
+	
+	if (!(self.spawnflags & SECRET_NO_SHOOT))
+	{
+		//self.th_pain = SUB_Null; 
 
 		self.takedamage = DAMAGE_NO;
 	}
@@ -666,7 +717,7 @@ void () fd_secret_done =
 	{
 		self.health = 10000;
 		self.takedamage = DAMAGE_YES;
-		self.th_pain = fd_secret_use; 
+		self.th_pain = fd_secret_use2; 
 
 	}
 	sound(self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
@@ -771,7 +822,7 @@ void () func_door_secret =
 	{
 		self.health = 10000;
 		self.takedamage = DAMAGE_YES;
-		self.th_pain = fd_secret_use;
+		self.th_pain = fd_secret_use2;
 		self.th_die = fd_secret_use;
 	}
 	self.oldorigin = self.origin;
