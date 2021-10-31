@@ -497,9 +497,6 @@ void() PutClientInServer =
 {
 	local	entity spot;
 
-	dprint("Player flags: ");
-    dprint(ftos(self.flags));
-    dprint("\n");
 
 	spot = SelectSpawnPoint ();
 
