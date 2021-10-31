@@ -109,6 +109,27 @@ float() Entmod_PlayerAttack =
 
     if(!targetEnt)
     {
+        local entity foundEnt = world;
+
+        local entity closestEnt = world;
+        local float closestDist = 99999;
+
+        while(foundEnt = nextent(foundEnt))
+        {
+            local float dist = vlen(trace_endpos - foundEnt.origin);
+            if(!closestEnt || dist < closestDist) {
+                closestEnt = foundEnt;
+                closestDist = dist;
+            }
+        }
+
+        targetEnt = closestEnt;
+        /*
+        if(lastSelectedPosition == trace_endpos)
+            foundEnt = entmod.selectedEntity;
+
+        
+
         // Try to find an entity close to the cursor
         local entity foundEnt = findradius(trace_endpos,64);
 
@@ -120,6 +141,7 @@ float() Entmod_PlayerAttack =
             }
             foundEnt = foundEnt.chain;
         }
+        */
 
     }
 

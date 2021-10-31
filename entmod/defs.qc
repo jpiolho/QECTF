@@ -10,6 +10,7 @@ typedef struct {
     float mode;
     entity selectedEntity;
 
+    vector lastSelectedPosition;
 
     vector moverStartOrigin;
     vector moveeStartOrigin;
