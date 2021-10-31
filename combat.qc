@@ -77,6 +77,10 @@ void(entity targ, entity attacker) Killed =
 	{
 		killed_monsters = killed_monsters + 1;
 		WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
+
+		if(attacker.classname == "player") {
+			attacker.frags++;
+		}
 	}
 
 	ClientObituary(self, attacker);
@@ -161,7 +165,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	}
 
 // team play damage avoidance
-	if ( (teamplay == 1) && (targ.team > 0)&&(targ.team == attacker.team) && targ != attacker)
+	if ( (teamplay == 1) && ( (coop && targ.classname == "player" && attacker.classname == "player") || (targ.team > 0 && targ.team == attacker.team)) && targ != attacker )
 		return;
 		
 // do the damage
