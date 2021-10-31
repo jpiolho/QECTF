@@ -17,6 +17,14 @@ void(entity p) ctf_player_removeFlag =
 
 void(entity player) ctf_player_autoAssignTeam =
 {
+    // Handle bots
+    if(ctf_isBot(player))
+    {
+        player.team = ctf_getBotTeam(player.netname);
+        return;
+    }
+
+
     local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
@@ -38,6 +46,8 @@ void() ctf_flag_returned =
 {
     // Move it back
     setorigin(self,self.oldorigin);
+    self.solid = SOLID_TRIGGER;
+    self.cnt = FFL_NONE;
 
     // Respawning sound
     sound(self, CHAN_VOICE,SOUND_RESPAWN,1,ATTN_NORM);
@@ -114,6 +124,8 @@ void() ctf_flag_pickup =
     // Hide itself
     self.oldorigin = self.origin;
     setorigin(self,'-9999 -9999 -9999');
+    self.solid = SOLID_NOT;
+    self.cnt = FFL_HIDDEN;
 }
 
 void() ctf_flag_capture() {

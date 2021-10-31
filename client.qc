@@ -928,12 +928,14 @@ void() PlayerPreThink =
 	local	float	mspeed, aspeed;
 	local	float	r;
 
-
 	if (intermission_running)
 	{
 		IntermissionThink ();	// otherwise a button could be missed between
 		return;					// the think tics
 	}
+
+	if (self.view_ofs == '0 0 0')
+		return;		// intermission or finale
 
 	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
 	{
@@ -941,10 +943,6 @@ void() PlayerPreThink =
 		
 		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 	}
-
-
-	if (self.view_ofs == '0 0 0')
-		return;		// intermission or finale
 
 	if(time >= self.state) {
 		self.state = time + 0.25;
@@ -993,6 +991,8 @@ void() PlayerPreThink =
 		W_SetCurrentAmmo ();
 	}
 
+
+	
 
 	if(entmod.active) {
 		Entmod_PlayerPreThink();
@@ -1171,6 +1171,7 @@ void() PlayerPostThink =
 
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
+
 	if (self.deadflag)
 		return;
 		
@@ -1213,9 +1214,16 @@ void() ClientConnect =
 {
 	ctf_player_autoAssignTeam(self);
 
-	bprint (self.netname);
-	bprint (" entered the game");
-	
+	if(ctf_isBot(self)) {
+		bprint("Bot '");
+		bprint(self.netname);
+		bprint("' entered the game");
+	}
+	else {
+		bprint (self.netname);
+		bprint (" entered the game");
+	}
+
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");
 	else if(self.team == TEAM_RED)

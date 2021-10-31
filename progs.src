@@ -6,6 +6,7 @@ math.qc
 
 ctf/defs.qc
 ctf/utils.qc
+ctf/bots.qc
 ctf/flags.qc
 
 entmod/defs.qc
