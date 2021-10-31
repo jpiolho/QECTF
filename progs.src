@@ -32,6 +32,7 @@ maps/dm3.qc
 maps/dm6.qc
 maps/dm7.qc
 maps/e3m6.qc
+maps/rogue_ctf1.qc
 maps.qc
 
 ogre.qc
@@ -54,4 +55,4 @@ oldone.qc		// registered
 entmod/entmod.qc
 entmod/commands.qc
 
-ctf/3wctf.qc
+ctf/compatibility.qc

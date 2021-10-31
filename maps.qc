@@ -4,13 +4,14 @@ void PopulateMap() =
     else if(mapname == "dm7") Populate_dm7();
     else if(mapname == "dm3") Populate_DM3();
     else if(mapname == "e3m6") Populate_e3m6();
+    else if(mapname == "ctf1") Populate_Rogue_ctf1();
 }
 
 void PostPopulateMap() {
     if(mapname == "dm6") PostPopulate_DM6();
     else if(mapname == "dm7") PostPopulate_dm7();
     else if(mapname == "dm3") PostPopulate_DM3();
-    else if(mapname == "e3m6") PostPopulate_e3m6();
+    else if(mapname == "ctf1") PostPopulate_Rogue_ctf1();
 }
 
 string(string title) GetMapName =
@@ -99,6 +100,10 @@ string(string title) GetMapName =
         return "Shub-Niggurath's Pit (QECTF)";
     } else if(mapname == "start" && title == "Introduction") {
         return "Introduction (QECTF)";
+    }
+    // Rogue
+    else if(mapname == "ctf1" && title == "Division of Change") {
+        return "Division of Change (QECTF)";
     }
 	
 	// Default

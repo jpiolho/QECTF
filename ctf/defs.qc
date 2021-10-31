@@ -1,3 +1,5 @@
+float ctf_compatibility;
+
 float TEAM_ALL = 0;
 float TEAM_BLUE = 14;
 float TEAM_RED = 5;
