@@ -176,7 +176,7 @@ void() misc_fireball =
 	self.nextthink = time + (random() * 5);
 	self.think = fire_fly;
 	if (!self.speed)
-		self.speed == 1000;
+		self.speed = 1000;
 };
 
 void() fire_fly =
@@ -444,7 +444,6 @@ void() bubble_remove =
 void() bubble_bob =
 {
 local float		rnd1, rnd2, rnd3;
-local vector	vtmp1, modi;
 
 	self.cnt = self.cnt + 1;
 	if (self.cnt == 4)

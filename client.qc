@@ -289,7 +289,6 @@ void() execute_changelevel =
 
 void() changelevel_touch =
 {
-	local entity	pos;
 
 	if (other.classname != "player")
 		return;
@@ -741,7 +740,6 @@ void() CheckRules =
 
 void() PlayerDeathThink =
 {
-	local entity	old_self;
 	local float		forward;
 
 	if ((self.flags & FL_ONGROUND))
@@ -776,7 +774,6 @@ void() PlayerDeathThink =
 
 void() PlayerJump =
 {
-	local vector start, end;
 	
 	if (self.flags & FL_WATERJUMP)
 		return;
@@ -948,8 +945,6 @@ Called every frame before physics are run
 */
 void() PlayerPreThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
 
 	if (intermission_running)
 	{
@@ -1206,8 +1201,6 @@ Called every frame after physics are run
 */
 void() PlayerPostThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
 
 	
 

@@ -379,7 +379,6 @@ void() bodyque =
 
 void() InitBodyQue =
 {
-	local entity	e;
 	
 	bodyque_head = spawn();
 	bodyque_head.classname = "bodyque";
