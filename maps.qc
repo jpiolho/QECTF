@@ -1,17 +1,28 @@
 void PopulateMap() =
 {
-    if(mapname == "dm6") Populate_DM6();
-    else if(mapname == "dm7") Populate_dm7();
-    else if(mapname == "dm3") Populate_DM3();
-    else if(mapname == "e3m6") Populate_e3m6();
-    else if(mapname == "ctf1") Populate_Rogue_ctf1();
+    switch(mapname) {
+        case "dm6": Populate_DM6(); break;
+        case "dm3": Populate_DM3(); break;
+        case "dm7": Populate_dm7(); break;
+        case "e3m6": Populate_e3m6(); break;
+
+        #ifdef ROGUE
+        case "ctf1": Populate_Rogue_ctf1(); break;
+        #endif
+    }
 }
 
 void PostPopulateMap() {
-    if(mapname == "dm6") PostPopulate_DM6();
-    else if(mapname == "dm7") PostPopulate_dm7();
-    else if(mapname == "dm3") PostPopulate_DM3();
-    else if(mapname == "ctf1") PostPopulate_Rogue_ctf1();
+    switch(mapname) {
+        case "dm6": PostPopulate_DM6(); break;
+        case "dm3": PostPopulate_DM3(); break;
+        case "dm7": PostPopulate_dm7(); break;
+        case "e3m6": PostPopulate_e3m6(); break;
+
+        #ifdef ROGUE
+        case "ctf1": PostPopulate_Rogue_ctf1(); break;
+        #endif
+    }
 }
 
 string(string title) GetMapName =
