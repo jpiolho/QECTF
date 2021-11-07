@@ -432,13 +432,16 @@ entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTelep
 	self = oself;
 }
 
-entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTeam) Maps_CreateTeleport =
+entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTeam,float effect) Maps_CreateTeleport =
 {
 	local entity ent = spawn();
 	ent.origin = entityOrigin;
 	ent.classname = "trigger_teleport";
 	ent.target = entityTarget;
 	ent.impulse = 1;
+
+	if(effect)
+		ent.spawnflags |= PARTICLE_EFFECT;
 
 	local entity oself = self;
 	self = ent;

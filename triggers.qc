@@ -277,6 +277,7 @@ TELEPORT TRIGGERS
 
 float	PLAYER_ONLY	= 1;
 float	SILENT = 2;
+float	PARTICLE_EFFECT = 4;
 
 void() play_teleport =
 {
@@ -443,6 +444,30 @@ void() teleport_use =
 	self.think = SUB_Null;
 };
 
+
+void() trigger_teleport_effect =
+{
+	local entity p;
+	while(p = find(p,classname,"player"))
+	{
+		if(self.team == TEAM_ALL || p.team == self.team) {
+			msg_entity = p;
+			WriteByte (MSG_ONE, SVC_TEMPENTITY);
+			WriteByte (MSG_ONE, TE_GUNSHOT);
+			WriteCoord (MSG_ONE, self.origin_x);
+			WriteCoord (MSG_ONE, self.origin_y);
+			WriteCoord (MSG_ONE, self.origin_z + self.cnt);
+		}
+	}
+
+
+	self.cnt += 4;
+	if(self.cnt > 16)
+		self.cnt = -8;
+
+	self.nextthink = time + 0.1;
+}
+
 /*QUAKED trigger_teleport (.5 .5 .5) ? PLAYER_ONLY SILENT
 Any object touching this will be transported to the corresponding info_teleport_destination entity. You must set the "target" field, and create an object with a "targetname" field that matches.
 
@@ -464,6 +489,13 @@ void() trigger_teleport =
 		precache_sound ("ambience/hum1.wav");
 		o = (self.mins + self.maxs)*0.5;
 		ambientsound (o, "ambience/hum1.wav",0.5 , ATTN_STATIC);
+	}
+
+
+	if(self.spawnflags & PARTICLE_EFFECT) {
+		self.cnt = 0;
+		self.think = trigger_teleport_effect;
+		self.nextthink = time + 0.1;
 	}
 };
 

@@ -24,13 +24,13 @@ void() Populate_e3m6 =
     Maps_CreateWall("*4",'439 -139 219'); // Top platform
 
     Maps_CreateTeleportDestination("tele_redbase",'709 -2422 509',180);
-    Maps_CreateTeleport("tele_redbase",'708 -2423 152',64,TEAM_RED);
+    Maps_CreateTeleport("tele_redbase",'708 -2423 152',64,TEAM_RED,TRUE);
 
 
     // Platform and teleport for RED bridge
     Maps_CreateWall("*7",'-512 -1327 -272','0 0 0');
     Maps_CreateTeleportDestination("tele_redbridge",'286 -3249 266',270);
-    Maps_CreateTeleport("tele_redbridge",'290 -3144 24',48,TEAM_ALL);
+    Maps_CreateTeleport("tele_redbridge",'290 -3144 24',48,TEAM_ALL,TRUE);
 
 
     Maps_TeamSpawn(TEAM_BLUE,'-1760 -608 104','0 0 0');
