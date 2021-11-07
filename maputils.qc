@@ -52,7 +52,7 @@ entity(string entityTarget) Maps_FindEntityByTarget =
 void(string entityClassname) Maps_RemoveEntitiesByClassname =
 {
 	local entity p = world;
-	while(p = find(p,classname,entityClassname))
+	while((p = find(p,classname,entityClassname)))
 	{
 		remove(p);	
 	}
@@ -61,7 +61,7 @@ void(string entityClassname) Maps_RemoveEntitiesByClassname =
 void(string entityTarget) Maps_RemoveEntitiesByTarget =
 {
 	local entity p = world;
-	while(p = find(p,target,entityTarget))
+	while((p = find(p,target,entityTarget)))
 	{
 		remove(p);	
 	}
@@ -70,7 +70,7 @@ void(string entityTarget) Maps_RemoveEntitiesByTarget =
 void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 {
 	local entity p = world;
-	while(p = find(p,targetname,entityTargetName))
+	while((p = find(p,targetname,entityTargetName)))
 	{
 		remove(p);	
 	}
@@ -79,11 +79,13 @@ void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameContainingPoint =
 {
 	local entity p = world;
-	while(p = find(p,classname,entityClassname))
+	while((p = find(p,classname,entityClassname)))
 	{
-		if(searchOrigin >= p.absmin && searchOrigin <= p.absmax)
+		if(searchOrigin_x >= p.absmin_x && searchOrigin_y >= p.absmin_y && searchOrigin_z >= p.absmin_z && searchOrigin_x <= p.absmax_x && searchOrigin_y <= p.absmax_y && searchOrigin.z <= p.absmax_z)
 			return p;
 	}
+
+	return world;
 }
 
 void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
@@ -402,9 +404,11 @@ entity(string entityModel,vector entityOrigin,vector entityAngles) Maps_CreateWa
 	self = oself;
 
 	ent.angles = entityAngles;
+
+	return ent;
 }
 
-entity(string entityModel,vector entityOriginStart,vector entityOriginEnd,vector entityAngles,float numberOfSteps) Maps_CreateStairs =
+void(string entityModel,vector entityOriginStart,vector entityOriginEnd,vector entityAngles,float numberOfSteps) Maps_CreateStairs =
 {
 	local float i;
 	local vector entityOrigin;
@@ -430,6 +434,8 @@ entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTelep
 	self = ent;
 	info_teleport_destination();
 	self = oself;
+
+	return ent;
 }
 
 entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTeam,float effect) Maps_CreateTeleport =
@@ -455,6 +461,8 @@ entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTea
 
 	setsize(ent,hullMin,hullMax);
 	ent.team = entityTeam;
+
+	return ent;
 }
 
 void(string nextLevel) Maps_SetNextLevel = 

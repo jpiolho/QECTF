@@ -81,11 +81,13 @@ float() Entmod_PlayerPreThink =
     return TRUE;
 }
 
+// Returns FALSE if overriding
 float() Entmod_PlayerPostThink =
 {
     if(self.weapon != IT_SHOTGUN)
         return TRUE;
     
+    return FALSE;
 }
 
 float() Entmod_PlayerAttack =
@@ -114,7 +116,7 @@ float() Entmod_PlayerAttack =
         local entity closestEnt = world;
         local float closestDist = 99999;
 
-        while(foundEnt = nextent(foundEnt))
+        while((foundEnt = nextent(foundEnt)))
         {
             local float dist = vlen(trace_endpos - foundEnt.origin);
             if(!closestEnt || dist < closestDist) {

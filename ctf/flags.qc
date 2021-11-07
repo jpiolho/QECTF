@@ -31,7 +31,7 @@ void(entity player) ctf_player_autoAssignTeam =
     local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
-	while(p = findPlayer(p))
+	while((p = findPlayer(p)))
 	{
 		if(p.team == TEAM_BLUE)
 			countBlue++;
@@ -69,14 +69,14 @@ void() ctf_flag_think_return =
 
     // Broadcast announcements
     local entity p = world;
-    while(p = findPlayerInTeam(self.team,p))
+    while((p = findPlayerInTeam(self.team,p)))
     {
         centerprint(p,"Your flag has returned\n");
         localsound(p,SOUND_RETURNED);
     }
 
     p = world;
-    while(p = findPlayerInTeam(otherTeam,p))
+    while((p = findPlayerInTeam(otherTeam,p)))
     {
         centerprint(p,"The enemy flag has returned\n");
         localsound(p,SOUND_RETURNED);
@@ -84,7 +84,7 @@ void() ctf_flag_think_return =
 
     // Find the old flag to return it
     p = world;
-    while(p = find(p,classname,"ctf_flag"))
+    while((p = find(p,classname,"ctf_flag")))
     {
         if(p != self && p.team == self.team)
         {
@@ -105,7 +105,7 @@ void() ctf_flag_pickup =
 
     // Broadcast announcements
     local entity p = world;
-    while(p = findPlayerInTeam(self.team,p))
+    while((p = findPlayerInTeam(self.team,p)))
     {
         sprint(p,"Your flag has been taken\n");
         centerprint(p,"Your flag has been taken\n");
@@ -113,11 +113,13 @@ void() ctf_flag_pickup =
     }
     
     p = world;
-    while(p = findPlayerInTeam(otherTeam,p) && p != other)
+    while((p = findPlayerInTeam(otherTeam,p)))
     {
-        sprint(p,"Your team has the flag\n");
-        centerprint(p,"Your team has the flag\n");
-        localsound(p,SOUND_PICKUP_OWN);
+        if(p != other) {
+            sprint(p,"Your team has the flag\n");
+            centerprint(p,"Your team has the flag\n");
+            localsound(p,SOUND_PICKUP_OWN);
+        }
     }
     
     sprint(other,"You have the flag!\n");
@@ -147,17 +149,19 @@ void() ctf_flag_capture() {
 
     // Broadcast announcements
     local entity p = world;
-    while(p = findPlayer(p) && p != other) {
-        if(p.team == self.team)
-        {
-            sprint(p,"Your team captured the flag!\n");
-            centerprint(p,"Your team captured the flag!\n");
-            localsound(p,SOUND_WIN);
-        }
-        else {
-            sprint(p,"The enemy team captured the flag\n");
-            centerprint(p,"The enemy team captured the flag\n");
-            localsound(p,SOUND_LOSE);
+    while((p = findPlayer(p))) {
+        if(p != other) {
+            if(p.team == self.team)
+            {
+                sprint(p,"Your team captured the flag!\n");
+                centerprint(p,"Your team captured the flag!\n");
+                localsound(p,SOUND_WIN);
+            }
+            else {
+                sprint(p,"The enemy team captured the flag\n");
+                centerprint(p,"The enemy team captured the flag\n");
+                localsound(p,SOUND_LOSE);
+            }
         }
     }
 
@@ -167,7 +171,7 @@ void() ctf_flag_capture() {
 
     // Find the other flag to return it
     p = world;
-    while(p = find(p,classname,"ctf_flag"))
+    while((p = find(p,classname,"ctf_flag")))
     {
         if(p != self && p.team != self.team)
         {
@@ -183,8 +187,9 @@ void() ctf_flag_capture() {
 
     // Add some frags for the whole team
     p = world;
-    while(p = findPlayerInTeam(self.team,p) && p != other) {
-        p.frags += 4;
+    while((p = findPlayerInTeam(self.team,p))) {
+        if(p != other)
+            p.frags += 4;
     }
 }
 
@@ -227,10 +232,12 @@ void() ctf_flag_dropped_touch =
 }
 
 
+#ifdef ROGUE
 void() ctf_base =
 {
     setmodel(self,MODEL_FLAG_BASE);
 }
+#endif
 
 void() ctf_flag_init =
 {
