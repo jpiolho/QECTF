@@ -4,6 +4,7 @@ alias "ent_print" "scratch1 1;impulse 80";
 alias "ent_copy" "scratch1 2;impulse 80";
 alias "ent_move" "scratch1 3;impulse 80";
 alias "ent_rotate" "scratch1 4;impulse 80";
+alias "ent_remove" "scratch1 5;impulse 80";
 */
 
 void() Entmod_Command_Activate =
@@ -90,6 +91,18 @@ void() Entmod_Command_Rotate =
 }
 
 
+void() Entmod_Command_Remove =
+{
+    if(!entmod.selectedEntity)
+        return Entmod_Error_NoEntitySelected();
+
+    sprint(self,"Entity removed\n");
+
+    remove(entmod.selectedEntity);
+
+    entmod.selectedEntity = world;
+}
+
 void() Entmod_HandleCommand =
 {
     // Only the host can do it
@@ -102,24 +115,15 @@ void() Entmod_HandleCommand =
         return;
     }
 
-    if(cvar("scratch1") == 0)
-    {
-        Entmod_Command_Deactivate();
+    local float scratch = cvar("scratch1");
+    switch(scratch) {
+        default: sprint(self,"Unknown entmod command\n"); break;
+        case 0: Entmod_Command_Deactivate(); break;
+        case 1: Entmod_Command_PrintEntity(); break;
+        case 2: Entmod_Command_Copy(); break;
+        case 3: Entmod_Command_GrabEntity(); break;
+        case 4: Entmod_Command_Rotate(); break;
+        case 5: Entmod_Command_Remove(); break;
     }
-    else if(cvar("scratch1") == 1)
-    {
-        Entmod_Command_PrintEntity();
-    }
-    else if(cvar("scratch1") == 2)
-    {
-        Entmod_Command_Copy();
-    }
-    else if(cvar("scratch1") == 3)
-    {
-        Entmod_Command_GrabEntity();
-    }
-    else if(cvar("scratch1") == 4)
-    {
-        Entmod_Command_Rotate();
-    }
+    
 }
