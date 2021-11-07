@@ -36,8 +36,12 @@ void(entity player) ctf_player_autoAssignTeam =
 			countRed++;
 	}
 
-    
-    player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
+    if(countBlue < countRed)
+        player.team = TEAM_BLUE;
+    else if(countRed < countBlue)
+        player.team = TEAM_RED;
+    else
+        player.team = random() >= 0.5 ? TEAM_BLUE : TEAM_RED;
 	
     if(player.team == TEAM_BLUE) player.cnt |= PEF_TEAM_BLUE;
     else if(player.team == TEAM_RED) player.cnt |= PEF_TEAM_RED;
