@@ -55,9 +55,9 @@ void(entity player) ctf_player_autoAssignTeam =
 void() ctf_flag_returned =
 {
     // Move it back
-    setorigin(self,self.oldorigin);
     self.solid = SOLID_TRIGGER;
     self.cnt = FFL_NONE;
+    setorigin(self,self.oldorigin);
 
     // Respawning sound
     sound(self, CHAN_VOICE,SOUND_RESPAWN,1,ATTN_NORM);
