@@ -23,6 +23,21 @@ void() Populate_e3m6 =
 
     Maps_CreateWall("*4",'439 -139 219','0 0 0'); // Top platform
 
+
+    // Anti-stuck walls at RED base pillars
+    /*
+    Maps_CreateWall("*61",'162 965 107','0 0 0');
+    Maps_CreateWall("*61",'191 965 107','0 0 0');
+    Maps_CreateWall("*61",'225 965 107','0 0 0');
+    Maps_CreateWall("*61",'-304 965 107','0 0 0');
+    Maps_CreateWall("*61",'-278 965 107','0 0 0');
+    Maps_CreateWall("*61",'-252 965 107','0 0 0');
+    */
+    Maps_CreateWall("*29",'1005 -40 428','0 0 0');
+    Maps_CreateWall("*29",'966 -40 428','0 0 0');
+    Maps_CreateWall("*29",'533 -40 428','0 0 0');
+    Maps_CreateWall("*29",'502 -40 428','0 0 0');
+
     Maps_CreateTeleportDestination("tele_redbase",'709 -2422 509',180);
     Maps_CreateTeleport("tele_redbase",'708 -2423 152','48 48 48',TEAM_RED,TRUE);
 
