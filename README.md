@@ -2,11 +2,16 @@
 Quake Enhanced Capture the Flag multiplayer mod
 
 ## What is it?
-This is a multiplayer deathmatch mod for Quake Enhanced that adds basic capture the flag gamemode.
+This is a multiplayer deathmatch mod for Quake Enhanced that adds capture the flag gamemodes.
 Only selected maps are supported. There is partial bot support.
+There is currently 2 gamemodes available: Default and Area Capture.
+
+Default is the vanilla CTF. 2 flags on each base, get the enemy flag and capture it on your own base.
+Area Capture plays like Canalzone. Each team has flags that they must take to capture areas around the map. When a team captures all the areas, they win the round.
+
 
 ## Bot support
-Bot support is partial. The bots do understand teams, however they cannot distinguish between team-owned flags / items.
+Bot support is partial. Currently only for Default gameplay. The bots do understand teams, however they cannot distinguish between team-owned flags / items.
 They will ocasionally capture the flag.
 
 ## How to install
@@ -38,6 +43,7 @@ When you change to mpmod, it sets the root folder to be Saved Games, so next tim
 ## Supported maps
 * dm3
 * dm6
+* e1m2 (Area Capture gamemode)
 * e3m6
 * ctf1 (Requires Dissolution of Eternity support)
 
@@ -48,6 +54,7 @@ Only one new entity is available:
 * ctf_flag
 
 Specify the "team" keyvalue on items, armor, spawns and flags to specify which team they belong to. trigger_teleport also supports it.
+Currently it's not possible to create an Area Capture map via entity replacement.
 
 ### Team IDs
 Red: 5
