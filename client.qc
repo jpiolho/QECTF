@@ -548,6 +548,32 @@ void() PutClientInServer =
 
 	self.state = time;
 
+
+	if(self.cnt & PEF_FIRST_SPAWN)
+	{	
+		self.cnt -= PEF_FIRST_SPAWN;
+	}
+	else
+	{
+		if(
+			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE)||
+			(self.cnt & PEF_TEAM_RED && self.team != TEAM_RED)
+		) {
+			dprint("Changed team\n");
+			self.cnt -= self.cnt & (PEF_TEAM_BLUE | PEF_TEAM_RED);
+
+			bprint(self.netname);
+			if(self.team == TEAM_BLUE) {
+				bprint(" changed to team blue\n");
+				self.cnt |= PEF_TEAM_BLUE;
+			} else if(self.team == TEAM_RED) {
+				bprint(" changed to team red\n");
+				self.cnt |= PEF_TEAM_RED;
+			}
+		}
+	}
+
+
 	player_stand1 ();
 	
 	if (deathmatch || coop)
@@ -936,17 +962,36 @@ void() PlayerPreThink =
 
 	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
 	{
-		self.cnt = PEF_SEEN_MESSAGE;
+		self.cnt |= PEF_SEEN_MESSAGE;
 		
 		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 	}
 
+
+	if(self.deadflag == DEAD_NO || self.deadflag == DEAD_DYING)
+	{
+		if((self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE) || (self.cnt & PEF_TEAM_RED && self.team != TEAM_RED))
+		{
+			if(self.cnt & PEF_TEAM_BLUE) self.team = TEAM_BLUE;
+			else if(self.cnt & PEF_TEAM_RED) self.team = TEAM_RED;
+			
+			// Enforce team color
+			stuffcmd(self,"color ");
+			stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
+			stuffcmd(self,"\n");
+		}
+	}
+
+	
+
 	if(time >= self.state) {
 		self.state = time + 0.25;
 
+		/*
 		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
 			ctf_player_autoAssignTeam(self);
 		}
+		*/
 
 		// Enforce team color
 		stuffcmd(self,"color ");
@@ -1222,12 +1267,14 @@ void() ClientConnect =
 	}
 
 	if(self.team == TEAM_BLUE)
-	bprint(" as team blue");
+		bprint(" as team blue");
 	else if(self.team == TEAM_RED)
-	bprint(" as team red");
+		bprint(" as team red");
 	
 	bprint("\n");
 	
+	self.cnt |= PEF_FIRST_SPAWN;
+
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();

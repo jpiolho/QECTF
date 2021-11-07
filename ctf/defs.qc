@@ -16,4 +16,7 @@ float FFL_HIDDEN = 1 << 0;
 float FFL_BOT_HIDDEN = 1 << 1;
 
 float PEF_SEEN_MESSAGE = 1;
+float PEF_TEAM_BLUE = 2;
+float PEF_TEAM_RED = 4;
+float PEF_FIRST_SPAWN = 8;
 

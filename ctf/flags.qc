@@ -39,6 +39,9 @@ void(entity player) ctf_player_autoAssignTeam =
     
     player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
 	
+    if(player.team == TEAM_BLUE) player.cnt |= PEF_TEAM_BLUE;
+    else if(player.team == TEAM_RED) player.cnt |= PEF_TEAM_RED;
+
 	//player.team = countRed <= countBlue ? TEAM_RED : TEAM_BLUE;
 }
 
