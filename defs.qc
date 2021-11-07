@@ -158,9 +158,7 @@ void		end_sys_globals;		// flag for structure dumping
 
 .float		fixangle;
 .vector		v_angle;		// view / targeting angle for players
-#ifndef ROGUE
 .float		idealpitch;		// calculated pitch angle for lookup up slopes
-#endif
 
 .string		netname;
 
@@ -297,10 +295,19 @@ float	IT_ROCKET_LAUNCHER		= 32;
 float	IT_LIGHTNING			= 64;
 float	IT_EXTRA_WEAPON			= 128;
 
+#ifdef ROGUE
+float	IT_SHELLS				= 128;
+float	IT_NAILS				= 256;
+float	IT_ROCKETS				= 512;
+float	IT_CELLS				= 1024;
+
+#else
+
 float	IT_SHELLS				= 256;
 float	IT_NAILS				= 512;
 float	IT_ROCKETS				= 1024;
 float	IT_CELLS				= 2048;
+#endif
 
 float	IT_ARMOR1				= 8192;
 float	IT_ARMOR2				= 16384;
@@ -314,6 +321,14 @@ float	IT_INVISIBILITY			= 524288;
 float	IT_INVULNERABILITY		= 1048576;
 float	IT_SUIT					= 2097152;
 float	IT_QUAD					= 4194304;
+
+
+
+#ifdef ROGUE
+float	IT2_ARMOR1			= 1;
+float	IT2_ARMOR2			= 2;
+float	IT2_ARMOR3			= 4;
+#endif
 
 // point content values
 
@@ -393,6 +408,13 @@ float	MSG_BROADCAST	= 0;		// unreliable to all
 float	MSG_ONE			= 1;		// reliable to one (msg_entity)
 float	MSG_ALL			= 2;		// reliable to all
 float	MSG_INIT		= 3;		// write to the init string
+
+#ifdef ROGUE
+.float items2;
+.float ammo_shells1,ammo_nails1,ammo_rockets1,ammo_cells1;
+.float ammo_lava_nails,ammo_multi_rockets,ammo_plasma;
+.float gravity;
+#endif
 
 //================================================
 

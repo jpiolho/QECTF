@@ -8,6 +8,9 @@ const string SOUND_PICKUP_ENEMY = "ogre/ogwake.wav";
 const string SOUND_RESPAWN = "items/itembk2.wav";
 const string SOUND_RETURNED = "misc/trigger1.wav";
 
+const string MODEL_FLAG_BASE = "progs/ctfbase.mdl";
+const string MODEL_FLAG_ROGUE = "progs/ctfmodel.mdl";
+
 
 void(entity p) ctf_player_removeFlag =
 {
@@ -224,16 +227,33 @@ void() ctf_flag_dropped_touch =
 }
 
 
+void() ctf_base =
+{
+    setmodel(self,MODEL_FLAG_BASE);
+}
+
 void() ctf_flag_init =
 {
     if(self.team == TEAM_BLUE)
     {
         setmodel (self, "progs/b_s_key.mdl");
+
+        #ifdef ROGUE
+        setmodel( self, MODEL_FLAG_ROGUE);
+        self.skin = 1;
+        #endif
+
         self.netname = "Blue key";
     }
     else if(self.team == TEAM_RED)
     {
         setmodel (self, "progs/b_g_key.mdl");
+
+        #ifdef ROGUE
+        setmodel( self, MODEL_FLAG_ROGUE);
+        self.skin = 0;
+        #endif
+
         self.netname = "Red key";
     }
 
@@ -259,9 +279,31 @@ void() ctf_flag =
     precache_model("progs/b_s_key.mdl");
     precache_model("progs/b_g_key.mdl");
 
+    #ifdef ROGUE
+    precache_model(MODEL_FLAG_ROGUE);
+    precache_model(MODEL_FLAG_BASE);
+    #endif
+
     ctf_flag_init();
 
     droptofloor();
+
+    #ifdef ROGUE
+
+    // Fix for the flag model floating
+    self.origin -= '0 0 8'; 
+    setsize(self,'-16 -16 24','16 16 48');
+
+    local entity base = spawn();
+
+    base.origin = self.origin - '0 0 16';
+    base.skin = self.skin;
+    base.classname = "ctf_base";
+
+    self = base;
+    ctf_base();
+
+    #endif
 }
 
 void() ctf_flag_dropped =
@@ -282,6 +324,7 @@ void() ctf_flag_dropped =
     }
     */
 }
+
 
 
 

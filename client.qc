@@ -91,6 +91,15 @@ void() DecodeLevelParms =
 	self.ammo_cells = parm7;
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
+	
+
+	#ifdef ROGUE
+	self.items2 = 0;
+
+	if(self.items & IT_ARMOR1) self.items2 |= IT2_ARMOR1;
+	if(self.items & IT_ARMOR2) self.items2 |= IT2_ARMOR2;
+	if(self.items & IT_ARMOR3) self.items2 |= IT2_ARMOR3;
+	#endif
 };
 
 /*

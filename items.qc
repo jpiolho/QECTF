@@ -245,7 +245,11 @@ void() armor_touch;
 void() armor_touch =
 {
 	local	float	type, value, bit;
-	
+
+	#ifdef ROGUE
+	local	float	roguebit;
+	#endif
+
 	if (other.health <= 0)
 		return;
 	if (other.classname != "player")
@@ -262,18 +266,30 @@ void() armor_touch =
 		type = 0.3;
 		value = 100;
 		bit = IT_ARMOR1;
+
+		#ifdef ROGUE
+		roguebit = 1;
+		#endif
 	}
 	if (self.classname == "item_armor2")
 	{
 		type = 0.6;
 		value = 150;
 		bit = IT_ARMOR2;
+
+		#ifdef ROGUE
+		roguebit = 2;
+		#endif
 	}
 	if (self.classname == "item_armorInv")
 	{
 		type = 0.8;
 		value = 200;
 		bit = IT_ARMOR3;
+
+		#ifdef ROGUE
+		roguebit = 4;
+		#endif
 	}
 	if (other.armortype*other.armorvalue >= type*value)
 		return;
@@ -281,6 +297,11 @@ void() armor_touch =
 	other.armortype = type;
 	other.armorvalue = value;
 	other.items = other.items - (other.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + bit;
+
+	#ifdef ROGUE
+	other.items2 = other.items2 - (other.items2 & (IT2_ARMOR1 | IT2_ARMOR2 | IT2_ARMOR3)) + roguebit;
+	#endif
+
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;

@@ -128,6 +128,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		save = targ.armorvalue;
 		targ.armortype = 0;	// lost all armor
 		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+
+		#ifdef ROGUE
+		targ.items2 -= targ.items2 & (IT2_ARMOR1 | IT2_ARMOR2 | IT2_ARMOR3);
+		#endif
 	}
 	
 	targ.armorvalue = targ.armorvalue - save;
