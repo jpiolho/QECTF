@@ -508,6 +508,31 @@ void() PutClientInServer =
 	local	entity spot;
 
 
+	if(self.cnt & PEF_FIRST_SPAWN)
+	{	
+		self.cnt -= PEF_FIRST_SPAWN;
+	}
+	else
+	{
+		if(
+			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE)||
+			(self.cnt & PEF_TEAM_RED && self.team != TEAM_RED)
+		) {
+			dprint("Changed team\n");
+			self.cnt -= self.cnt & (PEF_TEAM_BLUE | PEF_TEAM_RED);
+
+			bprint(self.netname);
+			if(self.team == TEAM_BLUE) {
+				bprint(" changed to team blue\n");
+				self.cnt |= PEF_TEAM_BLUE;
+			} else if(self.team == TEAM_RED) {
+				bprint(" changed to team red\n");
+				self.cnt |= PEF_TEAM_RED;
+			}
+		}
+	}
+
+
 	spot = SelectSpawnPoint ();
 
 	self.classname = "player";
@@ -559,30 +584,7 @@ void() PutClientInServer =
 	self.state = time;
 
 
-	if(self.cnt & PEF_FIRST_SPAWN)
-	{	
-		self.cnt -= PEF_FIRST_SPAWN;
-	}
-	else
-	{
-		if(
-			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE)||
-			(self.cnt & PEF_TEAM_RED && self.team != TEAM_RED)
-		) {
-			dprint("Changed team\n");
-			self.cnt -= self.cnt & (PEF_TEAM_BLUE | PEF_TEAM_RED);
-
-			bprint(self.netname);
-			if(self.team == TEAM_BLUE) {
-				bprint(" changed to team blue\n");
-				self.cnt |= PEF_TEAM_BLUE;
-			} else if(self.team == TEAM_RED) {
-				bprint(" changed to team red\n");
-				self.cnt |= PEF_TEAM_RED;
-			}
-		}
-	}
-
+	
 
 	player_stand1 ();
 	
@@ -1002,7 +1004,7 @@ void() PlayerPreThink =
 
 		// Enforce team color
 		stuffcmd(self,"color ");
-		stuffcmd(self,ftos(self.cnt & PEF_TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
+		stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
 		stuffcmd(self,"\n");
 	}
 
