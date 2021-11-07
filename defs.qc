@@ -158,8 +158,9 @@ void		end_sys_globals;		// flag for structure dumping
 
 .float		fixangle;
 .vector		v_angle;		// view / targeting angle for players
+#ifndef ROGUE
 .float		idealpitch;		// calculated pitch angle for lookup up slopes
-
+#endif
 
 .string		netname;
 
