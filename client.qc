@@ -359,12 +359,13 @@ void() trigger_changelevel =
 void() set_suicide_frame;
 
 // called by ClientKill and DeadThink
-void() respawn =
+void(float leaveBody) respawn =
 {
 	if (coop)
 	{
 		// make a copy of the dead body for appearances sake
-		CopyToBodyQue (self);
+		if(leaveBody)
+			CopyToBodyQue (self);
 		// get the spawn parms as they were at level start
 		setspawnparms (self);
 		// respawn		
@@ -373,7 +374,8 @@ void() respawn =
 	else if (deathmatch)
 	{
 		// make a copy of the dead body for appearances sake
-		CopyToBodyQue (self);
+		if(leaveBody)
+			CopyToBodyQue (self);
 		// set default spawn parms
 		SetNewParms ();
 		// respawn		
@@ -404,7 +406,7 @@ void() ClientKill =
 	if(self.items & (IT_KEY1 | IT_KEY2))
 		ctf_DropFlag();
 
-	respawn ();
+	respawn (TRUE);
 };
 
 float(vector v) CheckSpawnPoint =
@@ -777,7 +779,7 @@ void() PlayerDeathThink =
 	self.button0 = 0;
 	self.button1 = 0;
 	self.button2 = 0;
-	respawn();
+	respawn(TRUE);
 };
 
 
@@ -971,6 +973,7 @@ void() PlayerPreThink =
 		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 	}
 
+	
 
 	if(self.deadflag == DEAD_NO || self.deadflag == DEAD_DYING)
 	{
@@ -999,7 +1002,7 @@ void() PlayerPreThink =
 
 		// Enforce team color
 		stuffcmd(self,"color ");
-		stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
+		stuffcmd(self,ftos(self.cnt & PEF_TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
 		stuffcmd(self,"\n");
 	}
 

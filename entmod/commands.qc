@@ -60,7 +60,7 @@ void() Entmod_Command_Copy =
 
     
     local string targetClass = entmod.selectedEntity.classname;
-    if(targetClass == "func_wall" || targetClass == "func_plat" || targetClass == "func_door" || targetClass == "func_button")
+    if(targetClass == "func_wall" || targetClass == "func_plat" || targetClass == "func_door" || targetClass == "func_button" || targetClass == "train")
     {
         local entity newEnt = spawn();
         newEnt.origin = entmod.selectedEntity.origin;

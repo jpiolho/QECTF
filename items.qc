@@ -448,6 +448,12 @@ void() weapon_touch =
 		return;
 	}
 
+	if(ctf_gamemode & GAMEMODE_AREA_CAPTURE && ctf_doesPlayerHaveFlag(other))
+	{
+		centerprint(other,"You can't carry more weapons when carrying the flag\n");
+		return;
+	}
+
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;

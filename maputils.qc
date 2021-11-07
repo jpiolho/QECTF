@@ -49,6 +49,13 @@ entity(string entityTarget) Maps_FindEntityByTarget =
 	return find(world,target,entityTarget);
 }
 
+entity(string entityModel) Maps_RemoveEntitiesByModel =
+{
+	local entity p = world;
+	while((p = find(p,model,entityModel)))
+		remove(p);
+}
+
 void(string entityClassname) Maps_RemoveEntitiesByClassname =
 {
 	local entity p = world;
@@ -478,4 +485,18 @@ void(string nextLevel) Maps_SetNextLevel =
 	self = oself;
 
 	setorigin(ent,'-9999 9999 -9999');
+}
+
+entity(string areaName,vector entityOrigin) Maps_CreateFlagBase =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+	ent.message = areaName;
+
+	local entity oself = self;
+	self = ent;
+	ctf_base();
+	self = oself;
+
+	return ent;
 }

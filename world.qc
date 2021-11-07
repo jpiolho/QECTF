@@ -2,8 +2,6 @@
 void() InitBodyQue;
 void() FirstFrame;
 
-void() PopulateMap;
-void() PostPopulateMap;
 string(string title) GetMapName;
 
 void() main =
@@ -181,6 +179,7 @@ void() worldspawn =
 
 	InitBodyQue ();
 
+	ctf_precache();
 	PopulateMap();
 
 	cvar_set("teamplay","1");

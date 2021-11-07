@@ -8,6 +8,8 @@ void() PostPopulate_DM3 =
 
 void() Populate_DM3 =
 {
+    ctf_gamemode = GAMEMODE_DEFAULT;
+    
     Maps_CleanEntities();
     Maps_SetNextLevel("dm6");
 

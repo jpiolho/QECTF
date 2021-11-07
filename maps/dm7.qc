@@ -6,6 +6,8 @@ void() PostPopulate_dm7 =
 }
 void() Populate_dm7 =
 {
+    ctf_gamemode = GAMEMODE_DEFAULT;
+    
     Maps_CleanEntities();
     Maps_SetNextLevel("e3m6");
 

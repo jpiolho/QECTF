@@ -11,5 +11,5 @@ void() PostPopulate_Rogue_ctf1 =
 
 void() Populate_Rogue_ctf1 =
 {
-
+    ctf_gamemode = GAMEMODE_DEFAULT;
 }

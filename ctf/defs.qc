@@ -1,4 +1,13 @@
 float ctf_compatibility;
+float ctf_gamemode;
+
+float ctf_gameflags;
+
+
+float GAMEMODE_DEFAULT = 0;
+float GAMEMODE_AREA_CAPTURE = 1;
+
+float GF_FINISHED = 1;
 
 float TEAM_ALL = 0;
 float TEAM_BLUE = 14;

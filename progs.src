@@ -5,6 +5,7 @@ subs.qc
 math.qc
 
 ctf/defs.qc
+ctf/subs.qc
 ctf/utils.qc
 ctf/bots.qc
 ctf/flags.qc
@@ -32,6 +33,7 @@ maputils.qc
 maps/dm3.qc
 maps/dm6.qc
 maps/dm7.qc
+maps/e1m2.qc
 maps/e3m6.qc
 maps/rogue_ctf1.qc
 maps.qc
