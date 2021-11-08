@@ -11,19 +11,9 @@
             "group": "build"
         },
         {
-            "label": "compile with rogue support",
-            "type": "shell",
-            "command": "fteqcc64 -DROGUE",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        },
-        {
             "label": "compile and package as pak0.pak",
             "type": "shell",
-            "command": "fteqcc64 -DROGUE; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak0.pak",
+            "command": "fteqcc64; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak0.pak",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -33,11 +23,21 @@
         {
             "label": "compile and package as pak1.pak",
             "type": "shell",
-            "command": "fteqcc64 -DROGUE; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak",
+            "command": "fteqcc64; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "compile with rogue support",
+            "type": "shell",
+            "command": "fteqcc64 -DROGUE",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         },
         {
