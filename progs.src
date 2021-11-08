@@ -27,18 +27,6 @@ triggers.qc
 plats.qc
 misc.qc
 
-
-
-maputils.qc
-maps/dm3.qc
-maps/dm6.qc
-maps/dm7.qc
-maps/e1m2.qc
-maps/e1m7.qc
-maps/e3m6.qc
-maps/rogue_ctf1.qc
-maps.qc
-
 ogre.qc
 demon.qc
 shambler.qc
@@ -55,6 +43,16 @@ fish.qc			// registered
 shalrath.qc		// registered
 enforcer.qc		// registered
 oldone.qc		// registered
+
+maputils.qc
+maps/dm3.qc
+maps/dm6.qc
+maps/dm7.qc
+maps/e1m2.qc
+maps/e1m7.qc
+maps/e3m6.qc
+maps/rogue_ctf1.qc
+maps.qc
 
 entmod/entmod.qc
 entmod/commands.qc

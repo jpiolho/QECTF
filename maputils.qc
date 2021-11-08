@@ -49,6 +49,11 @@ entity(string entityTarget) Maps_FindEntityByTarget =
 	return find(world,target,entityTarget);
 }
 
+entity(string entityModel) Maps_FindEntityByModel =
+{
+	return find(world,model,entityModel);
+}
+
 entity(string entityModel) Maps_RemoveEntitiesByModel =
 {
 	local entity p = world;
