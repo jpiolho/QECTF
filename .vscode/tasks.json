@@ -1,0 +1,54 @@
+{
+    // Grab fteqcc64 @ https://sourceforge.net/projects/fteqw/files/FTEQCC/fteqcc64.exe/download
+    // and qpakman @ http://glbsp.sourceforge.net/files/qpakman-062b.zip to use these tasks
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "fteqcc64",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "compile with rogue support",
+            "type": "shell",
+            "command": "fteqcc64 -DROGUE",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "compile and package as pak0.pak",
+            "type": "shell",
+            "command": "fteqcc64 -DROGUE; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak0.pak",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "compile and package as pak1.pak",
+            "type": "shell",
+            "command": "fteqcc64 -DROGUE; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "compile and package with rogue support as pak1.pak",
+            "type": "shell",
+            "command": "fteqcc64 -DROGUE; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}

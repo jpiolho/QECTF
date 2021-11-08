@@ -1,4 +1,6 @@
 *.exe
-error.log
-fteqcc.log
-.vscode/*
+*.pak
+*.log
+progs.*
+# This is just a copy for packaging, don't edit it
+mapdb.json

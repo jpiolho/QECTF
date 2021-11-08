@@ -16,7 +16,7 @@
 
 3. Switch to shotgun to select entities
 
-4.  Use commands to inspect and mess with stuff
+4. Use commands to inspect and mess with stuff
 
     ent_print
     ent_copy
