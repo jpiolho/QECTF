@@ -1,3 +1,4 @@
 *.exe
 error.log
 fteqcc.log
+.vscode/*
