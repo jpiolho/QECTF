@@ -11,6 +11,16 @@
             "group": "build"
         },
         {
+            "label": "compile and copy progs.dat to Saved Games\\Nightdive Studios\\Quake\\id1",
+            "type": "shell",
+            "command": "fteqcc64; cp build/progs.dat $Env:homepath/Saved` Games/Nightdive` Studios/Quake/id1/",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "compile and package as pak0.pak",
             "type": "shell",
             "command": "fteqcc64; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak0.pak",
@@ -25,10 +35,7 @@
             "type": "shell",
             "command": "fteqcc64; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak",
             "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "compile with rogue support",
