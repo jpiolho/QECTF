@@ -1,12 +1,7 @@
 void() PostPopulate_e1m7 =
 {
-    // Bridge button
+    // Remove bridge button since bridge is made permanent
     Maps_RemoveEntitiesByModel("*16");
-    // Piston-lowering buttons
-    // Maps_RemoveEntitiesByModel("*17");
-    // Maps_RemoveEntitiesByModel("*21");
-    // Lightning button
-    // Maps_RemoveEntitiesByModel("*13");
 }
 void() Populate_e1m7 =
 {
@@ -19,12 +14,11 @@ void() Populate_e1m7 =
     Maps_CreateTeleportDestination("tele_exit",'800 65 24', 180);
     Maps_CreateTeleport("tele_exit",'1020 55 -1050','48 48 48',TEAM_ALL,TRUE);
 
-    // Make exit bridge permanent (not a button)
+    // Make bridge permanent (not a button)
     Maps_CreateWall("*8",'0 0 0','0 0 0');
     Maps_CreateWall("*9",'0 0 0','0 0 0');
 
     // Blocking columns in middle
-    // Maps_CreateWall("*10",'0    0 -64','0 0 0');
     Maps_CreateWall("*10",'0  -72 -96','0 0 0');
     Maps_CreateWall("*10",'0  -72 224','0 0 0');
     Maps_CreateWall("*10",'0 -144 -128','0 0 0');
@@ -35,39 +29,39 @@ void() Populate_e1m7 =
     Maps_CreateWall("*11",'0  144 192','0 0 0');
     Maps_CreateWall("*11",'0   72 -96','0 0 0');
     Maps_CreateWall("*11",'0   72 224','0 0 0');
-    // Maps_CreateWall("*11",'0    0 -64','0 0 0');
 
-    // Stairs to spawn platforms
-    // Maps_CreateStairs("*2",'0 0 0','0 64 -64','0 0 0',4);
-    // Maps_CreateStairs("*3",'0 0 0','0 64 -64','0 0 0',4);
-    // Maps_CreateStairs("*4",'0 0 0','0 -64 -64','0 0 0',4);
-    // Maps_CreateStairs("*5",'0 0 0','0 -64 -64','0 0 0',4);
+    // Stairs to red base
+    Maps_CreateStairs("*3",'-192 64 -64','-48 64 -208','0 0 0',9);
+    Maps_CreateStairs("*4",'-192 -64 -64','-48 -64 -208','0 0 0',9);
 
-    // Stairs to base?
-    // Maps_CreateWall("*3",'-256 64 -64','0 0 0');
-    // Maps_CreateWall("*3",'-128 64 -256','0 0 0');
-    // Maps_CreateStairs("*3",'-256 64 -64','-128 64 -256','0 0 0',16);
+    // Stairs to blue base
+    Maps_CreateStairs("*2",'232 0 -80','104 0 -208','0 0 0',8);
+    Maps_CreateStairs("*5",'232 0 -80','104 0 -208','0 0 0',8);
 
+    // Lava Platforms
     Maps_CreateWall("*3",'232 200 -128','0 0 0');
-    Maps_CreateWall("*3",'232 200 -224','0 0 0');
+    Maps_CreateWall("*3",'232 200 -240','0 0 0');
+    Maps_CreateWall("*3",'160 200 -240','0 0 0');
+    Maps_CreateWall("*3",'288 200 -240','0 0 0');
     Maps_CreateWall("*4",'232 -200 -128','0 0 0');
-    Maps_CreateWall("*4",'232 -200 -224','0 0 0');
+    Maps_CreateWall("*4",'160 -200 -240','0 0 0');
+    Maps_CreateWall("*4",'288 -200 -240','0 0 0');
 
     // Flags
     Maps_SpawnTeamKey(TEAM_BLUE,'1024 64 216');
     Maps_SpawnTeamKey(TEAM_RED, '-256 64 232');
 
     // Blue Team Spawns
-    Maps_TeamSpawn(TEAM_BLUE,' 1024  385  -8','0 180 0');
-    Maps_TeamSpawn(TEAM_BLUE,' 1024 -255  -8','0 180 0');
     Maps_TeamSpawn(TEAM_BLUE,' 1024  350 216','0 180 0');
+    Maps_TeamSpawn(TEAM_BLUE,' 1024 -255  -8','0 180 0');
     Maps_TeamSpawn(TEAM_BLUE,' 1024 -230 216','0 180 0');
+    Maps_TeamSpawn(TEAM_BLUE,' 1024  385  -8','0 180 0');
 
     // Red Team Spawns
-    Maps_TeamSpawn(TEAM_RED,'-256 -255  56','0 0 0');
-    Maps_TeamSpawn(TEAM_RED,'-256  385  56','0 0 0');
     Maps_TeamSpawn(TEAM_RED,'-256 -230 232','0 0 0');
+    Maps_TeamSpawn(TEAM_RED,'-256  385  56','0 0 0');
     Maps_TeamSpawn(TEAM_RED,'-256  350 232','0 0 0');
+    Maps_TeamSpawn(TEAM_RED,'-256 -255  56','0 0 0');
 
     // Upper sides
     Maps_SpawnItemRockets(TEAM_ALL,TRUE,     '315 -310 216');
@@ -91,7 +85,7 @@ void() Populate_e1m7 =
     Maps_SpawnItemCells(TEAM_ALL,TRUE,'-60 30 8');
     Maps_SpawnWeaponLightning(TEAM_ALL,'-15 65 8');
     Maps_SpawnItemCells(TEAM_ALL,TRUE,'-60 70 8');
-    
+
     // Blue forward (bridge)
     Maps_SpawnItemCells(TEAM_ALL,TRUE, '720 70 24');
     Maps_SpawnWeaponLightning(TEAM_ALL,'695 65 24');
@@ -101,12 +95,12 @@ void() Populate_e1m7 =
     Maps_SpawnArmor2(TEAM_ALL,'1225 65 -8');
     Maps_SpawnArmor2(TEAM_ALL,'-440 65 56');
 
-    // Red and Mega on ledges
-    Maps_SpawnArmorInv(TEAM_ALL,  '705 -355 280');
-    Maps_SpawnHealthMega(TEAM_ALL,'108 -375 280');
-    Maps_SpawnArmorInv(TEAM_ALL,  '128 485  280');
-    Maps_SpawnHealthMega(TEAM_ALL,'685 465  280');
-    
+    // Red and Mega on Lava Platforms
+    Maps_SpawnArmorInv(TEAM_ALL,  '360 -150  56');
+    Maps_SpawnHealthMega(TEAM_ALL,'340 -170 152');
+    Maps_SpawnArmorInv(TEAM_ALL,  '360  280  56');
+    Maps_SpawnHealthMega(TEAM_ALL,'340  260 152');
+
     // Red lower base
     Maps_SpawnHealth(TEAM_RED,'-270  270 56');
     Maps_SpawnArmor1(TEAM_RED,'-250  215 56');
