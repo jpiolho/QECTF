@@ -182,7 +182,7 @@ void() worldspawn =
 	ctf_precache();
 	PopulateMap();
 
-	cvar_set("teamplay","1");
+	cvar_set("teamplay","2");
 
 // custom map attributes
 	if (self.model == "maps/e1m8.bsp")
