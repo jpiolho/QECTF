@@ -2,6 +2,12 @@ void() PostPopulate_e1m7 =
 {
     // Remove bridge button since bridge is made permanent
     Maps_RemoveEntitiesByModel("*16");
+
+    // Remove deathmatch spawn platforms
+    Maps_RemoveEntityByClassnameContainingPoint("func_wall",'64   448 240');
+    Maps_RemoveEntityByClassnameContainingPoint("func_wall",'64  -384 240');
+    Maps_RemoveEntityByClassnameContainingPoint("func_wall",'640 -384 240');
+    Maps_RemoveEntityByClassnameContainingPoint("func_wall",'640  448 240');
 }
 void() Populate_e1m7 =
 {
@@ -148,4 +154,20 @@ void() Populate_e1m7 =
     Maps_SpawnItemSpikes(TEAM_ALL,TRUE,  '750 -10 -1063');
     Maps_SpawnWeaponNailgun(TEAM_ALL,     '910 80 -1063');
     Maps_SpawnWeaponSuperNailgun(TEAM_ALL,'910 25 -1063');
+
+    // Decorations way up high to show side colors
+    Maps_SpawnArmorInv(TEAM_ALL,  '250 -128  528');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250  -88  600');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250  -16  600');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250   64  600');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250  136  600');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250  208  600');
+    Maps_SpawnArmorInv(TEAM_ALL,  '250  248  528');
+    Maps_SpawnArmor1(TEAM_ALL,    '455 -128  528');
+    Maps_SpawnArmor1(TEAM_ALL,    '455  -88  600');
+    Maps_SpawnArmor1(TEAM_ALL,    '455  -16  600');
+    Maps_SpawnArmor1(TEAM_ALL,    '455   64  600');
+    Maps_SpawnArmor1(TEAM_ALL,    '455  136  600');
+    Maps_SpawnArmor1(TEAM_ALL,    '455  208  600');
+    Maps_SpawnArmor1(TEAM_ALL,    '455  248  528');
 }

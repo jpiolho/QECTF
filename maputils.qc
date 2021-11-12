@@ -88,6 +88,16 @@ void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 	}
 }
 
+void(string entityClassname,vector searchOrigin) Maps_RemoveEntityByClassnameContainingPoint =
+{
+	local entity p = world;
+	while((p = find(p,classname,entityClassname)))
+	{
+		if(searchOrigin_x >= p.absmin_x && searchOrigin_y >= p.absmin_y && searchOrigin_z >= p.absmin_z && searchOrigin_x <= p.absmax_x && searchOrigin_y <= p.absmax_y && searchOrigin.z <= p.absmax_z)
+			remove(p);
+	}
+}
+
 entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameContainingPoint =
 {
 	local entity p = world;
