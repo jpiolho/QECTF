@@ -7,6 +7,10 @@
 		{
 		  "dir": "rogue",
 		  "name": "$m_dissolution"
+		},
+		{
+		  "dir": "mg1",
+		  "name": "$m_mg1"
 		}
 	],
 	"maps": [
@@ -68,6 +72,16 @@
 		  "dm": true,
 		  "coop": false,
 		  "bots": true,
+		  "sp": false
+		},
+		{
+		  "title": "The Mustard Factory",
+		  "bsp": "mgdm3",
+		  "episode": "mg1",
+		  "game": "mg1",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
 		  "sp": false
 		}
 	]

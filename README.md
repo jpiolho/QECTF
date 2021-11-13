@@ -47,6 +47,7 @@ When you change to mpmod, it sets the root folder to be Saved Games, so next tim
 * e1m7
 * e3m6
 * ctf1 (Requires Dissolution of Eternity support)
+* mgdm3 (Requires Dimension of the Machine support)
 
 ## Adding map support
 You can do this by doing simple entity replacements in the maps, or coding it directly into the code. The latter is how the supported maps were added.

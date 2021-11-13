@@ -15,6 +15,13 @@
             "type": "shell",
             "command": "fteqcc64; cp build/progs.dat $Env:homepath/Saved` Games/Nightdive` Studios/Quake/id1/",
             "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "compile and copy pak1.pak to Saved Games\\Nightdive Studios\\Quake\\mg1",
+            "type": "shell",
+            "command": "fteqcc64; cp mapdb.json build/; cd build; qpakman progs.dat mapdb.json -o pak1.pak; cp pak1.pak $Env:homepath/Saved` Games/Nightdive` Studios/Quake/mg1/",
+            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
