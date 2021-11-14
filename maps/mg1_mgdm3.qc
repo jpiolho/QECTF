@@ -13,12 +13,12 @@ void() PostPopulate_mgdm3 =
     // t7 = red bottom duct (from blue box left)
     // t8 = center bottom duct (from blue box right, red box right)
     
-    // Base bottom teleports
+    // Remove base bottom teleports
     Maps_RemoveEntitiesByTarget("t2");
     Maps_RemoveEntitiesByTarget("t5");
-
-    // Replace with something else?
-    // Maps_FindEntityByClassnameContainingPoint("trigger_teleport",'1027 -1095 7').target = "t2"; // Teleporter from middle to rocket
+    
+    // Remove teleport to quad room
+    Maps_RemoveEntitiesByTarget("t4");
     
     // Remove duct teleports
     Maps_RemoveEntitiesByTarget("t6");
@@ -36,15 +36,15 @@ void() Populate_mgdm3 =
     // Maps_CreateWall("*4",'0 0 224','0 0 0');
 
     // Lava bridge
-    // Maps_CreateWall("*11",'0 0 0','0 0 0');
+    Maps_CreateWall("*11",'0 0 56','0 0 0');
 
     // Blue side grate
-    Maps_CreateWall("*66",'0 0 384','0 0 0');
-    Maps_CreateWall("*66",'0 0 680','0 0 0');
+    Maps_CreateWall("*66",'0 0 384','0 0 180');
+    Maps_CreateWall("*66",'0 0 640','0 0 0');
 
     // Red side grate
-    Maps_CreateWall("*67",'-128 0 384','0 0 0');
-    Maps_CreateWall("*67",'-128 0 680','0 0 0');
+    Maps_CreateWall("*67",'-128 0 384','0 0 180');
+    Maps_CreateWall("*67",'-128 0 640','0 0 0');
 
     // Flags
     Maps_SpawnTeamKey(TEAM_BLUE,'-675 0 380');
