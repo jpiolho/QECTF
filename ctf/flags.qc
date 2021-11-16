@@ -21,7 +21,7 @@ const string MODEL_FLAG_ROGUE = "progs/ctfmodel.mdl";
 const string MODEL_FLAG_BLUE = "progs/b_s_key.mdl";
 const string MODEL_FLAG_RED = "progs/b_g_key.mdl";
 const string MODEL_FLAG_BASE = "progs/flame2.mdl";
-const string MODEL_FLAG_BASE_2 = "progs/teleport.mdl"
+const string MODEL_FLAG_BASE_2 = "progs/teleport.mdl";
 #endif
 
 
@@ -353,7 +353,7 @@ void() ctf_flag_pickup_areacapture =
     self.cnt = FFL_HIDDEN;
 }
 
-void() ctf_flag_capture() {
+void() ctf_flag_capture {
 
     stuffcmd(other,"bf\n");
 
@@ -555,7 +555,7 @@ void() ctf_base =
 
 
     local vector traceEnd = self.origin - '0 0 9999';
-    traceline(self.origin,traceEnd);
+    traceline(self.origin,traceEnd, TRUE, self);
 
     if(trace_fraction == 1.0)
     {

@@ -448,7 +448,7 @@ void() teleport_use =
 void() trigger_teleport_effect =
 {
 	local entity p;
-	while(p = find(p,classname,"player"))
+	while((p = find(p,classname,"player")))
 	{
 		if(self.team == TEAM_ALL || p.team == self.team) {
 			msg_entity = p;
