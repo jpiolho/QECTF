@@ -1,4 +1,4 @@
-#define ShowModName 0
+#define ShowModName 1
 #define ModName "QECTF"
 
 
