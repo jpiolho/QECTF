@@ -83,8 +83,10 @@ string(string title) GetMapName =
     DefineMap("end","Shub-Niggurath's Pit")
     DefineMap("start","Introduction")
 
+    #ifdef ROGUE
     // Rogue
     DefineMap("ctf1","Division of Change")
+    #endif
 
     #endif
 	
