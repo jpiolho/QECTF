@@ -102,8 +102,8 @@ string(string title) GetMapName =
     DefineMap("mgdm3","The Mustard Factory")
 
     #endif
-	
+
 	// Default
 	return title;
-	
+
 }
