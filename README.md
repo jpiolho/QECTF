@@ -44,6 +44,7 @@ When you change to mpmod, it sets the root folder to be Saved Games, so next tim
 * dm3
 * dm6
 * e1m2 (Area Capture gamemode)
+* e1m7
 * e3m6
 * ctf1 (Requires Dissolution of Eternity support)
 
