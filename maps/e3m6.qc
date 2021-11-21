@@ -13,7 +13,7 @@ void() Populate_e3m6 =
     ctf_gamemode = GAMEMODE_DEFAULT;
     
     Maps_CleanEntities();
-    Maps_SetNextLevel("dm3");
+    Maps_SetNextLevel("test/mals_combatbox");
 
     // Platform for spawns at RED base
     Maps_CreateWall("*7",'-370 -896 -144','0 0 0');

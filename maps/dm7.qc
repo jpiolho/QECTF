@@ -9,7 +9,7 @@ void() Populate_dm7 =
     ctf_gamemode = GAMEMODE_DEFAULT;
     
     Maps_CleanEntities();
-    Maps_SetNextLevel("e3m6");
+    Maps_SetNextLevel("e1m2");
 
     // Platforms to reach blue key
     Maps_CreateStairs("*5",'-1490 -586 -260','-1490 -566 -297','0 0 0',3); // Upstairs

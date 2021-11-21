@@ -14,7 +14,7 @@ void() Populate_e1m7 =
     // General stuff
     ctf_gamemode = GAMEMODE_DEFAULT;
     Maps_CleanEntities();
-    Maps_SetNextLevel("dm3");
+    Maps_SetNextLevel("e3m6");
 
     // Level exit teleports back up
     Maps_CreateTeleportDestination("tele_exit",'800 65 24', 180);
