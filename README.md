@@ -46,6 +46,7 @@ When you change to mpmod, it sets the root folder to be Saved Games, so next tim
 * e1m2 (Area Capture gamemode)
 * e1m7
 * e3m6
+* test/mals_combatbox
 * ctf1 (Requires Dissolution of Eternity support)
 * mgdm3 (Requires Dimension of the Machine support)
 
@@ -64,3 +65,4 @@ Blue: 14
 
 ## Credits
 JPiolho: Author
+Ceekay: e1m7, mgdm3 and code contributions
