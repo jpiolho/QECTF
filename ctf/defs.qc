@@ -25,3 +25,5 @@ float PEF_TEAM_BLUE = 2;
 float PEF_TEAM_RED = 4;
 float PEF_FIRST_SPAWN = 8;
 
+
+float IT_TRANSLOCATOR = 256;

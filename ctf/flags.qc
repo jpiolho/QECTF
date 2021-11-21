@@ -51,6 +51,9 @@ void() ctf_precache =
     precache_model(MODEL_FLAG_BASE);
     precache_model(MODEL_FLAG_BASE_2);
     #endif
+
+
+    precache_model("progs/laser.mdl");
 }
 
 

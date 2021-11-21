@@ -762,6 +762,10 @@ void() W_SetCurrentAmmo =
 		self.weaponmodel = "progs/v_axe.mdl";
 		self.weaponframe = 0;
 	}
+	else if(self.weapon == IT_TRANSLOCATOR)
+	{
+		W_SetTranslocatorAmmo();
+	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
 		self.currentammo = self.ammo_shells;
@@ -843,7 +847,7 @@ float() W_CheckNoAmmo =
 	if (self.currentammo > 0)
 		return TRUE;
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
 		return TRUE;
 	
 	self.weapon = W_BestWeapon ();
@@ -869,6 +873,7 @@ void()	player_shot1;
 void()	player_nail1;
 void()	player_light1;
 void()	player_rocket1;
+void()  player_translocator1;
 
 void() W_Attack =
 {
@@ -892,6 +897,12 @@ void() W_Attack =
 			player_axec1 ();
 		else
 			player_axed1 ();
+		self.attack_finished = time + 0.5;
+	}
+	else if(self.weapon == IT_TRANSLOCATOR) 
+	{
+		player_translocator1();
+		W_FireTranslocator();
 		self.attack_finished = time + 0.5;
 	}
 	else if (self.weapon == IT_SHOTGUN)
@@ -933,6 +944,12 @@ void() W_Attack =
 		sound (self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
 	}
 };
+
+
+void(float weaponItem) W_WeaponSelected = 
+{
+	
+}
 
 /*
 ============
@@ -1011,7 +1028,26 @@ void() W_ChangeWeapon =
 //
 // set weapon, set ammo
 //
-	self.weapon = fl;		
+	if(fl == IT_AXE)
+	{
+		if(self.weapon == IT_AXE)
+		{
+			self.weapon = IT_TRANSLOCATOR;
+			sprint(self,"Translocator selected.\n");
+		}
+		else if(self.weapon == IT_TRANSLOCATOR)
+		{
+			self.weapon = IT_AXE;
+			sprint(self,"Axe selected.\n");
+		}
+		else 
+		{
+			self.weapon = IT_AXE;
+		}
+	}
+	else {
+		self.weapon = fl;		
+	}
 	W_SetCurrentAmmo ();
 };
 
@@ -1068,7 +1104,7 @@ void() CycleWeaponCommand =
 		{
 			self.weapon = IT_AXE;
 		}
-		else if (self.weapon == IT_AXE)
+		else if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
 		{
 			self.weapon = IT_SHOTGUN;
 			if (self.ammo_shells < 1)
@@ -1177,6 +1213,11 @@ void() CycleWeaponReverseCommand =
 		else if (self.weapon == IT_SHOTGUN)
 		{
 			self.weapon = IT_AXE;
+		}
+		else if(self.weapon == IT_TRANSLOCATOR)
+		{
+			self.weapon = IT_AXE;
+			sprint(self,"Axe selected.\n");
 		}
 		else if (self.weapon == IT_AXE)
 		{

@@ -9,6 +9,7 @@ ctf/subs.qc
 ctf/utils.qc
 ctf/bots.qc
 ctf/flags.qc
+ctf/weapons.qc
 
 entmod/defs.qc
 
