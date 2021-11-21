@@ -15,6 +15,8 @@ void PopulateMap() =
         case "e1m7": Populate_e1m7(); break;
         case "e3m6": Populate_e3m6(); break;
 
+        case "mgdm3": Populate_mgdm3(); break;
+
         #ifdef ROGUE
         case "ctf1": Populate_Rogue_ctf1(); break;
         #endif
@@ -29,6 +31,8 @@ void PostPopulateMap() {
         case "e1m2": PostPopulate_e1m2(); break;
         case "e1m7": PostPopulate_e1m7(); break;
         case "e3m6": PostPopulate_e3m6(); break;
+
+        case "mgdm3": PostPopulate_mgdm3(); break;
 
         #ifdef ROGUE
         case "ctf1": PostPopulate_Rogue_ctf1(); break;
@@ -89,6 +93,8 @@ string(string title) GetMapName =
     // Rogue
     DefineMap("ctf1","Division of Change")
     #endif
+
+    DefineMap("mgdm3","The Mustard Factory")
 
     #endif
 	
