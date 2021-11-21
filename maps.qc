@@ -4,6 +4,7 @@
 
 #define FirstDefineMap(_bspname,_maptitle) if(mapname == ##_bspname && title == ##_maptitle) { return ##_maptitle" ("ModName")"; }
 #define DefineMap(_bspname,_maptitle) else FirstDefineMap(_bspname,_maptitle)
+#define OverrideDefineMap(_bspname,_maptitle) else if(mapname == ##_bspname) { return ##_maptitle" ("ModName")"; }
 
 void PopulateMap() =
 {
@@ -12,7 +13,11 @@ void PopulateMap() =
         case "dm3": Populate_DM3(); break;
         case "dm7": Populate_dm7(); break;
         case "e1m2": Populate_e1m2(); break;
+        case "e1m7": Populate_e1m7(); break;
         case "e3m6": Populate_e3m6(); break;
+        case "test/mals_combatbox": Populate_Mals_Combatbox(); break;
+
+        case "mgdm3": Populate_mgdm3(); break;
 
         #ifdef ROGUE
         case "ctf1": Populate_Rogue_ctf1(); break;
@@ -26,7 +31,11 @@ void PostPopulateMap() {
         case "dm3": PostPopulate_DM3(); break;
         case "dm7": PostPopulate_dm7(); break;
         case "e1m2": PostPopulate_e1m2(); break;
+        case "e1m7": PostPopulate_e1m7(); break;
         case "e3m6": PostPopulate_e3m6(); break;
+        case "test/mals_combatbox": PostPopulate_Mals_Combatbox(); break;
+
+        case "mgdm3": PostPopulate_mgdm3(); break;
 
         #ifdef ROGUE
         case "ctf1": PostPopulate_Rogue_ctf1(); break;
@@ -83,14 +92,18 @@ string(string title) GetMapName =
     DefineMap("end","Shub-Niggurath's Pit")
     DefineMap("start","Introduction")
 
+    OverrideDefineMap("test/mals_combatbox","Mal's Combatbox")
+
     #ifdef ROGUE
     // Rogue
     DefineMap("ctf1","Division of Change")
     #endif
 
+    DefineMap("mgdm3","The Mustard Factory")
+
     #endif
-	
+
 	// Default
 	return title;
-	
+
 }

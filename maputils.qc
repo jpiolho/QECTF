@@ -49,6 +49,11 @@ entity(string entityTarget) Maps_FindEntityByTarget =
 	return find(world,target,entityTarget);
 }
 
+entity(string entityModel) Maps_FindEntityByModel =
+{
+	return find(world,model,entityModel);
+}
+
 void(string entityModel) Maps_RemoveEntitiesByModel =
 {
 	local entity p = world;
@@ -80,6 +85,16 @@ void(string entityTargetName) Maps_RemoveEntitiesByTargetName =
 	while((p = find(p,targetname,entityTargetName)))
 	{
 		remove(p);	
+	}
+}
+
+void(string entityClassname,vector searchOrigin) Maps_RemoveEntityByClassnameContainingPoint =
+{
+	local entity p = world;
+	while((p = find(p,classname,entityClassname)))
+	{
+		if(searchOrigin_x >= p.absmin_x && searchOrigin_y >= p.absmin_y && searchOrigin_z >= p.absmin_z && searchOrigin_x <= p.absmax_x && searchOrigin_y <= p.absmax_y && searchOrigin.z <= p.absmax_z)
+			remove(p);
 	}
 }
 

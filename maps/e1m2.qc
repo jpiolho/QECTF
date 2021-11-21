@@ -28,7 +28,7 @@ void() Populate_e1m2 =
     ctf_gamemode = GAMEMODE_AREA_CAPTURE;
 
     Maps_CleanEntities();
-    Maps_SetNextLevel("e3m6");
+    Maps_SetNextLevel("e1m7");
 
     
     // Blue spawn
