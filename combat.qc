@@ -120,6 +120,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	if (attacker.super_damage_finished > time)
 		damage = damage * 4;
 
+// teamplay 2 damage avoidance
+	if ( (teamplay == 2) && ( (coop && targ.classname == "player" && attacker.classname == "player") || (targ.team > 0 && targ.team == attacker.team)) && targ != attacker )
+	return;
+
 // save damage based on the target's armor level
 
 	save = ceil(targ.armortype*damage);
