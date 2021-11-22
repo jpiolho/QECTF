@@ -48,38 +48,136 @@ void() TranslocatorTouch =
 
 vector(entity translocator) ctf_findTranslocatorSpot =
 {
-    local vector spots[] = { '0 0 32', '32 0 32', '-32 0 32', '0 32 32','0 -32 32', '0 0 -24','24 24 32','-24 24 32','-24 -24 32','24 -24 32' };
+    local vector spots[] = { 
+        '0 0 32', '32 0 32', '-32 0 32', '0 32 32','0 -32 32', '24 24 32','-24 24 32','-24 -24 32','24 -24 32',
+        '0 0 -24', '32 0 -24', '-32 0 -24', '0 32 -24','0 -32 -24', '24 24 -24','-24 24 -24','-24 -24 -24','24 -24 -24',
+    };
 
     local float i;
     for(i=0;i<spots.length;i++) {
-        // Find available teleport spot
-        local entity tester = spawn();
+        local vector testOrigin = translocator.origin + spots[i];
+        local vector spot = spots[i];
+        
+        // Drop to floor a little
+        local vector down = testOrigin;
+        down_z -= 32;
+        traceline(testOrigin,down,FALSE,self);
 
-        tester.movetype = MOVETYPE_STEP;
-        tester.solid = SOLID_BBOX;
-
-        setsize (tester, VEC_HULL_MIN, VEC_HULL_MAX);
-        setorigin(tester,translocator.origin + spots[i]);
+        if(trace_fraction < 1.0)
+            testOrigin = trace_endpos;
 
 
-        local entity oself = self;
-        self = tester;
+        // Add all the bbox corners for testing
+        local vector corners[8];
+        local float x;
 
-        droptofloor();
-        local float walkMoveResult = walkmove(0,0);
+        corners[0] = testOrigin + VEC_HULL_MIN;
+        
+        local vector corner = testOrigin;
+        corner_x += VEC_HULL_MIN_x;
+        corner_y += VEC_HULL_MAX_y;
+        corner_z += VEC_HULL_MIN_z;
+        corners[1] = corner;
 
-        self = oself;
+        corner = testOrigin;
+        corner_x += VEC_HULL_MAX_x;
+        corner_y += VEC_HULL_MAX_y;
+        corner_z += VEC_HULL_MIN_z;
+        corners[2] = corner;
 
-        if(walkMoveResult)
-        {
-            local vector result = tester.origin;
+        corner = testOrigin;
+        corner_x += VEC_HULL_MAX_x;
+        corner_y += VEC_HULL_MIN_y;
+        corner_z += VEC_HULL_MIN_z;
+        corners[3] = corner;
 
-            remove(tester);
+        corner = testOrigin;
+        corner_x += VEC_HULL_MAX_x;
+        corner_y += VEC_HULL_MIN_y;
+        corner_z += VEC_HULL_MAX_z;
+        corners[4] = corner;
 
-            return result;
+        corner = testOrigin;
+        corner_x += VEC_HULL_MIN_x;
+        corner_y += VEC_HULL_MIN_y;
+        corner_z += VEC_HULL_MAX_z;
+        corners[5] = corner;
+
+        corner = testOrigin;
+        corner_x += VEC_HULL_MIN_x;
+        corner_y += VEC_HULL_MAX_y;
+        corner_z += VEC_HULL_MAX_z;
+        corners[6] = corner;
+
+        corners[7] = testOrigin + VEC_HULL_MAX;
+
+        local float valid = TRUE;
+        for(x=0;x<corners.length;x++) {
+            corner = corners[x];
+            local float contents = pointcontents(corner);
+
+            if(contents != CONTENT_EMPTY && contents != CONTENT_SKY) {
+                valid = FALSE;
+                break;
+            }
         }
 
-        remove(tester);
+        if(valid) {
+            traceline(corners[0],corners[1],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+    
+            traceline(corners[1],corners[2],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+    
+            traceline(corners[1],corners[2],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[2],corners[3],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[3],corners[0],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[3],corners[4],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+    
+            traceline(corners[0],corners[5],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[1],corners[6],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+            
+            traceline(corners[2],corners[7],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[4],corners[5],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[5],corners[6],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            traceline(corners[6],corners[7],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+            
+            traceline(corners[7],corners[4],FALSE,self);
+            if(trace_fraction < 1.0)
+                continue;
+
+            return testOrigin;
+        }
+        
     }
 
     return INVALID_LOCATION;
@@ -123,6 +221,8 @@ void() TranslocatorLanded =
     
 }
 
+
+
 void() TranslocatorThink =
 {
     if(self.count >= 0)
@@ -138,9 +238,18 @@ void() TranslocatorThink =
             self.count = 0;
         }
 
+        if(time >= self.cnt)
+        {
+            particle(self.origin,self.velocity * 0.1,self.owner.cnt & PEF_TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,6);
+            self.cnt = time + 0.1;
+        }
+
         self.nextthink = time;
     }
     else {
+
+        particle(self.origin,self.velocity * 0.1,self.owner.cnt & PEF_TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,16);
+
         sound (self, CHAN_VOICE, "weapons/tink1.wav", 1, ATTN_STATIC);
         self.nextthink = time + 1.0;
     }
@@ -256,12 +365,12 @@ void() W_FireTranslocator =
 	makevectors (self.v_angle);
 
 	if (self.v_angle_x)
-		translocator.velocity = v_forward*800 + v_up * 100 + crandom()*v_right*10 + crandom()*v_up*10;
+		translocator.velocity = v_forward*700 + v_up * 100 + crandom()*v_right*10 + crandom()*v_up*10;
 	else
 	{
 		translocator.velocity = aim(self, 10000);
-		translocator.velocity = translocator.velocity * 800;
-		translocator.velocity_z = 100;
+		translocator.velocity = translocator.velocity * 700;
+		translocator.velocity_z = 500;
 	}
 
 	translocator.avelocity = '300 300 300';

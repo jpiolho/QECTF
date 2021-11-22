@@ -351,7 +351,7 @@ entity(float entityTeam,vector entityOrigin) Maps_SpawnArmorInv =
 	ent.origin = entityOrigin;
 	ent.impulse = 1;
 	ent.team = entityTeam;
-	ent.classname = "item_armorinv";
+	ent.classname = "item_armorInv";
 
 	local entity oself = self;
 	self = ent;

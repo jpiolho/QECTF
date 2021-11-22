@@ -54,6 +54,12 @@ void() ctf_precache =
 
 
     precache_model("progs/laser.mdl");
+
+
+    precache_model ("progs/wizard.mdl");
+	precache_model ("progs/h_wizard.mdl");
+	precache_model ("progs/w_spike.mdl");
+
 }
 
 
