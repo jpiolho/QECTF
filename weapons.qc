@@ -765,6 +765,14 @@ void() W_SetCurrentAmmo =
 	else if(self.weapon == IT_TRANSLOCATOR)
 	{
 		W_SetTranslocatorAmmo();
+		self.weaponmodel = MODEL_WEAPON_TRANSLOCATOR;
+    	self.weaponframe = 0;
+	}
+	else if(self.weapon == IT_HOOK) 
+	{
+		self.currentammo = 0;
+		self.weaponmodel = MODEL_WEAPON_HOOK;
+		self.weaponframe = 0;
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
@@ -847,7 +855,7 @@ float() W_CheckNoAmmo =
 	if (self.currentammo > 0)
 		return TRUE;
 
-	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 		return TRUE;
 
 	self.weapon = W_BestWeapon ();
@@ -874,6 +882,9 @@ void()	player_nail1;
 void()	player_light1;
 void()	player_rocket1;
 void()  player_translocator1;
+
+void()  player_chain1;
+void()  player_chain3;
 
 void() W_Attack =
 {
@@ -904,6 +915,13 @@ void() W_Attack =
 		player_translocator1();
 		W_FireTranslocator();
 		self.attack_finished = time + 0.5;
+	}
+	else if(self.weapon == IT_HOOK) {
+		if (!self.hook_out)
+			player_chain1();
+		else
+			player_chain3();
+		self.attack_finished = time + 0.1;
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
@@ -1037,6 +1055,11 @@ void() W_ChangeWeapon =
 		}
 		else if(self.weapon == IT_TRANSLOCATOR)
 		{
+			self.weapon = IT_HOOK;
+			sprint(self,"Hook selected.\n");
+		}
+		else if(self.weapon == IT_HOOK)
+		{
 			self.weapon = IT_AXE;
 			sprint(self,"Axe selected.\n");
 		}
@@ -1104,7 +1127,7 @@ void() CycleWeaponCommand =
 		{
 			self.weapon = IT_AXE;
 		}
-		else if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+		else if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 		{
 			self.weapon = IT_SHOTGUN;
 			if (self.ammo_shells < 1)
@@ -1214,7 +1237,7 @@ void() CycleWeaponReverseCommand =
 		{
 			self.weapon = IT_AXE;
 		}
-		else if(self.weapon == IT_TRANSLOCATOR)
+		else if(self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 		{
 			self.weapon = IT_AXE;
 			sprint(self,"Axe selected.\n");

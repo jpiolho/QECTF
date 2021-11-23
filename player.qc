@@ -98,7 +98,7 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		if (self.walkframe >= 12)
 			self.walkframe = 0;
@@ -123,7 +123,7 @@ void()	player_run =[	$rockrun1,	player_run	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		if (self.walkframe == 6)
 			self.walkframe = 0;
@@ -347,7 +347,7 @@ void() player_pain =
 	if (self.invisible_finished > time)
 		return;		// eyes don't have pain frames
 
-	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 		player_axpain1 ();
 	else
 		player_pain1 ();
@@ -566,7 +566,7 @@ void() PlayerDie =
 	self.angles_x = 0;
 	self.angles_z = 0;
 
-	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		player_die_ax1 ();
 		return;
@@ -668,3 +668,45 @@ void()	player_die_ax6	=	[	$axdeth6,	player_die_ax7	] {};
 void()	player_die_ax7	=	[	$axdeth7,	player_die_ax8	] {};
 void()	player_die_ax8	=	[	$axdeth8,	player_die_ax9	] {};
 void()	player_die_ax9	=	[	$axdeth9,	player_die_ax9	] {PlayerDead();};
+
+
+
+// Forward references
+void() player_chain5;
+void() player_chain4;
+
+void()  player_chain1=  [$axattd1, player_chain2 ] {self.weaponframe=2;};
+void()  player_chain2=  [$axattd2, player_chain3 ] {self.weaponframe=3;W_FireChain();};
+void()  player_chain3=  [$axattd3, player_chain3 ]
+{
+        self.weaponframe=3;
+        if (!self.hook_out)
+        {
+                player_chain5();
+                return;
+        }
+        if (vlen(self.velocity) >= 750)
+        {
+                player_chain4();
+                return;
+        }
+};
+
+void() player_chain4=  [$deathc4, player_chain4 ]
+{
+        self.weaponframe=4;
+        if (!self.hook_out)
+        {
+                player_chain5();
+                return;
+        }
+        if (vlen(self.velocity) < 750)
+        {
+                player_chain3();
+                return;
+        }
+};
+
+void()  player_chain5=  [$axattd4, player_run    ] {self.weaponframe=5;};
+
+

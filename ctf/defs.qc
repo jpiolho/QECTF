@@ -30,3 +30,4 @@ float COLORMAP_BLUE = 47;
 float COLORMAP_RED = 225;
 
 float IT_TRANSLOCATOR = 256;
+float IT_HOOK = 512;

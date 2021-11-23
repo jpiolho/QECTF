@@ -292,9 +292,6 @@ void(entity who) ctf_deleteTranslocatorFromOwner =
 
 void() W_SetTranslocatorAmmo =
 {
-    self.weaponmodel = "progs/v_axe.mdl";
-    self.weaponframe = 0;
-    
     self.currentammo = ctf_findOwnerTranslocator(self) ? 0 : 1;
 }
 
@@ -388,7 +385,7 @@ void() W_FireTranslocator =
 	translocator.think = TranslocatorThink;
     translocator.count = 0;
 
-	setmodel (translocator, "progs/laser.mdl");
+	setmodel (translocator, MODEL_TRANSLOCATOR);
 	setsize (translocator, '0 0 0', '0 0 0');		
 	setorigin (translocator, self.origin);
     

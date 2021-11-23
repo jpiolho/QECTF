@@ -13,15 +13,24 @@ const string SOUND_RESPAWN = "items/itembk2.wav";
 const string SOUND_RETURNED = "misc/trigger1.wav";
 const string SOUND_CAPTURED_BASE = "misc/runekey.wav";
 const string SOUND_CAPTURED_BASE_OWN = "doors/meduse.wav";
+const string SOUND_HOOK_ATTACK = "hknight/hit.wav";
+
+const string MODEL_HOOK_HEAD = "progs/v_spike.mdl";
+const string MODEL_HOOK_SPIKE = "progs/s_spike.mdl";
+const string MODEL_TRANSLOCATOR = "progs/laser.mdl";
 
 #ifdef ROGUE
 const string MODEL_FLAG_BASE_ROGUE = "progs/ctfbase.mdl";
 const string MODEL_FLAG_ROGUE = "progs/ctfmodel.mdl";
+const string MODEL_WEAPON_HOOK = "progs/v_star.mdl";
+const string MODEL_WEAPON_TRANSLOCATOR = "progs/v_grpple.mdl";
 #else
 const string MODEL_FLAG_BLUE = "progs/b_s_key.mdl";
 const string MODEL_FLAG_RED = "progs/b_g_key.mdl";
 const string MODEL_FLAG_BASE = "progs/flame2.mdl";
 const string MODEL_FLAG_BASE_2 = "progs/teleport.mdl";
+const string MODEL_WEAPON_HOOK = "progs/v_axe.mdl";
+const string MODEL_WEAPON_TRANSLOCATOR = "progs/v_axe.mdl";
 #endif
 
 
@@ -41,6 +50,7 @@ void() ctf_precache =
     precache_sound(SOUND_RETURNED);
     precache_sound(SOUND_CAPTURED_BASE);
     precache_sound(SOUND_CAPTURED_BASE_OWN);
+    precache_sound(SOUND_HOOK_ATTACK);
 
     #ifdef ROGUE
     precache_model(MODEL_FLAG_ROGUE);
@@ -52,14 +62,10 @@ void() ctf_precache =
     precache_model(MODEL_FLAG_BASE_2);
     #endif
 
-
-    precache_model("progs/laser.mdl");
-
-
-    precache_model ("progs/wizard.mdl");
-	precache_model ("progs/h_wizard.mdl");
-	precache_model ("progs/w_spike.mdl");
-
+    precache_model(MODEL_TRANSLOCATOR);
+    precache_model(MODEL_HOOK_HEAD);
+    precache_model(MODEL_WEAPON_HOOK);
+    precache_model(MODEL_WEAPON_TRANSLOCATOR);
 }
 
 
