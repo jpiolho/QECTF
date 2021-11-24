@@ -1,4 +1,4 @@
 void() ctf_precache;
 
-void() PopulateMap;
-void() PostPopulateMap;
+var void() MapFunc_OnPopulate;
+var void() MapFunc_OnPostPopulate;

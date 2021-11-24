@@ -6,39 +6,52 @@
 #define DefineMap(_bspname,_maptitle) else FirstDefineMap(_bspname,_maptitle)
 #define OverrideDefineMap(_bspname,_maptitle) else if(mapname == ##_bspname) { return ##_maptitle" ("ModName")"; }
 
-void PopulateMap() =
+
+void() HookMapFunctions = 
 {
     switch(mapname) {
-        case "dm6": Populate_DM6(); break;
-        case "dm3": Populate_DM3(); break;
-        case "dm7": Populate_dm7(); break;
-        case "e1m2": Populate_e1m2(); break;
-        case "e1m7": Populate_e1m7(); break;
-        case "e3m6": Populate_e3m6(); break;
-        case "test/mals_combatbox": Populate_Mals_Combatbox(); break;
+        // id1
+        case "dm3": 
+            MapFunc_OnPopulate = Populate_DM3;
+            MapFunc_OnPostPopulate = PostPopulate_DM3; 
+            break;
+        case "dm6": 
+            MapFunc_OnPopulate = Populate_DM6; 
+            MapFunc_OnPostPopulate = PostPopulate_DM6; 
+            break;
+        case "dm7":
+            MapFunc_OnPopulate = Populate_dm7;
+            MapFunc_OnPostPopulate = PostPopulate_dm7;
+            break;
+        case "e1m2":
+            MapFunc_OnPopulate = Populate_e1m2;
+            MapFunc_OnPostPopulate = PostPopulate_e1m2;
+            break;
+        case "e1m7":
+            MapFunc_OnPopulate = Populate_e1m7;
+            MapFunc_OnPostPopulate = PostPopulate_e1m7;
+            break;
+        case "e3m6":
+            MapFunc_OnPopulate = Populate_e3m6;
+            MapFunc_OnPostPopulate = PostPopulate_e3m6;
+            break;
+        case "test/mals_combatbox":
+            MapFunc_OnPopulate = Populate_Mals_Combatbox;
+            MapFunc_OnPostPopulate = PostPopulate_Mals_Combatbox;
+            break;
 
-        case "mgdm3": Populate_mgdm3(); break;
-
+        // mg1
+        case "mgdm3":
+            MapFunc_OnPopulate = Populate_mgdm3;
+            MapFunc_OnPostPopulate = PostPopulate_mgdm3;
+            break;
+        
+        // rogue
         #ifdef ROGUE
-        case "ctf1": Populate_Rogue_ctf1(); break;
-        #endif
-    }
-}
-
-void PostPopulateMap() {
-    switch(mapname) {
-        case "dm6": PostPopulate_DM6(); break;
-        case "dm3": PostPopulate_DM3(); break;
-        case "dm7": PostPopulate_dm7(); break;
-        case "e1m2": PostPopulate_e1m2(); break;
-        case "e1m7": PostPopulate_e1m7(); break;
-        case "e3m6": PostPopulate_e3m6(); break;
-        case "test/mals_combatbox": PostPopulate_Mals_Combatbox(); break;
-
-        case "mgdm3": PostPopulate_mgdm3(); break;
-
-        #ifdef ROGUE
-        case "ctf1": PostPopulate_Rogue_ctf1(); break;
+        case "ctf1":
+            MapFunc_OnPopulate = Populate_Rogue_ctf1;
+            MapFunc_OnPostPopulate = PostPopulate_Rogue_ctf1;
+            break;
         #endif
     }
 }

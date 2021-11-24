@@ -2,6 +2,7 @@
 void() InitBodyQue;
 void() FirstFrame;
 
+void() HookMapFunctions;
 string(string title) GetMapName;
 
 void() main =
@@ -181,8 +182,13 @@ void() worldspawn =
 
 	InitBodyQue ();
 
+	HookMapFunctions();
 	ctf_precache();
-	PopulateMap();
+
+	if(MapFunc_OnPopulate)
+		MapFunc_OnPopulate();
+
+
 
 	cvar_set("teamplay","2");
 
@@ -413,6 +419,6 @@ void(entity ent) CopyToBodyQue =
 
 void() FirstFrame =
 {
-	PostPopulateMap();
-	//PopulateMap();
+	if(MapFunc_OnPostPopulate)
+		MapFunc_OnPostPopulate();
 };
