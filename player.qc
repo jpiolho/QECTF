@@ -98,7 +98,7 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		if (self.walkframe >= 12)
 			self.walkframe = 0;
@@ -123,7 +123,7 @@ void()	player_run =[	$rockrun1,	player_run	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		if (self.walkframe == 6)
 			self.walkframe = 0;
@@ -151,6 +151,11 @@ void()	player_axe1 =	[$axatt1, player_axe2	] {self.weaponframe=1;};
 void()	player_axe2 =	[$axatt2, player_axe3	] {self.weaponframe=2;};
 void()	player_axe3 =	[$axatt3, player_axe4	] {self.weaponframe=3;W_FireAxe();};
 void()	player_axe4 =	[$axatt4, player_run	] {self.weaponframe=4;};
+
+void()	player_translocator1 =	[$axatt1, player_translocator2	] {self.weaponframe=1;};
+void()	player_translocator2 =	[$axatt2, player_translocator3 ] {self.weaponframe=2;};
+void()	player_translocator3 =	[$axatt3, player_translocator4 ] {self.weaponframe=3;};
+void()	player_translocator4 =	[$axatt4, player_run	] {self.weaponframe=4;};
 
 void()	player_axeb1 =	[$axattb1, player_axeb2	] {self.weaponframe=5;};
 void()	player_axeb2 =	[$axattb2, player_axeb3	] {self.weaponframe=6;};
@@ -342,7 +347,7 @@ void() player_pain =
 	if (self.invisible_finished > time)
 		return;		// eyes don't have pain frames
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 		player_axpain1 ();
 	else
 		player_pain1 ();
@@ -535,8 +540,11 @@ void() PlayerDie =
 	if (deathmatch || coop)
 		DropBackpack();
 
+
 	if(self.items & (IT_KEY1 | IT_KEY2))
 		ctf_DropFlag();
+
+	ctf_deleteTranslocatorFromOwner(self);
 
 	self.weaponmodel="";
 	self.view_ofs = '0 0 -8';
@@ -558,7 +566,7 @@ void() PlayerDie =
 	self.angles_x = 0;
 	self.angles_z = 0;
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
 	{
 		player_die_ax1 ();
 		return;
@@ -660,3 +668,45 @@ void()	player_die_ax6	=	[	$axdeth6,	player_die_ax7	] {};
 void()	player_die_ax7	=	[	$axdeth7,	player_die_ax8	] {};
 void()	player_die_ax8	=	[	$axdeth8,	player_die_ax9	] {};
 void()	player_die_ax9	=	[	$axdeth9,	player_die_ax9	] {PlayerDead();};
+
+
+
+// Forward references
+void() player_chain5;
+void() player_chain4;
+
+void()  player_chain1=  [$axattd1, player_chain2 ] {self.weaponframe=2;};
+void()  player_chain2=  [$axattd2, player_chain3 ] {self.weaponframe=3;W_FireChain();};
+void()  player_chain3=  [$axattd3, player_chain3 ]
+{
+        self.weaponframe=3;
+        if (!self.hook_out)
+        {
+                player_chain5();
+                return;
+        }
+        if (vlen(self.velocity) >= 750)
+        {
+                player_chain4();
+                return;
+        }
+};
+
+void() player_chain4=  [$deathc4, player_chain4 ]
+{
+        self.weaponframe=4;
+        if (!self.hook_out)
+        {
+                player_chain5();
+                return;
+        }
+        if (vlen(self.velocity) < 750)
+        {
+                player_chain3();
+                return;
+        }
+};
+
+void()  player_chain5=  [$axattd4, player_run    ] {self.weaponframe=5;};
+
+

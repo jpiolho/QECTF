@@ -1050,7 +1050,7 @@ void() PlayerPreThink =
 	if (time < self.pausetime)
 		self.velocity = '0 0 0';
 
-	if(time > self.attack_finished && self.currentammo == 0 && self.weapon != IT_AXE)
+	if(time > self.attack_finished && self.currentammo == 0 && self.weapon != IT_AXE && self.weapon != IT_TRANSLOCATOR && self.weapon != IT_HOOK)
 	{
 		self.weapon = W_BestWeapon ();
 		W_SetCurrentAmmo ();
@@ -1408,6 +1408,16 @@ void(entity targ, entity attacker) ClientObituary =
 				if (rnum == IT_AXE)
 				{
 					deathstring = " was ax-murdered by ";
+					deathstring2 = "\n";
+				}
+				if(rnum == IT_TRANSLOCATOR)
+				{
+					deathstring = " was telefragged by ";
+					deathstring2 = " translocator\n";
+				}
+				if(rnum == IT_HOOK) 
+				{
+					deathstring = " was hooked to ";
 					deathstring2 = "\n";
 				}
 				if (rnum == IT_SHOTGUN)
