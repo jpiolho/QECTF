@@ -1,3 +1,32 @@
+void(entity goal, entity capturee) FlagCapture_e1m7 =
+{
+    local entity flagboss = find(world,classname,"monster_flagboss");
+
+    if(flagboss) {
+
+        local entity oself = self;
+        self = flagboss;
+
+        monster_flagboss_aimForCapture(goal.origin);
+        
+        self = oself;
+    }
+}
+
+void(entity flag,entity player) FlagPickedUp_e1m7 =
+{
+    local entity flagboss = find(world,classname,"monster_flagboss");
+
+    if(flagboss)
+    {
+        local entity oself = self;
+        self = flagboss;
+        monster_flagboss_playerPickedUpFlag(player);
+        self = oself;
+    } 
+}
+
+
 void() PostPopulate_e1m7 =
 {
     // Remove bridge button since bridge is made permanent
@@ -25,16 +54,16 @@ void() Populate_e1m7 =
     Maps_CreateWall("*9",'0 0 0','0 0 0');
 
     // Blocking columns in middle
-    Maps_CreateWall("*10",'0  -72 -96','0 0 0');
-    Maps_CreateWall("*10",'0  -72 224','0 0 0');
-    Maps_CreateWall("*10",'0 -144 -128','0 0 0');
-    Maps_CreateWall("*10",'0 -144 192','0 0 0');
-    Maps_CreateWall("*10",'0 -216 -160','0 0 0');
-    Maps_CreateWall("*10",'0 -216 160','0 0 0');
-    Maps_CreateWall("*11",'0  144 -128','0 0 0');
-    Maps_CreateWall("*11",'0  144 192','0 0 0');
-    Maps_CreateWall("*11",'0   72 -96','0 0 0');
-    Maps_CreateWall("*11",'0   72 224','0 0 0');
+    //Maps_CreateWall("*10",'0  -72 -96','0 0 0');
+    Maps_CreateWall("*10",'0  -72 144','0 0 0');
+    //Maps_CreateWall("*10",'0 -144 -128','0 0 0');
+    Maps_CreateWall("*10",'0 -144 136','0 0 0');
+    //Maps_CreateWall("*10",'0 -216 -160','0 0 0');
+    Maps_CreateWall("*10",'0 -216 128','0 0 0');
+    //Maps_CreateWall("*11",'0  144 -128','0 0 0');
+    Maps_CreateWall("*11",'0  144 136','0 0 0');
+    //Maps_CreateWall("*11",'0   72 -96','0 0 0');
+    Maps_CreateWall("*11",'0   72 144','0 0 0');
 
     // Stairs to red base
     Maps_CreateStairs("*3",'-192 64 -64','-48 64 -208','0 0 0',9);
@@ -170,4 +199,8 @@ void() Populate_e1m7 =
     Maps_SpawnArmor1(TEAM_ALL,    '455  136  600');
     Maps_SpawnArmor1(TEAM_ALL,    '455  208  600');
     Maps_SpawnArmor1(TEAM_ALL,    '455  248  528');
+
+
+    // Flag boss
+    Maps_CreateEntity(monster_flagboss,'356 64 -48');
 }

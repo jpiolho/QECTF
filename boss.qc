@@ -325,6 +325,7 @@ void() lightning_fire =
 	WriteCoord (MSG_ALL, p2_z);
 };
 
+
 void() lightning_use =
 {
 	if (lightning_end >= time + 1)
@@ -357,8 +358,14 @@ void() lightning_use =
 
 // advance the boss pain if down
 	self = find (world, classname, "monster_boss");
-	if (!self)
+	if (!self) {
+
+		// Call flagboss
+		if((self = find(world,classname,"monster_flagboss")) && le1.state == STATE_TOP)
+			monster_flagboss_lightning();
+
 		return;
+	}
 	self.enemy = activator;
 	if (le1.state == STATE_TOP && self.health > 0)
 	{

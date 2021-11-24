@@ -11,6 +11,7 @@ ctf/bots.qc
 ctf/flags.qc
 ctf/weapons.qc
 ctf/hook.qc
+ctf/flagboss.qc
 
 entmod/defs.qc
 

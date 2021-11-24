@@ -30,6 +30,8 @@ void() HookMapFunctions =
         case "e1m7":
             MapFunc_OnPopulate = Populate_e1m7;
             MapFunc_OnPostPopulate = PostPopulate_e1m7;
+            MapFunc_OnFlagPickedUp = FlagPickedUp_e1m7;
+            MapFunc_OnFlagCapture = FlagCapture_e1m7;
             break;
         case "e3m6":
             MapFunc_OnPopulate = Populate_e3m6;

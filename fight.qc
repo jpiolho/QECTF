@@ -24,7 +24,7 @@ void(float side)	Demon_Melee;
 
 void(vector dest) ChooseTurn;
 
-void() ai_face;
+float() ai_face;
 
 
 float	enemy_vis, enemy_infront, enemy_range;
@@ -136,10 +136,12 @@ ai_face
 Stay facing the enemy
 =============
 */
-void() ai_face =
+float() ai_face =
 {
 	self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
 	ChangeYaw ();
+	
+	return self.angles_y == self.ideal_yaw;
 };
 
 /*

@@ -515,3 +515,16 @@ entity(string areaName,vector entityOrigin) Maps_CreateFlagBase =
 
 	return ent;
 }
+
+entity(void() initializer,vector entityOrigin) Maps_CreateEntity =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+
+	local entity oself = self;
+	self = ent;
+	initializer();
+	self = oself;
+
+	return ent;
+}

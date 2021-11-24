@@ -294,6 +294,9 @@ void() ctf_flag_pickup =
     local float otherTeam;
     otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
+    if(MapFunc_OnFlagPickedUp)
+        MapFunc_OnFlagPickedUp(self,other);
+
     // Broadcast announcements
     local entity p = world;
     while((p = findPlayerInTeam(self.team,p)))
@@ -376,6 +379,9 @@ void() ctf_flag_capture {
 
     // Remove flag from player
     ctf_player_removeFlag(other);
+
+    if(MapFunc_OnFlagCapture)
+        MapFunc_OnFlagCapture(self,other);
 
     // Broadcast announcements
     local entity p = world;
@@ -533,6 +539,9 @@ void() ctf_base_touch =
 
     self.frags += 5;
 
+    if(MapFunc_OnFlagCapture)
+        MapFunc_OnFlagCapture(self,other);
+
     if(!ctf_checkAreaCaptureWinCondition()) {
         // If the function above returned false, then broadcast as normal
 
@@ -553,6 +562,8 @@ void() ctf_base_touch =
             }
         }   
     } 
+
+    
 }
 
 void() ctf_base_decoration_think =
