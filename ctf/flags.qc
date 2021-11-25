@@ -251,6 +251,8 @@ float() ctf_checkAreaCaptureWinCondition =
     return TRUE;
 }
 
+
+
 void() ctf_flag_think_return =
 {
     local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
@@ -287,6 +289,24 @@ void() ctf_flag_think_return =
 
     // Remove itself
     remove(self);
+}
+
+
+void() ctf_flag_think =
+{
+    // Check if the flag should return
+    if(time > self.wait) {
+        ctf_flag_think_return();
+        return;
+    }
+
+    // Check if flag is inside lava
+    if(pointcontents(self.origin) == CONTENT_LAVA) {
+        ctf_flag_think_return();
+        return;
+    }
+
+    self.nextthink = time + 1.0;
 }
 
 void() ctf_flag_pickup =
@@ -669,8 +689,10 @@ void() ctf_flag_dropped =
 
     self.touch = ctf_flag_dropped_touch;
     self.classname = "ctf_flag_dropped";
-    self.think = ctf_flag_think_return;
-    self.nextthink = time + 30.0;
+    self.wait = time + 30.0;
+
+    self.think = ctf_flag_think;
+    self.nextthink = time + 1.0;
 
     self.effects |= EF_DIMLIGHT;
 
