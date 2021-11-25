@@ -110,17 +110,35 @@ entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameCon
 	return world;
 }
 
+
+/*
+Entities Functions
+*/
+
+entity(vector entityOrigin) Maps_CreateEntityAtPosition =
+{
+	local entity ent = spawn();
+	ent.origin = entityOrigin;
+	return ent;
+}
+
+entity(entity ent, void() initializer) Maps_InitializeEntity =
+{
+	local entity oself = self;
+	self = ent;
+	initializer();
+	self = oself;
+
+	return ent;
+}
+
 void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
 {
-    local entity key = spawn();
-    key.origin = keyOrigin;    
-    key.team = keyTeam;
+	local entity key = Maps_CreateEntityAtPosition(keyOrigin);
+	key.team = keyTeam;
 	key.impulse = 1;
-
-    local entity oself = self;
-    self = key;
-    ctf_flag();
-    self = oself;
+    
+	Maps_InitializeEntity(key,ctf_flag);
 }
 
 
@@ -128,22 +146,17 @@ void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
 void info_player_deathmatch();
 void(float spawnTeam,vector spawnOrigin,vector spawnAngles) Maps_TeamSpawn =
 {
-	local entity playerSpawn = spawn();
-	playerSpawn.origin = spawnOrigin;
+	local entity playerSpawn = Maps_CreateEntityAtPosition(spawnOrigin);
 	playerSpawn.team = spawnTeam;
 	playerSpawn.impulse = 1;
 	playerSpawn.angles = spawnAngles;
 
-	local entity oself = self;
-	self = playerSpawn;
-	info_player_deathmatch();
-	self = oself;
+	Maps_InitializeEntity(playerSpawn,info_player_deathmatch);
 }
 
 entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemShells =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_shells";
@@ -151,18 +164,12 @@ entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemShell
 	if(entityBig)
 		ent.spawnflags |= WEAPON_BIG2;
 
-	local entity oself = self;
-	self = ent;
-	item_shells();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_shells);
 }
 
 entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemSpikes =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_spikes";
@@ -170,18 +177,12 @@ entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemSpike
 	if(entityBig)
 		ent.spawnflags |= WEAPON_BIG2;
 
-	local entity oself = self;
-	self = ent;
-	item_spikes();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_spikes);
 }
 
 entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemRockets =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_rockets";
@@ -189,18 +190,12 @@ entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemRocke
 	if(entityBig)
 		ent.spawnflags |= WEAPON_BIG2;
 
-	local entity oself = self;
-	self = ent;
-	item_rockets();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_rockets);
 }
 
 entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemCells =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_cells";
@@ -208,222 +203,141 @@ entity(float entityTeam,float entityBig,vector entityOrigin) Maps_SpawnItemCells
 	if(entityBig)
 		ent.spawnflags |= WEAPON_BIG2;
 
-	local entity oself = self;
-	self = ent;
-	item_cells();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_cells);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponSuperShotgun =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_supershotgun";
 
-	local entity oself = self;
-	self = ent;
-	weapon_supershotgun();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_supershotgun);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponRocketLauncher =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_rocketlauncher";
 
-	local entity oself = self;
-	self = ent;
-	weapon_rocketlauncher();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_rocketlauncher);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponNailgun =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_nailgun";
 
-	local entity oself = self;
-	self = ent;
-	weapon_nailgun();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_nailgun);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponSuperNailgun =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_supernailgun";
 
-	local entity oself = self;
-	self = ent;
-	weapon_supernailgun();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_supernailgun);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponLightning =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_lightning";
 
-	local entity oself = self;
-	self = ent;
-	weapon_lightning();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_lightning);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnWeaponGrenadeLauncher =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "weapon_grenadelauncher";
 
-	local entity oself = self;
-	self = ent;
-	weapon_grenadelauncher();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,weapon_grenadelauncher);
 }
 
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnArmor1 =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_armor1";
 
-	local entity oself = self;
-	self = ent;
-	item_armor1();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_armor1);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnArmor2 =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_armor2";
 
-	local entity oself = self;
-	self = ent;
-	item_armor2();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_armor2);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnArmorInv =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_armorInv";
 
-	local entity oself = self;
-	self = ent;
-	item_armorInv();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_armorInv);
 }
 
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnHealth =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_health";
 
-	local entity oself = self;
-	self = ent;
-	item_health();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_health);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnHealthRotten =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_health";
 	ent.spawnflags = 1;
 
-	local entity oself = self;
-	self = ent;
-	item_health();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_health);
 }
 
 entity(float entityTeam,vector entityOrigin) Maps_SpawnHealthMega =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.impulse = 1;
 	ent.team = entityTeam;
 	ent.classname = "item_health";
 	ent.spawnflags = 2;
 
-	local entity oself = self;
-	self = ent;
-	item_health();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,item_health);
 }
 
 entity(string entityModel,vector entityOrigin,vector entityAngles) Maps_CreateWall =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.model = entityModel;
 	ent.classname = "func_wall";
 	ent.impulse = 1;
 
-	local entity oself = self;
-	self = ent;
-	func_wall();
-	self = oself;
+	Maps_InitializeEntity(ent,func_wall);
 
 	ent.angles = entityAngles;
 
@@ -444,26 +358,19 @@ void(string entityModel,vector entityOriginStart,vector entityOriginEnd,vector e
 
 entity(string entityName,vector entityOrigin,float entityAngle) Maps_CreateTeleportDestination =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.angles = '0 0 0';
 	ent.angles_y = entityAngle;
 	ent.classname = "info_teleport_destination";
 	ent.targetname = entityName;
 	ent.impulse = 1;
 
-	local entity oself = self;
-	self = ent;
-	info_teleport_destination();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,info_teleport_destination);
 }
 
 entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTeam,float effect) Maps_CreateTeleport =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.classname = "trigger_teleport";
 	ent.target = entityTarget;
 	ent.impulse = 1;
@@ -471,10 +378,7 @@ entity(string entityTarget,vector entityOrigin,vector entitySize,float entityTea
 	if(effect)
 		ent.spawnflags |= PARTICLE_EFFECT;
 
-	local entity oself = self;
-	self = ent;
-	trigger_teleport();
-	self = oself;
+	Maps_InitializeEntity(ent,trigger_teleport);
 
 	local vector hullMin = '0 0 0';
 	local vector hullMax = '0 0 0';
@@ -494,37 +398,16 @@ void(string nextLevel) Maps_SetNextLevel =
 	ent.map = nextLevel;
 	ent.impulse = 1;
 
-	local entity oself = self;
-	self = ent;
-	trigger_changelevel();
-	self = oself;
+	Maps_InitializeEntity(ent,trigger_changelevel);
 
 	setorigin(ent,'-9999 9999 -9999');
 }
 
 entity(string areaName,vector entityOrigin) Maps_CreateFlagBase =
 {
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
+	local entity ent = Maps_CreateEntityAtPosition(entityOrigin);
 	ent.message = areaName;
 
-	local entity oself = self;
-	self = ent;
-	ctf_base();
-	self = oself;
-
-	return ent;
+	return Maps_InitializeEntity(ent,ctf_base);
 }
 
-entity(void() initializer,vector entityOrigin) Maps_CreateEntity =
-{
-	local entity ent = spawn();
-	ent.origin = entityOrigin;
-
-	local entity oself = self;
-	self = ent;
-	initializer();
-	self = oself;
-
-	return ent;
-}

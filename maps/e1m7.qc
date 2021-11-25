@@ -202,5 +202,5 @@ void() Populate_e1m7 =
 
 
     // Flag boss
-    Maps_CreateEntity(monster_flagboss,'356 64 -48');
+    Maps_InitializeEntity(Maps_CreateEntityAtPosition('356 64 -48'),monster_flagboss);
 }
