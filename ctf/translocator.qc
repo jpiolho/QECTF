@@ -293,8 +293,6 @@ void(entity who) ctf_deleteTranslocatorFromOwner =
 
 void() ctf_translocator_effect_think =
 {
-    dprint(ftos(self.team));
-    dprint("\n");
     // Make effect
     particle(self.origin,self.movedir * 4,self.team == TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,16);
 
