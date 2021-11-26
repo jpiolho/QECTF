@@ -13,6 +13,7 @@ void() Populate_DM6 =
     
     Maps_CleanEntities();
     Maps_SetNextLevel("dm7");
+    Maps_SetFlags(MAP_FL_HOOK);
 
     Maps_SpawnWeaponSuperNailgun(TEAM_ALL,'1160 -1088 -64');
 Maps_SpawnWeaponGrenadeLauncher(TEAM_ALL,'1016 -848 232');

@@ -1,6 +1,8 @@
 float ctf_compatibility;
 float ctf_gamemode;
 
+float ctf_mutator;
+
 float ctf_gameflags;
 
 
@@ -36,3 +38,12 @@ float IT_HOOK = 512;
 
 float SPAWN_FL_INVULNERABILITY = 1;
 float SPAWN_FL_SHORT_INVULNERABILITY = 2;
+
+
+float MAP_FL_HOOK = 1;
+float MAP_FL_TRANSLOCATOR = 2;
+
+
+float MUTATOR_OVERRIDE_TRANSPORT_WEAPONS = 1;
+float MUTATOR_TRANSPORT_HOOK = 2;
+float MUTATOR_TRANSPORT_TRANSLOCATOR = 4;

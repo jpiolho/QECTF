@@ -12,4 +12,7 @@ void() PostPopulate_Rogue_ctf1 =
 void() Populate_Rogue_ctf1 =
 {
     ctf_gamemode = GAMEMODE_DEFAULT;
+
+    Maps_SetNextLevel("dm3");
+    Maps_SetFlags(MAP_FL_HOOK);
 }

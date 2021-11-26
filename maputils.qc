@@ -1,4 +1,4 @@
-float map_removeDefaultEntities;
+
 
 void() Maps_CleanEntities =
 {
@@ -108,6 +108,12 @@ entity(string entityClassname,vector searchOrigin) Maps_FindEntityByClassnameCon
 	}
 
 	return world;
+}
+
+
+void(float flags) Maps_SetFlags =
+{
+	map_flags = flags;
 }
 
 

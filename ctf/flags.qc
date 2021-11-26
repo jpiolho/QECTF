@@ -41,10 +41,24 @@ float(entity ent) ctf_doesPlayerHaveFlag =
 
 
 
+void() ctf_applyMutators =
+{
+    if(ctf_mutator & MUTATOR_OVERRIDE_TRANSPORT_WEAPONS)
+    {
+        map_flags -= map_flags & (MAP_FL_HOOK | MAP_FL_TRANSLOCATOR);
+        
+        if(ctf_mutator & MUTATOR_TRANSPORT_HOOK)
+            map_flags |= MAP_FL_HOOK;
+
+        if(ctf_mutator & MUTATOR_TRANSPORT_TRANSLOCATOR)
+            map_flags |= MAP_FL_TRANSLOCATOR;
+    }
+}
+
 void() ctf_precache =
 {
     precache_sound("items/protect2.wav");
-    
+
     precache_sound(SOUND_WIN);
     precache_sound(SOUND_LOSE);
     precache_sound(SOUND_PICKUP_ENEMY);

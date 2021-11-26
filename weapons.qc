@@ -969,6 +969,54 @@ void(float weaponItem) W_WeaponSelected =
 	
 }
 
+void(optional float invert = FALSE) W_SelectNextAxeMode = 
+{
+	local float nextWeapon = self.weapon;
+
+	// Find out which weapon it should switch to
+	while(TRUE) {
+
+		// Move over to the next weapon
+		if(!invert) {
+			switch(nextWeapon) {
+				default: nextWeapon = IT_AXE; break;
+				case IT_AXE: nextWeapon = IT_TRANSLOCATOR; break;
+				case IT_TRANSLOCATOR: nextWeapon = IT_HOOK; break;
+				case IT_HOOK: nextWeapon = IT_AXE; break;
+			}
+		} else {
+			switch(nextWeapon) {
+				default: nextWeapon = IT_AXE; break;
+				case IT_AXE: nextWeapon = IT_HOOK; break;
+				case IT_TRANSLOCATOR: nextWeapon = IT_AXE; break;
+				case IT_HOOK: nextWeapon = IT_TRANSLOCATOR; break;
+			}
+		}
+
+		if(nextWeapon == IT_AXE) {
+			break;
+		}
+		else if(nextWeapon == IT_TRANSLOCATOR) 
+		{
+			if(map_flags & MAP_FL_TRANSLOCATOR)
+				break;
+		}	
+		else if(nextWeapon == IT_HOOK)
+		{
+			if(map_flags & MAP_FL_HOOK)
+				break;
+		}
+
+	}
+	
+	self.weapon = nextWeapon;
+	switch(self.weapon){
+		case IT_AXE: sprint(self,"Axe selected.\n"); break;
+		case IT_HOOK: sprint(self,"Hook selected.\n"); break;
+		case IT_TRANSLOCATOR: sprint(self,"Translocator selected.\n"); break;
+	}
+}
+
 /*
 ============
 W_ChangeWeapon
@@ -1048,25 +1096,10 @@ void() W_ChangeWeapon =
 //
 	if(fl == IT_AXE)
 	{
-		if(self.weapon == IT_AXE)
-		{
-			self.weapon = IT_TRANSLOCATOR;
-			sprint(self,"Translocator selected.\n");
-		}
-		else if(self.weapon == IT_TRANSLOCATOR)
-		{
-			self.weapon = IT_HOOK;
-			sprint(self,"Hook selected.\n");
-		}
-		else if(self.weapon == IT_HOOK)
-		{
-			self.weapon = IT_AXE;
-			sprint(self,"Axe selected.\n");
-		}
+		if(self.weapon == IT_AXE || self.weapon == IT_TRANSLOCATOR || self.weapon == IT_HOOK)
+			W_SelectNextAxeMode();
 		else
-		{
 			self.weapon = IT_AXE;
-		}
 	}
 	else {
 		self.weapon = fl;

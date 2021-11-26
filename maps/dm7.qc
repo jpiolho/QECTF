@@ -10,6 +10,7 @@ void() Populate_dm7 =
     
     Maps_CleanEntities();
     Maps_SetNextLevel("e1m2");
+    Maps_SetFlags(MAP_FL_HOOK);
 
     // Platforms to reach blue key
     Maps_CreateStairs("*5",'-1490 -586 -260','-1490 -566 -297','0 0 0',3); // Upstairs

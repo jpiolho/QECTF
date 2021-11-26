@@ -12,6 +12,7 @@ void() Populate_DM3 =
     
     Maps_CleanEntities();
     Maps_SetNextLevel("dm6");
+    Maps_SetFlags(MAP_FL_TRANSLOCATOR);
 
     Maps_SpawnHealthMega(TEAM_ALL,'564 -48 -192');
 Maps_SpawnTeamKey(TEAM_RED,'1984 -448 0');

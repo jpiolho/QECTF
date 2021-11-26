@@ -4,6 +4,8 @@ defs.qc
 subs.qc
 math.qc
 
+maputils_defs.qc
+
 ctf/defs.qc
 ctf/subs.qc
 ctf/utils.qc

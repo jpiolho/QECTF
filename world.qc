@@ -1,6 +1,5 @@
 
 void() InitBodyQue;
-void() FirstFrame;
 
 void() HookMapFunctions;
 string(string title) GetMapName;
@@ -189,6 +188,10 @@ void() worldspawn =
 		MapFunc_OnPopulate();
 
 
+	localcmd("exec \"qectf_");
+	localcmd(mapname);
+	localcmd(".cfg\"\n");
+	localcmd("exec \"qectf.cfg\"\n");
 
 	cvar_set("teamplay","2");
 
@@ -361,8 +364,16 @@ void() worldspawn =
 
 void() StartFrame =
 {
-	if(framecount == 0)
-		FirstFrame();
+	// Framecount 2 is the frame after .cfg was loaded
+	if(framecount == 2)
+	{
+		ctf_mutator = cvar("saved1");
+
+		if(MapFunc_OnPostPopulate)
+			MapFunc_OnPostPopulate();
+
+		ctf_applyMutators();
+	}
 
 	teamplay = cvar("teamplay");
 	skill = cvar("skill");
@@ -414,11 +425,4 @@ void(entity ent) CopyToBodyQue =
 	setorigin (bodyque_head, ent.origin);
 	setsize (bodyque_head, ent.mins, ent.maxs);
 	bodyque_head = bodyque_head.owner;
-};
-
-
-void() FirstFrame =
-{
-	if(MapFunc_OnPostPopulate)
-		MapFunc_OnPostPopulate();
 };

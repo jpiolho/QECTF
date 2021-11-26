@@ -14,6 +14,7 @@ void() Populate_e3m6 =
     
     Maps_CleanEntities();
     Maps_SetNextLevel("test/mals_combatbox");
+    Maps_SetFlags(MAP_FL_TRANSLOCATOR);
 
     // Platform for spawns at RED base
     Maps_CreateWall("*7",'-370 -896 -144','0 0 0');

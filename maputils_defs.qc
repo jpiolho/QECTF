@@ -1,0 +1,2 @@
+float map_removeDefaultEntities;
+float map_flags;

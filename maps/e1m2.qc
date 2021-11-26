@@ -29,6 +29,7 @@ void() Populate_e1m2 =
 
     Maps_CleanEntities();
     Maps_SetNextLevel("e1m7");
+    Maps_SetFlags(MAP_FL_TRANSLOCATOR);
 
     
     // Blue spawn

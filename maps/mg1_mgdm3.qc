@@ -31,6 +31,7 @@ void() Populate_mgdm3 =
     ctf_gamemode = GAMEMODE_DEFAULT;
     Maps_CleanEntities();
     Maps_SetNextLevel("dm3");
+    Maps_SetFlags(MAP_FL_TRANSLOCATOR);
 
     // Lightning bridge grate to close broken bar gap?
     // Maps_CreateWall("*4",'0 0 224','0 0 0');
