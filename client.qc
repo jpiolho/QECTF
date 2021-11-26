@@ -1360,6 +1360,8 @@ void() ClientDisconnect =
 	// since they aren't *really* leaving
 
 
+	ctf_deleteTranslocatorFromOwner(self);
+
 	if(self.items & (IT_KEY1 | IT_KEY2))
 		ctf_DropFlag();
 
