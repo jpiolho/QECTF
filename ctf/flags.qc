@@ -188,6 +188,8 @@ void() ctf_gamefinished_think =
         respawn(FALSE);
         self = oself;
 
+        ctf_deleteTranslocatorFromOwner(p);
+
         centerprint(p,"Teams swapped!\nYou are now on team ",p.team == TEAM_RED ? "red" : "blue");
     }
 
