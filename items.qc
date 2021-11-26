@@ -455,10 +455,17 @@ void() weapon_touch =
 	}
 
 // if the player was using his best weapon, change up to the new one if better
-	stemp = self;
-	self = other;
-	best = W_BestWeapon();
-	self = stemp;
+
+	if(!other.hook_out)
+	{
+		stemp = self;
+		self = other;
+		best = W_BestWeapon();
+		self = stemp;
+	}
+	else {
+		best = other.weapon;
+	}
 
 	if (deathmatch == 3 || coop)
 		leave = 1;
@@ -534,8 +541,10 @@ void() weapon_touch =
 
 	if (!deathmatch)
 		self.weapon = new;
-	else
-		Deathmatch_Weapon (old, new);
+	else {
+		if(!self.hook_out)
+			Deathmatch_Weapon(old, new);
+	}
 
 	W_SetCurrentAmmo();
 
