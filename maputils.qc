@@ -144,12 +144,13 @@ void(float keyTeam,vector keyOrigin) Maps_SpawnTeamKey =
 
 
 void info_player_deathmatch();
-void(float spawnTeam,vector spawnOrigin,vector spawnAngles) Maps_TeamSpawn =
+void(float spawnTeam,vector spawnOrigin,vector spawnAngles,optional float spawnFlags = 0) Maps_TeamSpawn =
 {
 	local entity playerSpawn = Maps_CreateEntityAtPosition(spawnOrigin);
 	playerSpawn.team = spawnTeam;
 	playerSpawn.impulse = 1;
 	playerSpawn.angles = spawnAngles;
+	playerSpawn.flags = spawnFlags;
 
 	Maps_InitializeEntity(playerSpawn,info_player_deathmatch);
 }

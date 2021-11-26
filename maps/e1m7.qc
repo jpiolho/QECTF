@@ -87,16 +87,16 @@ void() Populate_e1m7 =
     Maps_SpawnTeamKey(TEAM_RED, '-256 64 232');
 
     // Blue Team Spawns
-    Maps_TeamSpawn(TEAM_BLUE,' 1024  350 216','0 180 0');
-    Maps_TeamSpawn(TEAM_BLUE,' 1024 -255  -8','0 180 0');
-    Maps_TeamSpawn(TEAM_BLUE,' 1024 -230 216','0 180 0');
-    Maps_TeamSpawn(TEAM_BLUE,' 1024  385  -8','0 180 0');
+    Maps_TeamSpawn(TEAM_BLUE,' 1024  350 216','0 180 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_BLUE,' 1024 -255  -8','0 180 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_BLUE,' 1024 -230 216','0 180 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_BLUE,' 1024  385  -8','0 180 0',SPAWN_FL_SHORT_INVULNERABILITY);
 
     // Red Team Spawns
-    Maps_TeamSpawn(TEAM_RED,'-256 -230 232','0 0 0');
-    Maps_TeamSpawn(TEAM_RED,'-256  385  56','0 0 0');
-    Maps_TeamSpawn(TEAM_RED,'-256  350 232','0 0 0');
-    Maps_TeamSpawn(TEAM_RED,'-256 -255  56','0 0 0');
+    Maps_TeamSpawn(TEAM_RED,'-256 -230 232','0 0 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_RED,'-256  385  56','0 0 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_RED,'-256  350 232','0 0 0',SPAWN_FL_SHORT_INVULNERABILITY);
+    Maps_TeamSpawn(TEAM_RED,'-256 -255  56','0 0 0',SPAWN_FL_SHORT_INVULNERABILITY);
 
     // Upper sides
     Maps_SpawnItemRockets(TEAM_ALL,TRUE,     '315 -310 216');

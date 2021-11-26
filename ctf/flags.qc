@@ -43,6 +43,8 @@ float(entity ent) ctf_doesPlayerHaveFlag =
 
 void() ctf_precache =
 {
+    precache_sound("items/protect2.wav");
+    
     precache_sound(SOUND_WIN);
     precache_sound(SOUND_LOSE);
     precache_sound(SOUND_PICKUP_ENEMY);

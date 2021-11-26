@@ -597,7 +597,21 @@ void() PutClientInServer =
 
 	self.state = time;
 
+	if(spot.flags & SPAWN_FL_INVULNERABILITY) {
+		self.items |= IT_INVULNERABILITY;
+		self.invincible_time = 1;
+		self.invincible_finished = time + 3;
+		self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+	}
+	else if(spot.flags & SPAWN_FL_SHORT_INVULNERABILITY) {
+		self.items |= IT_INVULNERABILITY;
+		self.invincible_time = 1;
+		self.invincible_finished = time + 1.5;
+		self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+	}
 
+
+	
 	
 
 	player_stand1 ();
@@ -1126,7 +1140,11 @@ void() CheckPowerups =
 		{
 			if (self.invincible_time == 1)
 			{
-				sprint (self, "Protection is almost burned out\n");
+				if(self.cnt & PEF_IGNORE_INVULNERABILITY_MESSAGE)
+					self.cnt -= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+				else
+					sprint (self, "Protection is almost burned out\n");
+					
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/protect2.wav", 1, ATTN_NORM);
 				self.invincible_time = time + 1;
