@@ -1104,6 +1104,10 @@ void() W_ChangeWeapon =
 	else {
 		self.weapon = fl;
 	}
+
+	if(self.hook_out)
+		self.cnt |= PEF_IGNORE_ATTACK_BUTTON_UNTIL_RELEASED;
+
 	W_SetCurrentAmmo ();
 };
 
@@ -1361,12 +1365,20 @@ void() W_WeaponFrame =
 // check for attack
 	if (self.button0)
 	{
+		if(self.cnt & PEF_IGNORE_ATTACK_BUTTON_UNTIL_RELEASED)
+			return;
+		
 		// Hook into entmod
 		if(entmod.active && !Entmod_PlayerAttack())
 			return;
 		
 		SuperDamageSound ();
 		W_Attack ();
+	}
+	else
+	{
+		if(self.cnt & PEF_IGNORE_ATTACK_BUTTON_UNTIL_RELEASED)
+			self.cnt -= PEF_IGNORE_ATTACK_BUTTON_UNTIL_RELEASED;
 	}
 };
 
