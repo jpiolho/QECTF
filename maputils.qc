@@ -117,6 +117,12 @@ void(float flags) Maps_SetFlags =
 }
 
 
+void(string name) Maps_SetCfgFriendlyName =
+{
+	map_ctfFriendlyName = name;
+}
+
+
 /*
 Entities Functions
 */

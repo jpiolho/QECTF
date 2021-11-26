@@ -9,6 +9,8 @@ void() Populate_Mals_Combatbox =
 
     Maps_CleanEntities();
 
+    Maps_SetCfgFriendlyName("mals_combatbox");
+
     #if ROGUE
     Maps_SetNextLevel("ctf1");
     #else

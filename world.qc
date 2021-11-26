@@ -187,9 +187,8 @@ void() worldspawn =
 	if(MapFunc_OnPopulate)
 		MapFunc_OnPopulate();
 
-
 	localcmd("exec \"qectf_");
-	localcmd(mapname);
+	localcmd(map_ctfFriendlyName == string_null ? mapname : map_ctfFriendlyName);
 	localcmd(".cfg\"\n");
 	localcmd("exec \"qectf.cfg\"\n");
 
