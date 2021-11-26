@@ -208,6 +208,8 @@ void() flagboss_rise15	=[	$rise15, flagboss_idle1 ] {};
 //void() flagboss_rise16	=[	$rise16, flagboss_rise17 ] {};
 //void() flagboss_rise17	=[	$rise17, flagboss_idle1 ] { };
 
+void() flagboss_deathidle = [$death9,flagboss_deathidle] {};
+
 void() flagboss_death1 = [$death1, flagboss_death2] {
 	sound (self, CHAN_VOICE, "boss1/death.wav", 1, ATTN_NORM);
 };
@@ -227,10 +229,11 @@ void() flagboss_death9 = [$death9, flagboss_death10]
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 };
-void() flagboss_death10 = [$death9, flagboss_death10] {
+void() flagboss_death10 = [$death9, flagboss_deathidle] {
 	monster_flagboss_changeState(FLAGBOSS_STATE_SLEEPING);
 	setmodel(self,string_null);
 
+	self.wait = time + 60.0;
 	self.solid = SOLID_NOT;
 };
 
@@ -315,7 +318,7 @@ void() monster_flagboss_awake =
     self.solid = SOLID_BBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.takedamage = DAMAGE_NO;
-	self.health = 3;
+	self.health = 6;
 
 	setmodel (self, "progs/boss.mdl");
 	setsize (self, '-128 -128 -24', '128 128 320');
@@ -332,7 +335,7 @@ void() monster_flagboss_awake =
 
 void(entity player) monster_flagboss_playerPickedUpFlag =
 {
-	if(self.state == FLAGBOSS_STATE_SLEEPING) {
+	if(self.state == FLAGBOSS_STATE_SLEEPING && time >= self.wait) {
 		self.enemy = player;
 		monster_flagboss_awake();
 		return;
@@ -352,6 +355,7 @@ void() monster_flagboss =
 {
 	monster_flagboss_changeState(FLAGBOSS_STATE_SLEEPING);
 	self.classname = "monster_flagboss";
+	self.wait = time;
 
     precache_model ("progs/boss.mdl");
 	precache_model ("progs/lavaball.mdl");
