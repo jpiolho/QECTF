@@ -194,6 +194,11 @@ void() ctf_gamefinished_think =
     // Swap teams
     while((p = find(p,classname,"player"))) {
         
+        if(p == ctf_host) {
+            centerprint(p,"Teams were swapped");
+            continue;
+        }
+
         if(p.cnt & PEF_TEAM_RED) {
             p.team = TEAM_BLUE;
             p.cnt -= PEF_TEAM_RED;
