@@ -9,7 +9,7 @@ ctf/subs.qc
 ctf/utils.qc
 ctf/bots.qc
 ctf/flags.qc
-ctf/weapons.qc
+ctf/translocator.qc
 ctf/hook.qc
 ctf/flagboss.qc
 

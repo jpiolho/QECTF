@@ -290,6 +290,36 @@ void(entity who) ctf_deleteTranslocatorFromOwner =
     }
 }
 
+
+void() ctf_translocator_effect_think =
+{
+    dprint(ftos(self.team));
+    dprint("\n");
+    // Make effect
+    particle(self.origin,self.movedir * 4,self.team == TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,16);
+
+    // Move
+    self.origin += self.movedir * 64;
+
+    // Did we reach destination?
+    if(vlen(self.origin - self.oldorigin) >= self.t_length) {
+        remove(self);
+        return;
+    }
+
+    self.nextthink = time + 0.025;
+}
+
+void() ctf_translocator_effect =
+{
+    self.classname = "ctf_translocator_effect";
+    self.think = ctf_translocator_effect_think;
+    self.nextthink = time;
+    self.oldorigin = self.origin;
+    self.t_length = vlen(self.origin - self.dest);
+
+}
+
 void() W_SetTranslocatorAmmo =
 {
     self.currentammo = ctf_findOwnerTranslocator(self) ? 0 : 1;
@@ -312,12 +342,28 @@ void() W_FireTranslocator =
 		            ctf_DropFlag();
                 }
 
+
+                local entity effect = spawn();
+                effect.origin = self.origin;
+                effect.movedir = normalize(t - self.origin);
+                effect.dest = t;
+                effect.team = self.cnt & PEF_TEAM_RED ? TEAM_RED : TEAM_BLUE;
+
+                local entity oself = self;
+                self = effect;
+                ctf_translocator_effect();
+                self = oself;
+
+
+
                 // put a tfog where the player was
                 spawn_tfog (self.origin);
 
             // spawn a tfog flash in front of the destination
                 makevectors (self.v_angle);
 
+
+                
                 spawn_tfog (t + 32 * v_forward);
                 spawn_tdeath(t, self);
 
