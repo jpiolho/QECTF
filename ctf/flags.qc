@@ -40,6 +40,11 @@ float(entity ent) ctf_doesPlayerHaveFlag =
 }
 
 
+float() ctf_isHostMode = 
+{
+    return cvar("saved2") & SERVERSETTINGS_HOSTMODE;
+}
+
 
 void() ctf_applyMutators =
 {

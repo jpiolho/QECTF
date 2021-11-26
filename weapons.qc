@@ -890,6 +890,10 @@ void() W_Attack =
 {
 	local	float	r;
 
+	// Ignore attacks from the host
+	if(ctf_host == self)
+		return;
+
 	if (!W_CheckNoAmmo ())
 		return;
 

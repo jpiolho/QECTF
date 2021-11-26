@@ -5,6 +5,7 @@ float ctf_mutator;
 
 float ctf_gameflags;
 
+entity ctf_host;
 
 float GAMEMODE_DEFAULT = 0;
 float GAMEMODE_AREA_CAPTURE = 1;
@@ -12,6 +13,7 @@ float GAMEMODE_AREA_CAPTURE = 1;
 float GF_FINISHED = 1;
 
 float TEAM_ALL = 0;
+float TEAM_HOST = 1;
 float TEAM_BLUE = 14;
 float TEAM_RED = 5;
 
@@ -44,6 +46,7 @@ float SPAWN_FL_SHORT_INVULNERABILITY = 2;
 float MAP_FL_HOOK = 1;
 float MAP_FL_TRANSLOCATOR = 2;
 
+float SERVERSETTINGS_HOSTMODE = 1;
 
 float MUTATOR_OVERRIDE_TRANSPORT_WEAPONS = 1;
 float MUTATOR_TRANSPORT_HOOK = 2;

@@ -466,7 +466,7 @@ entity() SelectSpawnPoint =
 			if (spot == world)
 				continue;
 
-			if(spot.team != TEAM_ALL && spot.team != self.team)
+			if(ctf_host != self && spot.team != TEAM_ALL && spot.team != self.team)
 				continue;
 
 			if (spot == lastspawn)
@@ -546,7 +546,6 @@ void() PutClientInServer =
 		}
 	}
 
-
 	spot = SelectSpawnPoint ();
 
 	self.classname = "player";
@@ -597,21 +596,35 @@ void() PutClientInServer =
 
 	self.state = time;
 
-	if(spot.flags & SPAWN_FL_INVULNERABILITY) {
-		self.items |= IT_INVULNERABILITY;
-		self.invincible_time = 1;
-		self.invincible_finished = time + 3;
-		self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
-	}
-	else if(spot.flags & SPAWN_FL_SHORT_INVULNERABILITY) {
-		self.items |= IT_INVULNERABILITY;
-		self.invincible_time = 1;
-		self.invincible_finished = time + 1.5;
-		self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+	if(ctf_host != self) {
+		if(spot.flags & SPAWN_FL_INVULNERABILITY) {
+			self.items |= IT_INVULNERABILITY;
+			self.invincible_time = 1;
+			self.invincible_finished = time + 3;
+			self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+		}
+		else if(spot.flags & SPAWN_FL_SHORT_INVULNERABILITY) {
+			self.items |= IT_INVULNERABILITY;
+			self.invincible_time = 1;
+			self.invincible_finished = time + 1.5;
+			self.cnt |= PEF_IGNORE_INVULNERABILITY_MESSAGE;
+		}
 	}
 
 
-	
+	if(ctf_host == self)
+	{
+		
+		self.movetype = MOVETYPE_NOCLIP;
+		self.solid = SOLID_NOT;
+		self.flags |= FL_FLY;
+		
+		self.items = 0;
+		self.weapon = IT_AXE;
+
+		self.weaponmodel = string_null;
+		setmodel(self,string_null);
+	}
 	
 
 	player_stand1 ();
@@ -1007,7 +1020,8 @@ void() PlayerPreThink =
 
 	if(self.deadflag == DEAD_NO || self.deadflag == DEAD_DYING)
 	{
-		if((self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE) || (self.cnt & PEF_TEAM_RED && self.team != TEAM_RED))
+		if(
+			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE) || (self.cnt & PEF_TEAM_RED && self.team != TEAM_RED))
 		{
 			if(self.cnt & PEF_TEAM_BLUE) self.team = TEAM_BLUE;
 			else if(self.cnt & PEF_TEAM_RED) self.team = TEAM_RED;
@@ -1031,9 +1045,13 @@ void() PlayerPreThink =
 		*/
 
 		// Enforce team color
-		stuffcmd(self,"color ");
-		stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
-		stuffcmd(self,"\n");
+		if(ctf_host == self)
+			stuffcmd(self,"color 0 0\n");
+		else {
+			stuffcmd(self,"color ");
+			stuffcmd(self,ftos(self.team == TEAM_BLUE ? COLOR_BLUE : COLOR_RED));
+			stuffcmd(self,"\n");
+		}
 	}
 
 	makevectors (self.v_angle);		// is this still used
@@ -1144,7 +1162,7 @@ void() CheckPowerups =
 					self.cnt -= PEF_IGNORE_INVULNERABILITY_MESSAGE;
 				else
 					sprint (self, "Protection is almost burned out\n");
-					
+
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/protect2.wav", 1, ATTN_NORM);
 				self.invincible_time = time + 1;
@@ -1293,8 +1311,14 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
-	ctf_player_autoAssignTeam(self);
-
+	if(!ctf_host && ctf_isHostMode()) {
+		ctf_host = self;
+		self.team = TEAM_HOST;
+	}
+	else {
+		ctf_player_autoAssignTeam(self);
+	}
+	
 	if(ctf_isBot(self)) {
 		bprint("Bot '");
 		bprint(self.netname);
