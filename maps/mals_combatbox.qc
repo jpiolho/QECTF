@@ -8,7 +8,12 @@ void() Populate_Mals_Combatbox =
     ctf_gamemode = GAMEMODE_DEFAULT;
 
     Maps_CleanEntities();
+
+    #if ROGUE
+    Maps_SetNextLevel("ctf1");
+    #else
     Maps_SetNextLevel("dm3");
+    #endif
 
     // Blue base
     Maps_SpawnTeamKey(TEAM_BLUE,'-671 -941 56');
