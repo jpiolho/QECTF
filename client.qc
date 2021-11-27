@@ -619,7 +619,8 @@ void() PutClientInServer =
 		
 		self.movetype = MOVETYPE_NOCLIP;
 		self.solid = SOLID_NOT;
-		self.flags |= FL_FLY;
+		self.flags |= FL_FLY | FL_NOTARGET | FL_GODMODE;
+		self.takedamage = DAMAGE_NO;
 		
 		self.items = 0;
 		self.weapon = IT_AXE;
