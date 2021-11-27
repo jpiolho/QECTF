@@ -1,0 +1,62 @@
+// Overview Of Bot Character Properties:
+
+// fun_name:		name of the bot as it will appear in-game.
+// name:			simple name to use when calling "addbot" console command directly.
+// shirt_color:		number between 0 - 13: sets the color of the bots shirt
+// pants_color:		number between 0 - 13: sets the color of the bots pants
+
+{
+  fun_name		"[BOT] Azizam"
+  name			ozzy
+  shirt_color	4
+  pants_color	4
+}
+
+{
+  fun_name		"[BOT] Barney"
+  name			barney
+  shirt_color	13
+  pants_color	13
+}
+
+{
+  fun_name		"[BOT] Bitterman"
+  name			bitter
+  shirt_color	4
+  pants_color	4
+}
+
+{
+  fun_name		"[BOT] ClockParadox"
+  name			clock
+  shirt_color	13
+  pants_color	13
+}
+
+{
+  fun_name		"[BOT] Crapshoot"
+  name			crap
+  shirt_color	4
+  pants_color	4
+}
+
+{
+  fun_name		"[BOT] Demona"
+  name			demona
+  shirt_color	13
+  pants_color	13
+}
+
+{
+  fun_name		"[BOT] Mr.Elusive"
+  name			elusive
+  shirt_color	4
+  pants_color	4
+}
+
+{
+  fun_name		"[BOT] FloridaMan"
+  name			florida
+  shirt_color	13
+  pants_color	13
+}

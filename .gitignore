@@ -1,3 +1,4 @@
+*.nav
 *.exe
 src/error.log
 src/fteqcc.log
