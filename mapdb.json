@@ -75,6 +75,76 @@
 		  "sp": false
 		},
 		{
+		  "title": "Mal's Combatbox",
+		  "bsp": "test/mals_combatbox",
+		  "episode": "id1",
+		  "game": "id1",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "The Abandoned Base",
+		  "bsp": "dm3",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "The Dark Zone",
+		  "bsp": "dm6",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "The Edge",
+		  "bsp": "dm7",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "Castle of the Damned",
+		  "bsp": "e1m2",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "House of Chthon",
+		  "bsp": "e1m7",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
+		  "title": "Chambers of Torment",
+		  "bsp": "e3m6",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
+		  "sp": false
+		},
+		{
 		  "title": "Division of Change",
 		  "bsp": "ctf1",
 		  "episode": "rogue",
@@ -82,6 +152,16 @@
 		  "dm": true,
 		  "coop": false,
 		  "bots": true,
+		  "sp": false
+		},
+		{
+		  "title": "Mal's Combatbox",
+		  "bsp": "test/mals_combatbox",
+		  "episode": "rogue",
+		  "game": "rogue",
+		  "dm": true,
+		  "coop": false,
+		  "bots": false,
 		  "sp": false
 		},
 		{
