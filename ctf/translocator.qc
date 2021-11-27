@@ -411,7 +411,7 @@ void() W_FireTranslocator =
 	{
 		translocator.velocity = aim(self, 10000);
 		translocator.velocity = translocator.velocity * 700;
-		translocator.velocity_z = 500;
+		translocator.velocity_z = 200;
 	}
 
 	translocator.avelocity = '300 300 300';
