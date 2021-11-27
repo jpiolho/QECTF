@@ -203,4 +203,15 @@ void() Populate_e1m7 =
 
     // Flag boss
     Maps_InitializeEntity(Maps_CreateEntityAtPosition('356 64 -48'),monster_flagboss);
+
+    // Other lightning button
+    local entity ent = Maps_CreateEntityAtPosition('-828 0 -154');
+    ent.model = "*13";
+    ent.noise = "buttons/airbut1.wav";
+    ent.speed = 40;
+    ent.wait = 1.0;
+    ent.lip = 4.0;
+    ent.target = "t14";
+    ent.angles = '0 -2 0';
+    Maps_InitializeEntity(ent,func_button);
 }
