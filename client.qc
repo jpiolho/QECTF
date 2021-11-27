@@ -267,8 +267,10 @@ void() IntermissionThink =
 	if (time < intermission_exittime)
 		return;
 
-	if (!self.button0 && !self.button1 && !self.button2)
-		return;
+	if(!ctf_host) {
+		if (!self.button0 && !self.button1 && !self.button2)
+			return;
+	}
 
 	ExitIntermission ();
 };
@@ -705,7 +707,30 @@ void() NextLevel =
 {
 	local entity o;
 
-	if (mapname == "start")
+	local float temp5 = cvar("temp5");
+	if(temp5 > 0)
+	{
+		o = spawn();
+
+		switch(temp5)
+		{
+			case 1: o.map = "dm3"; break;
+			case 2: o.map = "dm6"; break;
+			case 3: o.map = "dm7"; break;
+			case 4: o.map = "e1m2"; break;
+			case 5: o.map = "e1m7"; break;
+			case 6: o.map = "e3m6"; break;
+			case 7: o.map = "test/mals_combatbox"; break;
+			case 8: o.map = "ctf1"; break;
+			case 9: o.map = "mgdm3"; break;
+			default:
+				dprint("Unknown map cycler id: ");
+				dprint(ftos(temp5));
+				dprint("\n");
+				break;
+		}
+	}
+	else if (mapname == "start")
 	{
 		if (!cvar("registered"))
 		{

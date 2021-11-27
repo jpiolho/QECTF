@@ -187,10 +187,12 @@ void() worldspawn =
 	if(MapFunc_OnPopulate)
 		MapFunc_OnPopulate();
 
+	cvar_set("temp5","0");
+
+	localcmd("exec \"qectf.cfg\"\n");
 	localcmd("exec \"qectf_");
 	localcmd(map_ctfFriendlyName == string_null ? mapname : map_ctfFriendlyName);
 	localcmd(".cfg\"\n");
-	localcmd("exec \"qectf.cfg\"\n");
 
 	cvar_set("teamplay","2");
 
