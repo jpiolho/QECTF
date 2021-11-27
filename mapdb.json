@@ -21,7 +21,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -31,7 +31,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -41,7 +41,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -51,7 +51,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -61,7 +61,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -71,7 +71,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -81,7 +81,7 @@
 		  "game": "id1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -91,7 +91,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -101,7 +101,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -111,7 +111,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -121,7 +121,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -131,7 +131,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -141,7 +141,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -161,7 +161,7 @@
 		  "game": "rogue",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		},
 		{
@@ -171,7 +171,7 @@
 		  "game": "mg1",
 		  "dm": true,
 		  "coop": false,
-		  "bots": false,
+		  "bots": true,
 		  "sp": false
 		}
 	]
