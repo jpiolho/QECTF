@@ -5,7 +5,7 @@ This is a multiplayer deathmatch mod for Quake Enhanced that adds capture the fl
 Only selected maps are supported. There is partial bot support.
 There is currently 2 gamemodes available: Default and Area Capture.
 
-**Default**: The vanilla CTF. 2 flags on each base, get the enemy flag and capture it on your own base.
+**Default**: The vanilla CTF. 1 flag on each base, get the enemy flag and capture it on your own flag at your base.
 **Area Capture**: plays like Canalzone from _Team Fortress_. Each team has flags that they must take to capture areas around the map. When a team captures all the areas, they win the round.
 
 # Download
@@ -96,8 +96,8 @@ Specify the "team" keyvalue on items, armor, spawns and flags to specify which t
 Currently it's not possible to create an Area Capture map via entity replacement.
 
 ### Team IDs
-Red: 5
-Blue: 14
+* Red: 5
+* Blue: 14
 
 ## Credits
 JPiolho: Author
