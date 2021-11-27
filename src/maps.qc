@@ -108,6 +108,9 @@ string(string title) GetMapName =
     DefineMap("start","Introduction")
 
     OverrideDefineMap("test/mals_combatbox","Mal's Combatbox")
+    OverrideDefineMap("test/test_shadow","Shadow's Arena")
+    OverrideDefineMap("test/test_aiming","Box Arena")
+    OverrideDefineMap("test/test_obstacles","Obstacle Course")
 
     #ifdef ROGUE
     // Rogue
