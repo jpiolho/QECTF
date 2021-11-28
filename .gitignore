@@ -1,6 +1,13 @@
 *.nav
+*.pak
 *.exe
 src/error.log
 src/fteqcc.log
 progs.dat
 progs.lno
+
+
+build_pak
+build_zip
+build.zip
+set_path.ps1

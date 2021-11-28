@@ -1,0 +1,20 @@
+{
+	"manifestVersion": 1,
+	
+	"name": "QECTF",
+	"version": "1.5.1",
+	"author": "JPiolho",
+	"date": "27/11/2021",
+	"description": "A multiplayer deathmatch mod for Quake Enhanced that adds capture the flag gamemodes. Only selected maps are supported. There is partial bot support.",
+	"gamedir": "id1",
+	"download": "qectf_v1.5.1.zip",
+	"screenshots": [
+		"https://i.imgur.com/HZSdHfk.png",
+		"https://i.imgur.com/1C8ZoV7.png",
+		"https://i.imgur.com/6udt4Nd.png",
+		"https://i.imgur.com/uG3tTOM.png",
+		"https://i.imgur.com/ZRtqPWP.png",
+		"https://i.imgur.com/oxlTK9g.png"
+	],
+	"pak": "id1/pak0.pak"
+}
