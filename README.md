@@ -6,6 +6,7 @@ Only selected maps are supported. There is partial bot support.
 There is currently 2 gamemodes available: Default and Area Capture.
 
 **Default**: The vanilla CTF. 1 flag on each base, get the enemy flag and capture it on your own flag at your base.
+
 **Area Capture**: plays like Canalzone from _Team Fortress_. Each team has flags that they must take to capture areas around the map. When a team captures all the areas, they win the round.
 
 # Download
@@ -101,4 +102,5 @@ Currently it's not possible to create an Area Capture map via entity replacement
 
 ## Credits
 JPiolho: Author
+
 Ceekay: e1m7, mgdm3 and code contributions
