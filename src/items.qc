@@ -324,8 +324,14 @@ void() armor_touch =
 
 void() item_armor1 =
 {
+<<<<<<< HEAD
 	if(Maps_ShouldRemoveDefaultEntity(self))
 		return remove(self);
+=======
+    self.armortype = 0.3;
+    self.armorvalue = 100;
+    self.items = IT_ARMOR1;
+>>>>>>> 8e893a57828b0b19da6ad816db1deed270869142
 
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
@@ -340,8 +346,14 @@ void() item_armor1 =
 
 void() item_armor2 =
 {
+<<<<<<< HEAD
 	if(Maps_ShouldRemoveDefaultEntity(self))
 		return remove(self);
+=======
+    self.armortype = 0.6;
+    self.armorvalue = 150;
+    self.items = IT_ARMOR2;
+>>>>>>> 8e893a57828b0b19da6ad816db1deed270869142
 
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
@@ -356,10 +368,17 @@ void() item_armor2 =
 
 void() item_armorInv =
 {
+<<<<<<< HEAD
 	if(Maps_ShouldRemoveDefaultEntity(self))
 		return remove(self);
 
 	self.classname = "item_armorInv";
+=======
+    self.armortype = 0.8;
+    self.armorvalue = 200;
+    self.items = IT_ARMOR3;
+
+>>>>>>> 8e893a57828b0b19da6ad816db1deed270869142
 	self.touch = armor_touch;
 	precache_model ("progs/armor.mdl");
 	setmodel (self, "progs/armor.mdl");
