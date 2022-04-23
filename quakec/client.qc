@@ -738,19 +738,16 @@ void() PutClientInServer =
 	else
 	{
 		if(
-			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE)||
-			(self.cnt & PEF_TEAM_RED && self.team != TEAM_RED)
+			(self.ctfTeam == TEAM_BLUE && self.team != TEAM_BLUE)||
+			(self.ctfTeam == TEAM_RED && self.team != TEAM_RED)
 		) {
-			dprint("Changed team\n");
-			self.cnt -= self.cnt & (PEF_TEAM_BLUE | PEF_TEAM_RED);
-
 			bprint(self.netname);
 			if(self.team == TEAM_BLUE) {
 				bprint(" changed to team blue\n");
-				self.cnt |= PEF_TEAM_BLUE;
+				self.ctfTeam = TEAM_BLUE;
 			} else if(self.team == TEAM_RED) {
 				bprint(" changed to team red\n");
-				self.cnt |= PEF_TEAM_RED;
+				self.ctfTeam = TEAM_RED;
 			}
 		}
 	}
@@ -1315,30 +1312,28 @@ void() PlayerPreThink =
 		self.cnt |= PEF_SEEN_MESSAGE;
 		
 		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+
+		
 	}
 
+
+	
 	
 
 	if(self.deadflag == DEAD_NO || self.deadflag == DEAD_DYING)
 	{
-		if(
-			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE) || (self.cnt & PEF_TEAM_RED && self.team != TEAM_RED))
+		if(self.team != self.ctfTeam)
 		{
-			if(self.cnt & PEF_TEAM_BLUE) self.team = TEAM_BLUE;
-			else if(self.cnt & PEF_TEAM_RED) self.team = TEAM_RED;
-			
+			self.team = self.ctfTeam;
+
 			// Enforce team color
-			stuffcmd(self,"color ");
-			stuffcmd(self,ftos(self.team == TEAM_BLUE ? PLAYERCOLOR_BLUE : PLAYERCOLOR_RED));
-			stuffcmd(self,"\n");
+			stuffcmdTeamColor(self);
 		}
 	}
 
-	
-
 	if(time >= self.state) {
 		self.state = time + 0.25;
-
+		
 		/*
 		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
 			ctf_player_autoAssignTeam(self);
@@ -1346,13 +1341,10 @@ void() PlayerPreThink =
 		*/
 
 		// Enforce team color
-		if(ctf_host == self)
-			stuffcmd(self,"color 0 0\n");
-		else {
-			stuffcmd(self,"color ");
-			stuffcmd(self,ftos(self.team == TEAM_BLUE ? PLAYERCOLOR_BLUE : PLAYERCOLOR_RED));
-			stuffcmd(self,"\n");
-		}
+		stuffcmdTeamColor(self);
+
+		if(ctf_isBot(self))
+			ctf_botUpdate();
 	}
 
 	makevectors (self.v_angle);		// is this still used

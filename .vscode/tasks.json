@@ -1,0 +1,26 @@
+{
+    // 1. Place FTEQCC non-gui in /rerelease
+    // 2. Make sure your code is in /rerelease/<yourmod>/quakec
+    // 3. Open the project in VSCode as a folder in /rerelease/<yourmod>
+    // 4. Optional: Change the code folder name in the task below
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "cd quakec; ../../fteqcc64; cd ..",
+            "problemMatcher": {
+                "owner": "quakec",
+                "fileLocation": ["relative","${workspaceFolder}\\quakec"],
+                "pattern": {
+                    "regexp": "^(.+):(\\d+):\\s(warning|error)\\s?(.*):\\s(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 5,
+                }
+            },
+            "group": "build"
+        }
+    ]
+}

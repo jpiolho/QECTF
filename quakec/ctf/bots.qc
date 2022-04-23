@@ -1,86 +1,34 @@
-float(string name) ctf_getBotTeam =
-{
-    if(name == "[BOT] Azizam"
-    || name == "[BOT] Bitterman"
-    || name == "[BOT] Crapshoot"
-    || name == "[BOT] Mr.Elusive"
-    )
-        return TEAM_RED;
-    else if(name == "[BOT] Barney"
-    || name == "[BOT] ClockParadox"
-    || name == "[BOT] Demona"
-    || name == "[BOT] FloridaMan")
-        return TEAM_BLUE;
-
-    return TEAM_ALL;
-}
-
 float(entity ent) ctf_isBot =
 {
-    if(ent.flags & FL_ISBOT)
-        return TRUE;
-
-    return ctf_getBotTeam(ent.netname) != TEAM_ALL;
+    return (ent.flags & FL_ISBOT);
 }
 
-/*
-void(entity bot) ctf_botPreThink =
-{
-    dprint("Prethink (");
-    dprint(bot.netname);
-    dprint("): ");
-    dprint(vtos(bot.velocity));
-    dprint("\n");
 
-    local entity p = world;
-    while(p = find(p,classname,"ctf_flag"))
-    {
-        if(p.team == bot.team && !(p.cnt & FFL_HIDDEN))
+
+float() ctf_botUpdate =
+{
+    if(ctf_gamemode == GAMEMODE_DEFAULT) {
+        if(!ctf_playerHasFlag(self))
         {
-            draw_bounds(p.absmin,p.absmax,184,FALSE,FALSE);
-
-            p.cnt |= FFL_BOT_HIDDEN;
-            p.oldorigin = p.origin;
-            p.origin = '-9999 -9999 -9999';
-        }
-    }
-}
-
-
-void(entity bot) ctf_botPostThink =
-{
-    dprint("Postthink (");
-    dprint(bot.netname);
-    dprint("): ");
-    dprint(vtos(bot.velocity));
-    dprint("\n");
-
-    local entity p = world;
-    while(p = find(p,classname,"ctf_flag"))
-    {
-        if(p.cnt & FFL_BOT_HIDDEN)
-        {
-            p.cnt -= FFL_BOT_HIDDEN;
-            p.origin = p.oldorigin;
-        }
-    }
-}
-
-void(entity previousPlayer) ctf_nextBotThink =
-{
-    local entity p = previousPlayer;
-
-    while(p = find(p,classname,"player"))
-    {
-        if(p.flags & FL_ISBOT) {
-            if(previousPlayer != world && previousPlayer.flags & FL_ISBOT)
-                ctf_botPostThink(previousPlayer);
-            ctf_botPreThink(p);
-            return;
-        }
-    }
+            local entity targetFlag = ctf_findFlag(world,ctf_oppositeTeam(self.ctfTeam)); // Find the enemy flag
     
-    if(previousPlayer != world && previousPlayer.flags & FL_ISBOT)
-        ctf_botPostThink(previousPlayer);
+            if(targetFlag) {
+                bot_movetopoint(self,targetFlag.origin);
+            }
+        }
+        else {
+            // We have the flag!
+
+            // Find our flag
+            local entity targetFlag = ctf_findFlag(world,self.ctfTeam); 
+
+            if(targetFlag) {
+                // Move to our capture point
+                bot_movetopoint(self,targetFlag.origin);
+            } else {
+                // Couldn't find our flag. Someone must have it. Lets go to our base instead
+                
+            }
+        }
+    }
 }
-*/

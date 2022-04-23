@@ -31,15 +31,14 @@ $frame shockc9 shockc10
 float FLAGBOSS_FL_AWAKEN = 1;
 float FLAGBOSS_FL_AIMINGCAPTURE = 2;
 
-enum float {
-	FLAGBOSS_STATE_SLEEPING,
-	FLAGBOSS_STATE_AWAKENING,
-	FLAGBOSS_STATE_IDLE,
-	FLAGBOSS_STATE_DYING,
-	FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE,
-	FLAGBOSS_STATE_HAND_SIGNALING_CAPTURE
+enum FlagBossState {
+	SLEEPING,
+	AWAKENING,
+	IDLE,
+	DYING,
+	AIMING_TOWARDS_CAPTURE,
+	HAND_SIGNALING_CAPTURE
 };
-
 
 float() ai_face;
 void() flagboss_face =
@@ -71,7 +70,7 @@ void() flagboss_face =
 
 void(float newState) monster_flagboss_changeState =
 {
-	if(self.state == FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE)
+	if(self.state == FlagBossState::AIMING_TOWARDS_CAPTURE)
 	{
 		// Remove the aiming towards entity
 		if(self.enemy)
@@ -83,7 +82,7 @@ void(float newState) monster_flagboss_changeState =
 
 
 
-void() flagboss_idle1	=[	$walk1, flagboss_idle2 ] { monster_flagboss_changeState(FLAGBOSS_STATE_IDLE); flagboss_face(); };
+void() flagboss_idle1	=[	$walk1, flagboss_idle2 ] { monster_flagboss_changeState(FlagBossState::IDLE); flagboss_face(); };
 void() flagboss_idle2	=[	$walk2, flagboss_idle3 ] { flagboss_face(); };
 void() flagboss_idle3	=[	$walk3, flagboss_idle4 ] { flagboss_face(); };
 void() flagboss_idle4	=[	$walk4, flagboss_idle5 ] { flagboss_face(); };
@@ -117,7 +116,7 @@ void() flagboss_idle31	=[	$walk31, flagboss_idle1 ] { flagboss_face(); };
 
 
 
-void() flagboss_hand1	=[	$attack1, flagboss_hand2 ] { monster_flagboss_changeState(FLAGBOSS_STATE_HAND_SIGNALING_CAPTURE); };
+void() flagboss_hand1	=[	$attack1, flagboss_hand2 ] { monster_flagboss_changeState(FlagBossState::HAND_SIGNALING_CAPTURE); };
 void() flagboss_hand2	=[	$attack2, flagboss_hand3 ] {};
 void() flagboss_hand3	=[	$attack3, flagboss_hand4 ] {};
 void() flagboss_hand4	=[	$attack4, flagboss_hand5 ] {};
@@ -153,7 +152,7 @@ void() flagboss_faceCapture =
 }
 
 
-void() flagboss_aimingTowardsCapture1	=[	$walk1, flagboss_aimingTowardsCapture2 ] { monster_flagboss_changeState(FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE); flagboss_faceCapture(); };
+void() flagboss_aimingTowardsCapture1	=[	$walk1, flagboss_aimingTowardsCapture2 ] { monster_flagboss_changeState(FlagBossState::AIMING_TOWARDS_CAPTURE); flagboss_faceCapture(); };
 void() flagboss_aimingTowardsCapture2	=[	$walk2, flagboss_aimingTowardsCapture3 ] { flagboss_faceCapture(); };
 void() flagboss_aimingTowardsCapture3	=[	$walk3, flagboss_aimingTowardsCapture4 ] { flagboss_faceCapture(); };
 void() flagboss_aimingTowardsCapture4	=[	$walk4, flagboss_aimingTowardsCapture5 ] { flagboss_faceCapture(); };
@@ -186,7 +185,7 @@ void() flagboss_aimingTowardsCapture30	=[	$walk30, flagboss_aimingTowardsCapture
 void() flagboss_aimingTowardsCapture31	=[	$walk31, flagboss_aimingTowardsCapture1 ] { flagboss_faceCapture(); };
 
 void() flagboss_rise1	=[	$rise1, flagboss_rise2 ] {
-	monster_flagboss_changeState(FLAGBOSS_STATE_AWAKENING);
+	monster_flagboss_changeState(FlagBossState::AWAKENING);
 	sound (self, CHAN_WEAPON, "boss1/out1.wav", 1, ATTN_NORM);
 };
 void() flagboss_rise2	=[	$rise2, flagboss_rise3 ] {
@@ -230,7 +229,7 @@ void() flagboss_death9 = [$death9, flagboss_death10]
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 };
 void() flagboss_death10 = [$death9, flagboss_deathidle] {
-	monster_flagboss_changeState(FLAGBOSS_STATE_SLEEPING);
+	monster_flagboss_changeState(FlagBossState::SLEEPING);
 	setmodel(self,string_null);
 
 	self.wait = time + 60.0;
@@ -259,7 +258,7 @@ void() flagboss_shockb8 =[	$shockb2, flagboss_shockb9 ] {};
 void() flagboss_shockb9 =[	$shockb3, flagboss_shockb10 ] {};
 void() flagboss_shockb10 =[	$shockb4, flagboss_idle1 ] {};
 
-void() flagboss_shockc1 =[	$shockc1, flagboss_shockc2 ] { monster_flagboss_changeState(FLAGBOSS_STATE_DYING); };
+void() flagboss_shockc1 =[	$shockc1, flagboss_shockc2 ] { monster_flagboss_changeState(FlagBossState::DYING); };
 void() flagboss_shockc2 =[	$shockc2, flagboss_shockc3 ] {};
 void() flagboss_shockc3 =[	$shockc3, flagboss_shockc4 ] {};
 void() flagboss_shockc4 =[	$shockc4, flagboss_shockc5 ] {};
@@ -279,12 +278,12 @@ void() flagboss_shockc10 =[	$shockc10, flagboss_death1 ] {};
 void(vector captureLocation) monster_flagboss_aimForCapture =
 {
 	// Only aim for capture if currently idle, following a player or aiming towards another capture
-	if(self.state != FLAGBOSS_STATE_IDLE
-    && self.state != FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE)
+	if(self.state != FlagBossState::IDLE
+    && self.state != FlagBossState::AIMING_TOWARDS_CAPTURE)
 		return;
 		
 	// Delete a current aiming target, if applicable
-	if(self.state == FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE)
+	if(self.state == FlagBossState::AIMING_TOWARDS_CAPTURE)
 		remove(self.enemy);
 	
 	self.enemy = spawn();
@@ -296,9 +295,9 @@ void(vector captureLocation) monster_flagboss_aimForCapture =
 void() monster_flagboss_lightning =
 {
 	// Only damage in these states
-	if(self.state != FLAGBOSS_STATE_IDLE
-	&& self.state != FLAGBOSS_STATE_HAND_SIGNALING_CAPTURE
-	&& self.state != FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE)
+	if(self.state != FlagBossState::IDLE
+	&& self.state != FlagBossState::HAND_SIGNALING_CAPTURE
+	&& self.state != FlagBossState::AIMING_TOWARDS_CAPTURE)
 		return;
 
 	// Only play hurt animation in these states
@@ -335,14 +334,14 @@ void() monster_flagboss_awake =
 
 void(entity player) monster_flagboss_playerPickedUpFlag =
 {
-	if(self.state == FLAGBOSS_STATE_SLEEPING && time >= self.wait) {
+	if(self.state == FlagBossState::SLEEPING && time >= self.wait) {
 		self.enemy = player;
 		monster_flagboss_awake();
 		return;
 	}
 
-	if(self.state != FLAGBOSS_STATE_IDLE
-	&& self.state != FLAGBOSS_STATE_AIMING_TOWARDS_CAPTURE)
+	if(self.state != FlagBossState::IDLE
+	&& self.state != FlagBossState::AIMING_TOWARDS_CAPTURE)
 		return;
 
 	flagboss_idle1();
@@ -353,7 +352,7 @@ void(entity player) monster_flagboss_playerPickedUpFlag =
 
 void() monster_flagboss =
 {
-	monster_flagboss_changeState(FLAGBOSS_STATE_SLEEPING);
+	monster_flagboss_changeState(FlagBossState::SLEEPING);
 	self.classname = "monster_flagboss";
 	self.wait = time;
 

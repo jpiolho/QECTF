@@ -32,7 +32,7 @@ Example usages of this function:
 ========================
 */
 void Bot_PreThink() {
-	// add your code here!
+    dprint("BotPreThink\n");
 };
 
 /*
@@ -50,5 +50,5 @@ Example usages of this function:
 ========================
 */
 void Bot_PostThink() {
-	// add your code here!
+    dprint("BotPostThink\n");
 };
