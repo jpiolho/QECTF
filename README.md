@@ -104,3 +104,6 @@ Currently it's not possible to create an Area Capture map via entity replacement
 JPiolho: Author
 
 Ceekay: e1m7, mgdm3 and code contributions
+
+## License
+This code is released under the GPLv2 license. See `COPYING.txt` for more details.

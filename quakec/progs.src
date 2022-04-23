@@ -1,0 +1,70 @@
+../progs.dat
+
+defs.qc
+subs.qc
+math.qc
+
+maputils_defs.qc
+
+ctf/defs.qc
+ctf/subs.qc
+ctf/utils.qc
+ctf/bots.qc
+ctf/flags.qc
+ctf/translocator.qc
+ctf/hook.qc
+ctf/flagboss.qc
+
+entmod/defs.qc
+
+fight.qc
+ai.qc
+combat.qc
+itemnames.qc
+items.qc
+weapons.qc
+world.qc
+client.qc
+player.qc
+monsters.qc
+doors.qc
+buttons.qc
+triggers.qc
+plats.qc
+misc.qc
+
+monsters/ogre.qc
+monsters/fiend.qc
+monsters/shambler.qc
+monsters/knight.qc
+monsters/grunt.qc
+monsters/scrag.qc
+monsters/rottweiler.qc
+monsters/zombie.qc
+monsters/chthon.qc
+
+monsters/spawn.qc		// registered
+monsters/hellknight.qc	// registered
+monsters/rotfish.qc		// registered
+monsters/vore.qc		// registered
+monsters/enforcer.qc	// registered
+monsters/shub.qc		// registered
+
+bots/bot.qc				// bot support
+
+maputils.qc
+maps/dm3.qc
+maps/dm6.qc
+maps/dm7.qc
+maps/e1m2.qc
+maps/e1m7.qc
+maps/e3m6.qc
+maps/mals_combatbox.qc
+maps/rogue_ctf1.qc
+maps/mg1_mgdm3.qc
+maps.qc
+
+entmod/entmod.qc
+entmod/commands.qc
+
+ctf/compatibility.qc
