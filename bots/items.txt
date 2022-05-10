@@ -24,6 +24,7 @@
 // backpack:		this item will need to be checked for specific ammo/weapons/etc. at runtime
 // zap_proof:		this item protects against being zapped by electric weapons in water.
 // check_items:		this item has info stored on the "items" entity field.
+// objective:		this item is an objective of some kind.
 
 
 // Valid Items:
@@ -133,11 +134,6 @@
 }
 
 {
-  name			"ctf_flag_dropped"
-  flags			dropped | powerup
-}
-
-{
   name			"ctf_flag"
-  flags			powerup
+  flags			objective
 }

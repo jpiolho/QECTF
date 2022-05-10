@@ -5,8 +5,9 @@ subs.qc
 math.qc
 
 maputils_defs.qc
-
 ctf/defs.qc
+bots/defs.qc
+
 ctf/subs.qc
 ctf/utils.qc
 ctf/bots.qc
@@ -49,6 +50,7 @@ monsters/rotfish.qc		// registered
 monsters/vore.qc		// registered
 monsters/enforcer.qc	// registered
 monsters/shub.qc		// registered
+
 
 bots/bot.qc				// bot support
 

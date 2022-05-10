@@ -172,6 +172,7 @@ void() main =
 	precache_file2 ("maps/dm4.bsp");
 	precache_file2 ("maps/dm5.bsp");
 	precache_file2 ("maps/dm6.bsp");
+
 };
 
 
@@ -327,6 +328,10 @@ void() worldspawn =
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_model ("progs/v_light.mdl");
+
+
+	precache_model("maps/b_explob.bsp");
+
 	
 
 //
@@ -373,8 +378,6 @@ void() worldspawn =
 
 	// 63 testing
 	lightstyle(63, "a");
-
-	localcmd("bot_reloadsettings\n");
 };
 
 void() StartFrame =

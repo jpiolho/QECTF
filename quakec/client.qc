@@ -738,19 +738,16 @@ void() PutClientInServer =
 	else
 	{
 		if(
-			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE)||
-			(self.cnt & PEF_TEAM_RED && self.team != TEAM_RED)
+			(self.ctfTeam == TEAM_BLUE && self.team != TEAM_BLUE)||
+			(self.ctfTeam == TEAM_RED && self.team != TEAM_RED)
 		) {
-			dprint("Changed team\n");
-			self.cnt -= self.cnt & (PEF_TEAM_BLUE | PEF_TEAM_RED);
-
 			bprint(self.netname);
 			if(self.team == TEAM_BLUE) {
 				bprint(" changed to team blue\n");
-				self.cnt |= PEF_TEAM_BLUE;
+				self.ctfTeam = TEAM_BLUE;
 			} else if(self.team == TEAM_RED) {
 				bprint(" changed to team red\n");
-				self.cnt |= PEF_TEAM_RED;
+				self.ctfTeam = TEAM_RED;
 			}
 		}
 	}
@@ -837,6 +834,8 @@ void() PutClientInServer =
 	self.angles = spot.angles;
 	self.fixangle = TRUE;		// turn this way immediately
 
+	self.bot_state = SUB_Null;
+
 	// oh, this is a hack!
 	setmodel (self, "progs/eyes.mdl");
 	modelindex_eyes = self.modelindex;
@@ -880,6 +879,7 @@ void() PutClientInServer =
 		self.weaponmodel = string_null;
 		setmodel(self,string_null);
 	}
+
 	
 
 	self.velocity = '0 0 0';	// 1998-07-21 Player moves after respawn fix by Xian
@@ -1314,31 +1314,29 @@ void() PlayerPreThink =
 	{
 		self.cnt |= PEF_SEEN_MESSAGE;
 		
-		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are on team {}\nHave fun!",self.team == TEAM_BLUE ? "BLUE" : "RED");
+
+		
 	}
 
+
+	
 	
 
 	if(self.deadflag == DEAD_NO || self.deadflag == DEAD_DYING)
 	{
-		if(
-			(self.cnt & PEF_TEAM_BLUE && self.team != TEAM_BLUE) || (self.cnt & PEF_TEAM_RED && self.team != TEAM_RED))
+		if(self.team != self.ctfTeam)
 		{
-			if(self.cnt & PEF_TEAM_BLUE) self.team = TEAM_BLUE;
-			else if(self.cnt & PEF_TEAM_RED) self.team = TEAM_RED;
-			
+			self.team = self.ctfTeam;
+
 			// Enforce team color
-			stuffcmd(self,"color ");
-			stuffcmd(self,ftos(self.team == TEAM_BLUE ? PLAYERCOLOR_BLUE : PLAYERCOLOR_RED));
-			stuffcmd(self,"\n");
+			stuffcmdTeamColor(self);
 		}
 	}
 
-	
-
 	if(time >= self.state) {
 		self.state = time + 0.25;
-
+		
 		/*
 		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
 			ctf_player_autoAssignTeam(self);
@@ -1346,13 +1344,10 @@ void() PlayerPreThink =
 		*/
 
 		// Enforce team color
-		if(ctf_host == self)
-			stuffcmd(self,"color 0 0\n");
-		else {
-			stuffcmd(self,"color ");
-			stuffcmd(self,ftos(self.team == TEAM_BLUE ? PLAYERCOLOR_BLUE : PLAYERCOLOR_RED));
-			stuffcmd(self,"\n");
-		}
+		stuffcmdTeamColor(self);
+
+		if(ctf_isBot(self))
+			ctf_botUpdate();
 	}
 
 	makevectors (self.v_angle);		// is this still used
@@ -1632,6 +1627,8 @@ void() PlayerPostThink =
 	CheckHealthRot();
 };
 
+void() Bot_PreThink;
+void() Bot_PostThink;
 /*
 ===========
 ClientConnect
@@ -1653,6 +1650,9 @@ void() ClientConnect =
 		bprint("Bot '");
 		bprint(self.netname);
 		bprint("' entered the game");
+
+		Bot_PreThink();
+		Bot_PostThink();
 	}
 	else {
 		bprint (self.netname);

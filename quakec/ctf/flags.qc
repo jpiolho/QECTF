@@ -89,8 +89,6 @@ void() ctf_precache =
     precache_model(MODEL_WEAPON_TRANSLOCATOR);
 }
 
-
-
 void(entity ent,float flagTeam) ctf_setFlagModel =
 {
     #ifdef ROGUE
@@ -112,14 +110,6 @@ void(entity p) ctf_player_removeFlag =
 
 void(entity player) ctf_player_autoAssignTeam =
 {
-    // Handle bots
-    if(ctf_isBot(player))
-    {
-        player.team = ctf_getBotTeam(player.netname);
-        return;
-    }
-
-
     local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
@@ -138,8 +128,7 @@ void(entity player) ctf_player_autoAssignTeam =
     else
         player.team = random() >= 0.5 ? TEAM_BLUE : TEAM_RED;
 	
-    if(player.team == TEAM_BLUE) player.cnt |= PEF_TEAM_BLUE;
-    else if(player.team == TEAM_RED) player.cnt |= PEF_TEAM_RED;
+    player.ctfTeam = player.team;
 
 	//player.team = countRed <= countBlue ? TEAM_RED : TEAM_BLUE;
 }
@@ -199,14 +188,10 @@ void() ctf_gamefinished_think =
             continue;
         }
 
-        if(p.cnt & PEF_TEAM_RED) {
-            p.team = TEAM_BLUE;
-            p.cnt -= PEF_TEAM_RED;
-            p.cnt |= PEF_TEAM_BLUE;
-        } else if(p.cnt & PEF_TEAM_BLUE) {
-            p.team = TEAM_RED;
-            p.cnt -= PEF_TEAM_BLUE;
-            p.cnt |= PEF_TEAM_RED;
+        if(p.ctfTeam == TEAM_RED) {
+            p.team = p.ctfTeam = TEAM_BLUE;
+        } else if(p.ctfTeam == TEAM_BLUE) {
+            p.team = p.ctfTeam = TEAM_RED;
         }
 
         oself = self;
@@ -216,7 +201,7 @@ void() ctf_gamefinished_think =
 
         ctf_deleteTranslocatorFromOwner(p);
 
-        centerprint(p,"Teams swapped!\nYou are now on team ",p.team == TEAM_RED ? "red" : "blue");
+        centerprint(p,"Teams swapped!\nYou are now on team {}",p.team == TEAM_RED ? "red" : "blue");
     }
 
 
@@ -597,7 +582,7 @@ void() ctf_base_touch =
         // Broadcast the capture
         local entity p;
         while((p = find(p,classname,"player"))) {
-            centerprint(p,self.message,"\nhas been captured by the ",other.team == TEAM_BLUE ? "blue" : "red"," team");
+            centerprint(p,"{}\nhas been captured by the {} team",self.message,other.team == TEAM_BLUE ? "blue" : "red");
             
             if(p != other) {
                 if(p.team == other.team) {

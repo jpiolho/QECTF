@@ -240,7 +240,7 @@ void() TranslocatorThink =
 
         if(time >= self.cnt)
         {
-            particle(self.origin,self.velocity * 0.1,self.owner.cnt & PEF_TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,6);
+            particle(self.origin,self.velocity * 0.1,self.owner.ctfTeam & TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,6);
             self.cnt = time + 0.1;
         }
 
@@ -248,7 +248,7 @@ void() TranslocatorThink =
     }
     else {
 
-        particle(self.origin,self.velocity * 0.1,self.owner.cnt & PEF_TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,16);
+        particle(self.origin,self.velocity * 0.1,self.owner.ctfTeam & TEAM_RED ? COLORMAP_RED : COLORMAP_BLUE,16);
 
         sound (self, CHAN_VOICE, "weapons/tink1.wav", 1, ATTN_STATIC);
         self.nextthink = time + 1.0;
@@ -345,7 +345,7 @@ void() W_FireTranslocator =
                 effect.origin = self.origin;
                 effect.movedir = normalize(t - self.origin);
                 effect.dest = t;
-                effect.team = self.cnt & PEF_TEAM_RED ? TEAM_RED : TEAM_BLUE;
+                effect.team = self.ctfTeam;
 
                 local entity oself = self;
                 self = effect;
