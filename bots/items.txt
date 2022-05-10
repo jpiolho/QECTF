@@ -137,3 +137,8 @@
   name			"ctf_flag"
   flags			objective
 }
+
+{
+  name      "ctf_flag_dropped"
+  flags     objective
+}

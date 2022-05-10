@@ -69,15 +69,62 @@ void Bot_SetState(entity bot,void() state,float execute=TRUE) {
 };
 
 
+
+
 void() BotState_CaptureFlag;
 void() BotState_GrabFlag;
-void() BotState_Spawned;
+void() BotState_Idle;
+void() BotState_PickupDroppedFlag;
+
+
+
+void() Bot_Action_CheckDroppedFlag= {
+    local entity ownFlag = world;
+    local entity enemyFlag = world;
+
+    local entity p = world;
+    while((p = find(p,classname,"ctf_flag_dropped"))) {
+        traceline(self.origin,p.origin, TRUE, self);
+
+        if(trace_fraction == 1.0) {
+            // Means we can see the flag
+            if(p.team == self.ctfTeam) {
+                ownFlag = p;
+            } else {
+                enemyFlag = p;
+            }
+        }
+    }
+
+    // Give priority to our own flag
+    if(ownFlag) {
+        self.bot_target = ownFlag;
+        Bot_SetState(self,BotState_PickupDroppedFlag);
+    } else if(enemyFlag) {
+        self.bot_target = enemyFlag;
+        Bot_SetState(self,BotState_PickupDroppedFlag);
+    }
+    
+};
+
+
+
+void() BotState_PickupDroppedFlag = {
+    if(!self.bot_target || self.bot_target.modelindex == 0)
+        return Bot_SetState(self,BotState_Idle);
+
+
+    bot_movetopoint(self,self.bot_target.origin);
+};
+
 
 void() BotState_CaptureFlag = {
     if(!ctf_playerHasFlag(self)) {
         Bot_SetState(self,BotState_GrabFlag);
         return;
     }
+
+    Bot_Action_CheckDroppedFlag();
 
     if(ctf_gamemode == GAMEMODE_DEFAULT) {
         // Find our flag
@@ -118,6 +165,8 @@ void() BotState_GrabFlag = {
         return;
     }
 
+    Bot_Action_CheckDroppedFlag();
+
     local entity targetFlag;
 
     if(ctf_gamemode == GAMEMODE_DEFAULT) {
@@ -132,7 +181,7 @@ void() BotState_GrabFlag = {
     }
 };
 
-void() BotState_Spawned = {
+void() BotState_Idle = {
     Bot_SetState(self,BotState_GrabFlag);
 };
 
@@ -155,7 +204,7 @@ void Bot_PreThink() {
     Bot_PushUnpickableItems();
 
     if(!self.bot_state || self.bot_state == SUB_Null)
-        self.bot_state = BotState_Spawned;
+        self.bot_state = BotState_Idle;
 
     self.bot_state();
 };
