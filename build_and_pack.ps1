@@ -57,9 +57,9 @@ function Copy-And-Create($from,$to)
 function Compile-QuakeC($arguments = "")
 {
     if($arguments.length -GT 0) {
-        Start-Process "fteqcc64" -WorkingDirectory "src" -NoNewWindow -Wait -ArgumentList $arguments
+        Start-Process "fteqcc64" -WorkingDirectory "quakec" -NoNewWindow -Wait -ArgumentList $arguments
     } else {
-        Start-Process "fteqcc64" -WorkingDirectory "src" -NoNewWindow -Wait
+        Start-Process "fteqcc64" -WorkingDirectory "quakec" -NoNewWindow -Wait
     }
 }
 
