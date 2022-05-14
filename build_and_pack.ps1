@@ -155,7 +155,6 @@ function Main
     Add-To-Pak @("progs.dat")
     Add-To-Pak @("mapdb.json")
     Add-To-Pak @("README.md")
-    Add-To-Pak @("bots","characters.txt")
     Add-To-Pak @("bots","items.txt")
     Add-To-Pak-Filter @("bots","navigation") "*.nav"
     
