@@ -37,8 +37,8 @@ When you die, you can change teams via console by typing:
 * `color 13` for blue team
 
 ## Bot support
-Bot support is partial. Currently only for available for Default gameplay. The bots do understand teams, however they do not cannot distinguish between team-owned flags / items.
-They will occasionally capture the flag.
+Bots are supported in both CTF and Area Capture gamemodes.
+One limitation is that bots are unable to use team-specific teleporters.
 
 ## How to set gamemode variants
 1. Open console and set the variable `saved1` to the value you want. Example: `saved1 4`
