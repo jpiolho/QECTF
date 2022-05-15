@@ -37,8 +37,11 @@ When you die, you can change teams via console by typing:
 * `color 13` for blue team
 
 ## Bot support
-Bots are supported in both CTF and Area Capture gamemodes.
-One limitation is that bots are unable to use team-specific teleporters.
+Bots are supported in both CTF and Area Capture gamemodes. **HOWEVER, READ BELOW**:
+* Due to a bug in the engine, to get bots to work in team deathmatch mode you need to start the game with teamplay already enabled:
+  * If you're starting a local game from console: Set `teamplay 1` before calling `map`
+  * If you're starting a game from multiplayer menu: Make sure you have [QuakePatches](https://github.com/jpiolho/QuakePatches) `Don't go back to the lobby` patch installed. After starting the game, execute `changelevel <map>` in the console.
+* Another limitation at the moment is that bots are unable to use team-specific teleporters.
 
 ## How to set gamemode variants
 1. Open console and set the variable `saved1` to the value you want. Example: `saved1 4`
